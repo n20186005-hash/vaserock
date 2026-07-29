@@ -1,0 +1,169 @@
+---
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { site, vaseRock } from "@/data/site";
+import "@/styles/global.css";
+
+interface Breadcrumb {
+  name: string;
+  path: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: "website" | "article";
+  breadcrumbs?: Breadcrumb[];
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const {
+  title = "小琉球花瓶岩旅遊指南｜Google 地圖、交通、潮汐與拍照",
+  description = site.description,
+  path = "/",
+  image = "/og/homepage.webp",
+  imageAlt = "小琉球海岸上的花瓶岩",
+  type = "website",
+  breadcrumbs = [],
+  schema = [],
+  noindex = false
+} = Astro.props;
+
+const canonical = new URL(path, site.url).toString();
+const socialImage = new URL(image, site.url).toString();
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Vase Rock｜小琉球花瓶岩",
+  url: site.url,
+  inLanguage: "zh-Hant-TW",
+  description: site.description
+};
+
+const attractionSchema = {
+  "@context": "https://schema.org",
+  "@type": "TouristAttraction",
+  name: vaseRock.name,
+  alternateName: vaseRock.alternateName,
+  url: site.url,
+  description: "位於屏東縣琉球鄉的小琉球珊瑚礁岩自然地標與旅遊景點。",
+  isAccessibleForFree: true,
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: vaseRock.latitude,
+    longitude: vaseRock.longitude
+  },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "琉球鄉",
+    addressRegion: "屏東縣",
+    addressCountry: "TW"
+  },
+  hasMap: vaseRock.placeUrl,
+  image: socialImage
+};
+
+const breadcrumbSchema = breadcrumbs.length
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: breadcrumbs.map((crumb, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: crumb.name,
+        item: new URL(crumb.path, site.url).toString()
+      }))
+    }
+  : null;
+
+const customSchemas = Array.isArray(schema) ? schema : [schema];
+const schemas = [
+  websiteSchema,
+  attractionSchema,
+  breadcrumbSchema,
+  ...customSchemas
+].filter(Boolean);
+---
+
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#123b4a" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="Vase Rock" />
+    <meta
+      name="keywords"
+      content="花瓶岩,小琉球花瓶岩,花瓶石,Vase Rock,花瓶岩地圖,花瓶岩潮汐,花瓶岩拍照"
+    />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {noindex && <meta name="robots" content="noindex,follow" />}
+
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-HXM22WWPKP");
+    </script>
+
+    <meta property="og:locale" content="zh_TW" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="Vase Rock｜小琉球花瓶岩" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+
+    {schemas.map((item) => (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />
+    ))}
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">跳到主要內容</a>
+    <Header currentPath={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script is:inline>
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const value = button.getAttribute("data-copy");
+          try {
+            await navigator.clipboard.writeText(value);
+            const previous = button.textContent;
+            button.textContent = "已複製座標";
+            button.classList.add("is-copied");
+            window.setTimeout(() => {
+              button.textContent = previous;
+              button.classList.remove("is-copied");
+            }, 1800);
+          } catch {
+            window.prompt("複製花瓶岩座標", value);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

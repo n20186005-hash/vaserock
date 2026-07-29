@@ -1,0 +1,17 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="找不到頁面｜Vase Rock 小琉球花瓶岩"
+  description="這個頁面不存在，請返回花瓶岩旅遊指南首頁。"
+  path="/404/"
+  noindex={true}
+>
+  <section class="not-found container">
+    <p class="eyebrow">404 · Off route</p>
+    <h1>這段路線不存在。</h1>
+    <p>回到首頁，重新查看花瓶岩位置、潮汐與行程建議。</p>
+    <a class="button button-primary" href="/">返回首頁 <span>→</span></a>
+  </section>
+</BaseLayout>

@@ -1,0 +1,480 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import WeatherCard from "@/components/WeatherCard.astro";
+import { vaseRock } from "@/data/site";
+
+const homeFaq = [
+  {
+    question: "花瓶岩在哪裡？",
+    answer: "花瓶岩位於屏東縣琉球鄉北側海岸，距白沙觀光港約 300 公尺。"
+  },
+  {
+    question: "花瓶岩需要門票嗎？",
+    answer: "景點本體免費參觀，戶外海岸環境仍會受天候、海況或臨時管制影響。"
+  },
+  {
+    question: "花瓶岩建議停留多久？",
+    answer: "一般觀景與拍照約 20 至 40 分鐘；想細看地質、光線或潮位可安排約 1 小時。"
+  },
+  {
+    question: "花瓶岩可以浮潛嗎？",
+    answer: "周邊是熱門浮潛水域，但須依當日海況判斷；初學者請由合格教練帶領。"
+  }
+];
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: homeFaq.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer
+    }
+  }))
+};
+---
+
+<BaseLayout
+  path="/"
+  schema={faqSchema}
+  image="/og/homepage.webp"
+  imageAlt="小琉球花瓶岩與海岸全景"
+>
+  <section class="home-hero">
+    <img
+      class="home-hero-image"
+      src="/images/vase-rock-hero.webp"
+      alt="小琉球海岸上的花瓶岩，前景是珊瑚礁碎石與海浪"
+      width="1920"
+      height="1440"
+      fetchpriority="high"
+    />
+    <div class="home-hero-shade"></div>
+    <div class="home-hero-grid container">
+      <div class="hero-copy">
+        <p class="hero-kicker">
+          <span>22°21′N · 120°22′E</span>
+          <span>LIUQIU · PINGTUNG</span>
+        </p>
+        <h1>小琉球<br />花瓶岩<span>旅遊指南</span></h1>
+        <p class="hero-summary">
+          從白沙觀光港出發，一次看懂位置、光線、潮位與安全。下船幾分鐘，抵達小琉球最經典的海岸地標。
+        </p>
+        <div class="hero-actions">
+          <a
+            class="button button-white"
+            href={vaseRock.placeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-track="map_open"
+          >
+            在 Google Maps 開始導航
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a class="hero-secondary" href="/from-baisha-port/">
+            從白沙港怎麼走
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="hero-side" aria-label="快速資訊">
+        <div class="hero-weather-note">
+          <span class="pulse-dot"></span>
+          <p>海岸行程提醒</p>
+          <strong>先看潮汐，再看現場浪況</strong>
+          <a href="/tide-guide/">查看潮汐判讀 <span>→</span></a>
+        </div>
+        <div class="hero-index">
+          <span>01</span>
+          <div></div>
+          <p>VASE ROCK<br />TRAVEL FIELD GUIDE</p>
+        </div>
+      </div>
+    </div>
+    <div class="hero-tags container" aria-label="景點特色">
+      <span>免費參觀</span>
+      <span>鄰近白沙港</span>
+      <span>珊瑚礁地景</span>
+      <span>適合攝影</span>
+      <span class="tag-warning">礁石濕滑</span>
+    </div>
+  </section>
+
+  <section class="quick-facts" aria-labelledby="quick-heading">
+    <div class="container">
+      <div class="quick-title">
+        <p class="eyebrow">At a glance</p>
+        <h2 id="quick-heading">第一次去，先知道這五件事</h2>
+      </div>
+      <div class="quick-grid">
+        <div class="quick-item">
+          <span>01</span>
+          <svg viewBox="0 0 28 28" aria-hidden="true">
+            <path d="M14 25s7-6 7-13a7 7 0 1 0-14 0c0 7 7 13 7 13Z"></path>
+            <circle cx="14" cy="12" r="2.5"></circle>
+          </svg>
+          <p>地點</p>
+          <strong>屏東縣琉球鄉</strong>
+        </div>
+        <div class="quick-item">
+          <span>02</span>
+          <svg viewBox="0 0 28 28" aria-hidden="true">
+            <path d="M4 20h20M7 20V9l7-4 7 4v11M11 20v-6h6v6"></path>
+          </svg>
+          <p>距白沙港</p>
+          <strong>約 300 公尺</strong>
+        </div>
+        <div class="quick-item">
+          <span>03</span>
+          <svg viewBox="0 0 28 28" aria-hidden="true">
+            <circle cx="14" cy="14" r="10"></circle>
+            <path d="M9 14h10M14 9v10"></path>
+          </svg>
+          <p>參觀費用</p>
+          <strong>景點本體免費</strong>
+        </div>
+        <div class="quick-item">
+          <span>04</span>
+          <svg viewBox="0 0 28 28" aria-hidden="true">
+            <circle cx="14" cy="14" r="10"></circle>
+            <path d="M14 8v6l4 2"></path>
+          </svg>
+          <p>建議停留</p>
+          <strong>20–40 分鐘</strong>
+        </div>
+        <div class="quick-item">
+          <span>05</span>
+          <svg viewBox="0 0 28 28" aria-hidden="true">
+            <path d="M4 18c3-5 5 5 8 0s5 5 8 0 4 0 4 0"></path>
+            <path d="M4 12c3-5 5 5 8 0s5 5 8 0 4 0 4 0"></path>
+          </svg>
+          <p>適合活動</p>
+          <strong>觀景、拍照、浮潛</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="weather-section">
+    <div class="container">
+      <WeatherCard />
+    </div>
+  </section>
+
+  <section class="intent section container" aria-labelledby="intent-heading">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Choose your route</p>
+        <h2 id="intent-heading">這次，你想怎麼看花瓶岩？</h2>
+      </div>
+      <p class="section-intro">從需求開始，比照著景點清單走更快。</p>
+    </div>
+    <div class="intent-grid">
+      <a class="intent-card featured" href="/from-baisha-port/">
+        <img
+          src="/images/baisha-port.webp"
+          alt="白沙觀光港停泊的客輪與港區"
+          width="760"
+          height="570"
+          loading="lazy"
+        />
+        <div class="intent-overlay"></div>
+        <span>01 · 第一次到訪</span>
+        <div>
+          <h3>下船後，<br />直接走過去。</h3>
+          <p>從港口怎麼走、停留多久、回程怎麼抓。</p>
+        </div>
+        <b aria-hidden="true">↗</b>
+      </a>
+      <a class="intent-card photo" href="/photo-guide/">
+        <span>02 · 想拍好照片</span>
+        <h3>讓光線決定角度，<br />不用更靠近。</h3>
+        <p>比較清晨、日間與傍晚的構圖方法。</p>
+        <div class="intent-mini-image">
+          <img
+            src="/images/vase-rock-water.webp"
+            alt="陽光下海水環繞花瓶岩"
+            width="500"
+            height="334"
+            loading="lazy"
+          />
+        </div>
+        <b aria-hidden="true">↗</b>
+      </a>
+      <a class="intent-card dark" href="/snorkeling/">
+        <span>03 · 想下水浮潛</span>
+        <h3>海況對了，<br />才是下水時間。</h3>
+        <p>裝備、初學者判斷與海龜觀察守則。</p>
+        <svg viewBox="0 0 220 100" aria-hidden="true">
+          <path d="M0 62c27-20 48 17 75-3s49 18 76-3 44 4 69-10"></path>
+          <path d="M0 82c27-20 48 17 75-3s49 18 76-3 44 4 69-10"></path>
+        </svg>
+        <b aria-hidden="true">↗</b>
+      </a>
+      <a class="intent-card time" href="/itinerary/">
+        <span>04 · 只有一小時</span>
+        <div class="time-display">
+          <strong>60</strong><small>MIN</small>
+        </div>
+        <h3>看完地標，<br />準時回港。</h3>
+        <p>30 分鐘、1 小時與半日行程。</p>
+        <b aria-hidden="true">↗</b>
+      </a>
+    </div>
+  </section>
+
+  <section class="map-home section" aria-labelledby="map-home-heading">
+    <div class="container map-home-grid">
+      <div class="map-home-copy">
+        <p class="eyebrow light">03 · Location</p>
+        <h2 id="map-home-heading">離港口很近，<br />不代表可以壓線。</h2>
+        <p>
+          花瓶岩距白沙觀光港約 300 公尺。一般步行約 5–10 分鐘；帶著行李、親子同行或遇到港區人流時，請多留緩衝。
+        </p>
+        <div class="map-route">
+          <div>
+            <span>START</span>
+            <strong>白沙觀光港</strong>
+          </div>
+          <div class="route-line">
+            <span>約 300 m</span>
+          </div>
+          <div>
+            <span>ARRIVE</span>
+            <strong>花瓶岩海岸</strong>
+          </div>
+        </div>
+        <div class="map-home-actions">
+          <a
+            class="button button-light"
+            href={vaseRock.walkingDirectionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            開始步行導航 <span>↗</span>
+          </a>
+          <a class="text-link light" href="/from-baisha-port/">
+            查看完整路線 <span>→</span>
+          </a>
+        </div>
+      </div>
+      <div class="map-visual map-embed-home">
+        <iframe
+          title="花瓶岩 Google Maps 地圖"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3689.9465520080166!2d120.38075320000002!3d22.3556469!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3471e57038033fd7%3A0xc842f4c9d32e16bf!2sVase%20Rock!5e0!3m2!1szh-CN!2stw!4v1785143247748!5m2!1szh-CN!2stw"
+          width="600"
+          height="450"
+          style="border:0;"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+        <div class="map-coordinates">
+          <span>WGS84</span>
+          <strong>{vaseRock.coordinateLabel}</strong>
+          <button type="button" data-copy={vaseRock.coordinateLabel}>複製</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tide-home section container" aria-labelledby="tide-heading">
+    <div class="section-heading tide-title">
+      <div>
+        <p class="eyebrow">Read the tide</p>
+        <h2 id="tide-heading">同一座岩，三種海岸表情。</h2>
+      </div>
+      <div>
+        <p class="section-intro">潮位改變畫面，也改變可以安全停留的位置。</p>
+        <a class="text-link" href="/tide-guide/">完整潮汐指南 <span>→</span></a>
+      </div>
+    </div>
+    <div class="tide-grid">
+      <article class="tide-card">
+        <div class="tide-level low" aria-hidden="true">
+          <span>LOWER</span>
+          <svg viewBox="0 0 400 170"><path d="M0 122c60-20 91 17 151-3s91 18 151-3 98 3 98 3V170H0Z"></path></svg>
+        </div>
+        <span class="tide-number">01</span>
+        <h3>較低潮位</h3>
+        <p>礁台與潮池露出較多，適合從安全位置觀察潮間帶；露出的礁面仍可能濕滑。</p>
+      </article>
+      <article class="tide-card active">
+        <div class="tide-level mid" aria-hidden="true">
+          <span>MIDDLE</span>
+          <svg viewBox="0 0 400 170"><path d="M0 88c60-20 91 17 151-3s91 18 151-3 98 3 98 3V170H0Z"></path></svg>
+        </div>
+        <span class="tide-number">02</span>
+        <h3>中間潮位</h3>
+        <p>海水與岩體比例均衡，適合一般拍照；先觀察浪組，再決定站立位置。</p>
+      </article>
+      <article class="tide-card">
+        <div class="tide-level high" aria-hidden="true">
+          <span>HIGHER</span>
+          <svg viewBox="0 0 400 170"><path d="M0 49c60-20 91 17 151-3s91 18 151-3 98 3 98 3V170H0Z"></path></svg>
+        </div>
+        <span class="tide-number">03</span>
+        <h3>較高潮位</h3>
+        <p>海水包圍岩體的畫面更完整，可活動空間變少；保持遠距，不冒險涉水。</p>
+      </article>
+    </div>
+    <div class="tide-source">
+      <span class="pulse-dot dark"></span>
+      <p>查詢當日潮汐與沿海預報</p>
+      <a
+        href="https://www.cwa.gov.tw/V8/C/M/tide.html"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        中央氣象署潮汐預報 <span>↗</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="photo-home section" aria-labelledby="photo-heading">
+    <div class="photo-collage container">
+      <div class="photo-main">
+        <img
+          src="/images/vase-rock-water.webp"
+          alt="日間陽光照亮花瓶岩與青綠色海面"
+          width="1200"
+          height="801"
+          loading="lazy"
+        />
+        <span>DAYLIGHT · CLEAR WATER</span>
+      </div>
+      <div class="photo-copy">
+        <p class="eyebrow light">04 · Photography</p>
+        <h2 id="photo-heading">拍得好，<br />不需要站得近。</h2>
+        <p>
+          先選穩定落腳處，再用焦段、人物比例與留白整理畫面。海況不適合時，一張遠景就是最好的決定。
+        </p>
+        <a class="button button-outline-light" href="/photo-guide/">
+          查看拍照指南 <span>→</span>
+        </a>
+        <div class="photo-notes">
+          <div>
+            <span>01</span>
+            <strong>清晨</strong>
+            <p>柔和光線、安靜構圖</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>日間</strong>
+            <p>海水層次、手機旅行照</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>傍晚</strong>
+            <p>暖色輪廓、留意回程</p>
+          </div>
+        </div>
+      </div>
+      <div class="photo-detail">
+        <img
+          src="/images/vase-rock-geology.webp"
+          alt="近看花瓶岩粗糙多孔的珊瑚礁岩紋理"
+          width="620"
+          height="465"
+          loading="lazy"
+        />
+        <span>CORAL LIMESTONE · DETAIL</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="safety-home section" aria-labelledby="safety-heading">
+    <div class="container safety-grid">
+      <div class="safety-intro">
+        <p class="eyebrow">Keep the distance</p>
+        <h2 id="safety-heading">保護自己，<br />也讓地景繼續存在。</h2>
+        <p>
+          花瓶岩頸部持續受侵蝕。保持距離、遠觀不攀爬，是最簡單也最重要的旅行選擇。
+        </p>
+        <a class="text-link" href="/safety/">完整安全指南 <span>→</span></a>
+      </div>
+      <div class="safety-list">
+        {[
+          ["01", "不攀爬花瓶岩", "岩體持續受侵蝕，遠觀即可。"],
+          ["02", "不踩踏活珊瑚", "潮池與礁面都是生物棲地。"],
+          ["03", "不追逐、觸摸海龜", "讓野生動物保有換氣與離開空間。"],
+          ["04", "海況不佳不下水", "潮汐表不能取代現場判斷。"],
+          ["05", "穿包覆式防滑鞋", "拖鞋與赤腳不適合尖銳礁面。"]
+        ].map((item) => (
+          <div>
+            <span>{item[0]}</span>
+            <strong>{item[1]}</strong>
+            <p>{item[2]}</p>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3 4 6v5c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V6l-8-3Z"></path>
+            </svg>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="route-home section container" aria-labelledby="route-heading">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Plan by time</p>
+        <h2 id="route-heading">有多少時間，就走多少路。</h2>
+      </div>
+      <a class="text-link" href="/itinerary/">查看完整行程 <span>→</span></a>
+    </div>
+    <div class="route-options">
+      <a href="/itinerary/">
+        <div class="route-time"><strong>30</strong><span>分鐘</span></div>
+        <div>
+          <span>QUICK LOOK</span>
+          <h3>白沙港 → 花瓶岩 → 返回港區</h3>
+          <p>適合等船或下船後的快速地標照。</p>
+        </div>
+        <b aria-hidden="true">↗</b>
+      </a>
+      <a href="/itinerary/">
+        <div class="route-time"><strong>1</strong><span>小時</span></div>
+        <div>
+          <span>SLOW VISIT</span>
+          <h3>港區 → 遊客中心周邊 → 花瓶岩</h3>
+          <p>留時間看不同角度、光線與地質細節。</p>
+        </div>
+        <b aria-hidden="true">↗</b>
+      </a>
+      <a href="/nearby/">
+        <div class="route-time"><strong>½</strong><span>日</span></div>
+        <div>
+          <span>COAST ROUTE</span>
+          <h3>花瓶岩 → 西北海岸 → 白沙港</h3>
+          <p>有交通工具時再延伸，不為景點清單反覆折返。</p>
+        </div>
+        <b aria-hidden="true">↗</b>
+      </a>
+    </div>
+  </section>
+
+  <section class="faq-home section" aria-labelledby="faq-home-heading">
+    <div class="container faq-home-grid">
+      <div>
+        <p class="eyebrow light">Before you go</p>
+        <h2 id="faq-home-heading">出發前，<br />最後四個問題。</h2>
+        <p>需要更多細節？常見問題頁整理了門票、開放、交通、潮位與浮潛判斷。</p>
+        <a class="button button-light" href="/faq/">查看全部 FAQ <span>→</span></a>
+      </div>
+      <div class="faq-list dark">
+        {homeFaq.map((item, index) => (
+          <details open={index === 0}>
+            <summary>
+              <span>0{index + 1}</span>
+              {item.question}
+              <b aria-hidden="true">＋</b>
+            </summary>
+            <p>{item.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

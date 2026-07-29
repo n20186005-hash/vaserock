@@ -1,0 +1,305 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { guides, guideBySlug, type Guide } from "@/data/guides";
+import {
+  authoritativeSources,
+  imageCredits,
+  vaseRock
+} from "@/data/site";
+
+export function getStaticPaths() {
+  return guides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: { guide }
+  }));
+}
+
+interface Props {
+  guide: Guide;
+}
+
+const { guide } = Astro.props;
+const path = `/${guide.slug}/`;
+const relatedGuides = guide.related
+  .map((slug) => guideBySlug[slug])
+  .filter(Boolean);
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: guide.title,
+  description: guide.description,
+  inLanguage: "zh-Hant-TW",
+  mainEntityOfPage: `https://vaserock.com${path}`,
+  image: `https://vaserock.com${guide.image}`,
+  dateModified: "2026-07-27",
+  author: {
+    "@type": "Organization",
+    name: "Vase Rock"
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Vase Rock",
+    url: "https://vaserock.com"
+  }
+};
+
+const faqSchema = guide.faq
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: guide.faq.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer
+        }
+      }))
+    }
+  : null;
+---
+
+<BaseLayout
+  title={guide.seoTitle}
+  description={guide.description}
+  path={path}
+  image={`/og/${guide.slug}.webp`}
+  imageAlt={guide.imageAlt}
+  type="article"
+  breadcrumbs={[
+    { name: "首頁", path: "/" },
+    { name: guide.title, path }
+  ]}
+  schema={[articleSchema, ...(faqSchema ? [faqSchema] : [])]}
+>
+  <article class="guide">
+    <header class="guide-hero">
+      <div class="guide-hero-image">
+        <img
+          src={guide.image}
+          alt={guide.imageAlt}
+          width="1600"
+          height="1067"
+          fetchpriority="high"
+          style={`object-position: ${guide.imagePosition ?? "center"};`}
+        />
+        <div class="image-index" aria-hidden="true">
+          <span>22°21′N</span>
+          <span>120°22′E</span>
+        </div>
+      </div>
+      <div class="guide-hero-copy container">
+        <nav class="breadcrumbs" aria-label="麵包屑">
+          <a href="/">首頁</a>
+          <span aria-hidden="true">/</span>
+          <span>{guide.eyebrow}</span>
+        </nav>
+        <p class="eyebrow">{guide.eyebrow}</p>
+        <h1>{guide.title}</h1>
+        <p class="guide-lead">{guide.lead}</p>
+        <div class="guide-actions">
+          {guide.action ? (
+            <a
+              class="button button-primary"
+              href={guide.action.href}
+              target={guide.action.external ? "_blank" : undefined}
+              rel={guide.action.external ? "noopener noreferrer" : undefined}
+            >
+              {guide.action.label}
+              <span aria-hidden="true">{guide.action.external ? "↗" : "→"}</span>
+            </a>
+          ) : (
+            <a class="button button-primary" href="#guide-content">
+              開始閱讀
+              <span aria-hidden="true">↓</span>
+            </a>
+          )}
+          <a class="text-link" href="/safety/">先看安全提醒 <span>→</span></a>
+        </div>
+      </div>
+    </header>
+
+    <section class="guide-facts" aria-label="快速資訊">
+      <div class="container fact-row">
+        {guide.facts.map((fact, index) => (
+          <div class="guide-fact">
+            <span>0{index + 1}</span>
+            <div>
+              <p>{fact.label}</p>
+              <strong>{fact.value}</strong>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    {guide.slug === "map" && (
+      <section class="map-feature section container" aria-labelledby="map-heading">
+        <div class="map-embed">
+          <iframe
+            title="花瓶岩 Google Maps 地圖"
+            src={`https://www.google.com/maps?q=${vaseRock.latitude},${vaseRock.longitude}&z=17&output=embed`}
+            width="960"
+            height="620"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+        <div class="map-control">
+          <p class="eyebrow">Google Maps</p>
+          <h2 id="map-heading">花瓶岩位置與導航</h2>
+          <p>
+            從白沙觀光港出發，建議選擇步行模式；騎車者請在允許停放處停妥後再前往海岸。
+          </p>
+          <div class="coordinate-box">
+            <span>WGS84 座標</span>
+            <strong>{vaseRock.coordinateLabel}</strong>
+            <button type="button" data-copy={vaseRock.coordinateLabel}>複製座標</button>
+          </div>
+          <div class="map-buttons">
+            <a href={vaseRock.walkingDirectionsUrl} target="_blank" rel="noopener noreferrer">
+              步行導航 <span>↗</span>
+            </a>
+            <a href={vaseRock.drivingDirectionsUrl} target="_blank" rel="noopener noreferrer">
+              騎車導航 <span>↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <div id="guide-content" class="guide-content container">
+      <aside class="guide-aside" aria-label="本頁內容">
+        <p>本頁內容</p>
+        <ol>
+          {guide.sections.map((section, index) => (
+            <li>
+              <a href={`#section-${index + 1}`}>
+                <span>0{index + 1}</span>
+                {section.title}
+              </a>
+            </li>
+          ))}
+          {guide.faq && (
+            <li>
+              <a href="#frequent-questions">
+                <span>0{guide.sections.length + 1}</span>
+                常見問題
+              </a>
+            </li>
+          )}
+        </ol>
+      </aside>
+
+      <div class="guide-sections">
+        {guide.sections.map((section, index) => (
+          <section id={`section-${index + 1}`} class="guide-section">
+            <div class="section-number">0{index + 1}</div>
+            <div>
+              {section.kicker && <p class="eyebrow">{section.kicker}</p>}
+              <h2>{section.title}</h2>
+              <p>{section.body}</p>
+              {section.bullets && (
+                <ul class="check-list">
+                  {section.bullets.map((bullet) => (
+                    <li>
+                      <svg viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="m5 10 3 3 7-7"></path>
+                      </svg>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {section.note && (
+                <aside class="section-note">
+                  <span aria-hidden="true">!</span>
+                  <p>{section.note}</p>
+                </aside>
+              )}
+            </div>
+          </section>
+        ))}
+
+        {guide.faq && (
+          <section id="frequent-questions" class="faq-section">
+            <p class="eyebrow">FAQ</p>
+            <h2>出發前常見問題</h2>
+            <div class="faq-list">
+              {guide.faq.map((item) => (
+                <details>
+                  <summary>
+                    {item.question}
+                    <span aria-hidden="true">＋</span>
+                  </summary>
+                  <p>{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {guide.slug === "about" && (
+          <>
+            <section class="source-section" aria-labelledby="source-heading">
+              <p class="eyebrow">Sources</p>
+              <h2 id="source-heading">主要資料來源</h2>
+              <div class="source-list">
+                {authoritativeSources.map((source, index) => (
+                  <a href={source.url} target="_blank" rel="noopener noreferrer">
+                    <span>0{index + 1}</span>
+                    <div>
+                      <strong>{source.label}</strong>
+                      <small>{source.publisher}</small>
+                    </div>
+                    <b aria-hidden="true">↗</b>
+                  </a>
+                ))}
+              </div>
+            </section>
+
+            <section class="credit-section" aria-labelledby="credit-heading">
+              <p class="eyebrow">Photography</p>
+              <h2 id="credit-heading">實景圖片授權</h2>
+              <p class="credit-intro">
+                圖片已依網站版位調整尺寸，部分圖片經裁切；各檔案仍依其原始授權條款使用。
+              </p>
+              <div class="credit-list">
+                {imageCredits.map((credit) => (
+                  <a href={credit.source} target="_blank" rel="noopener noreferrer">
+                    <span>{credit.file}</span>
+                    <strong>{credit.title}</strong>
+                    <small>{credit.author} · {credit.license}</small>
+                  </a>
+                ))}
+              </div>
+            </section>
+          </>
+        )}
+      </div>
+    </div>
+
+    <section class="related section">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Next guide</p>
+            <h2>下一步，接著準備</h2>
+          </div>
+          <a class="text-link" href="/faq/">查看常見問題 <span>→</span></a>
+        </div>
+        <div class="related-grid">
+          {relatedGuides.map((related, index) => (
+            <a class="related-card" href={`/${related.slug}/`}>
+              <span>0{index + 1}</span>
+              <p>{related.eyebrow}</p>
+              <h3>{related.title}</h3>
+              <b aria-hidden="true">↗</b>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
