@@ -1,0 +1,16 @@
+{
+  // Cloudflare Workers 部署配置（Workers Static Assets 模式）
+  // 旧的 Cloudflare Pages 项目已迁移至此：Worker 入口接管路由、重定向与响应头，
+  // 静态资源由 ASSETS 绑定从 ./dist 提供，不再依赖 _redirects / _headers / functions。
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "vaserock",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-07-28",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
