@@ -1,62 +1,239 @@
-<article class="weather-card" data-weather-card aria-labelledby="weather-title" aria-busy="true">
+---
+import type { WeatherPayload } from "@/data/weather";
+import { formatTimeOnly, formatUpdatedAt, uvIndexLabel, windDirectionLabel } from "@/data/weather";
+
+export interface Props {
+  initialData?: WeatherPayload | null;
+}
+
+const { initialData = null } = Astro.props as Props;
+const hasData = initialData !== null;
+
+const current = initialData?.current;
+const today = initialData?.today;
+const advice = initialData?.advice;
+const sunrise = initialData?.sunrise;
+const sunset = initialData?.sunset;
+---
+
+<article
+  class="weather-card"
+  data-weather-card
+  aria-labelledby="weather-title"
+  aria-busy={hasData ? "false" : "true"}
+>
   <header class="weather-heading">
     <div>
-      <h2 id="weather-title">今天的花瓶岩天氣</h2>
-      <p class="weather-lead">固定查詢花瓶岩海岸周邊，提供目前天氣與三日預報。</p>
+      <h2 id="weather-title">花瓶岩即時天氣與七日預報</h2>
+      <p class="weather-lead">
+        自動查詢花瓶岩周邊，提供目前溫濕度、風力、紫外線，以及未來七日的最高／最低溫、降雨機率。建議依現場潮位、浪況與告示牌優先判斷。
+      </p>
     </div>
-    <p class="weather-updated" data-weather-updated aria-live="polite">正在取得最新資料…</p>
+    <p class="weather-updated" data-weather-updated aria-live="polite">
+      {hasData ? `更新於 ${formatUpdatedAt(initialData!.updatedAt)}` : "正在取得最新資料…"}
+    </p>
   </header>
 
   <div class="weather-shell">
-    <div class="weather-loading" data-weather-loading>
-      <span class="weather-loading-icon" aria-hidden="true"></span>
-      <div>
-        <strong>天氣資料載入中</strong>
-        <p>正在連線至本站的天氣服務…</p>
-      </div>
-    </div>
-
-    <div class="weather-content" data-weather-content hidden>
-      <div class="weather-summary">
-        <div class="weather-current">
-          <span class="weather-icon" aria-hidden="true" data-weather-icon>🌤️</span>
+    {
+      !hasData && (
+        <div class="weather-loading" data-weather-loading>
+          <span class="weather-loading-icon" aria-hidden="true" />
           <div>
-            <p class="weather-condition" data-weather-condition>--</p>
-            <div class="weather-temperature">
-              <strong data-weather-temperature>--°</strong>
-              <span>體感 <b data-weather-apparent>--°</b></span>
+            <strong>天氣資料載入中</strong>
+            <p>正在取得花瓶岩周邊的最新觀測…</p>
+          </div>
+        </div>
+      )
+    }
+
+    {
+      hasData && (
+        <div class="weather-content" data-weather-content>
+          {/* 1. 当前概况：温度 + 体感 + 概况 */}
+          <div class="weather-current">
+            <div class="weather-current-main">
+              <span class="weather-icon" aria-hidden="true" data-weather-icon>
+                {current!.icon}
+              </span>
+              <div>
+                <p class="weather-condition" data-weather-condition>
+                  {`${current!.isDay ? "日間" : "夜間"} · ${current!.condition}`}
+                </p>
+                <div class="weather-temperature">
+                  <strong data-weather-temperature>
+                    {`${Math.round(current!.temperature)}°`}
+                  </strong>
+                  <div class="weather-temperature-detail">
+                    <span>體感 <b data-weather-apparent>
+                      {`${Math.round(current!.apparentTemperature)}°`}
+                    </b></span>
+                    <span>濕度 <b data-weather-humidity>
+                      {`${Math.round(current!.humidity)}%`}
+                    </b></span>
+                    <span>風向 <b data-wind-direction-text>
+                      {`${windDirectionLabel(current!.windDirection)}`}
+                    </b> 風速 <b data-wind-speed-text>
+                      {`${Math.round(current!.windSpeed)} km/h`}
+                    </b></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="weather-headline" data-weather-headline>
+              <strong>{advice!.headline}</strong>
             </div>
           </div>
-        </div>
 
-        <div class="weather-advice" data-weather-advice data-level="good">
-          <span class="weather-advice-dot" aria-hidden="true"></span>
-          <div>
-            <strong data-weather-advice-title>取得行程提醒中</strong>
-            <p data-weather-advice-text>請稍候。</p>
+          {/* 2. 风险提醒（置顶，仅当有警告时显示） */}
+          {advice!.alerts.length > 0 && (
+            <ul class="weather-alerts" data-weather-alerts>
+              {advice!.alerts.map((alert) => (
+                <li data-severity={alert.severity}>
+                  <span class="weather-alert-tag">{alert.severity === "warning" ? "風險提醒" : alert.severity === "watch" ? "注意" : "提示"}</span>
+                  <div>
+                    <strong>{alert.title}</strong>
+                    <p>{alert.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {/* 3. 三块标签：穿搭 / 游玩 / 随身 */}
+          <div class="weather-advice-grid" data-weather-advice>
+            {advice!.dress.length > 0 && (
+              <article class="weather-advice-block">
+                <header>
+                  <span class="weather-advice-mark">👕</span>
+                  <strong>出行穿搭</strong>
+                </header>
+                <ul>
+                  {advice!.dress.map((text) => <li>{text}</li>)}
+                </ul>
+              </article>
+            )}
+            {advice!.plan.length > 0 && (
+              <article class="weather-advice-block">
+                <header>
+                  <span class="weather-advice-mark">🗺️</span>
+                  <strong>遊玩安排</strong>
+                </header>
+                <ul>
+                  {advice!.plan.map((text) => <li>{text}</li>)}
+                </ul>
+              </article>
+            )}
+            {advice!.gear.length > 0 && (
+              <article class="weather-advice-block">
+                <header>
+                  <span class="weather-advice-mark">🎒</span>
+                  <strong>隨身物品</strong>
+                </header>
+                <ul>
+                  {advice!.gear.map((text) => <li>{text}</li>)}
+                </ul>
+              </article>
+            )}
           </div>
+
+          {/* 4. 海边专属 */}
+          {advice!.coastal.length > 0 && (
+            <section class="weather-coastal">
+              <header>
+                <span class="weather-advice-mark">🌊</span>
+                <strong>花瓶岩海岸提示</strong>
+              </header>
+              <ul>
+                {advice!.coastal.map((text) => <li>{text}</li>)}
+              </ul>
+            </section>
+          )}
+
+          {/* 5. 七日预报（横向滚动） */}
+          <section class="weather-week" aria-labelledby="weather-week-title">
+            <header>
+              <h3 id="weather-week-title">未來七日預報</h3>
+              <span>日出 <b data-weather-sunrise>{formatTimeOnly(sunrise!)}</b> ／ 日落 <b data-weather-sunset>{formatTimeOnly(sunset!)}</b></span>
+            </header>
+            <ol class="weather-week-list" data-weather-days>
+              {initialData!.daily.map((day, index) => (
+                <li data-day-index={index} class={index === 0 ? "weather-week-today" : ""}>
+                  <strong>{day.label}</strong>
+                  <span class="weather-week-icon" aria-hidden="true">{day.icon}</span>
+                  <span class="weather-week-condition">{day.condition}</span>
+                  <span class="weather-week-temp">{`${Math.round(day.maxTemperature)}°／${Math.round(day.minTemperature)}°`}</span>
+                  <span class="weather-week-rain">
+                    <svg viewBox="0 0 16 16" aria-hidden="true">
+                      <path d="M8 2a5 5 0 0 1 5 5c0 3-2 6-5 6s-5-3-5-6a5 5 0 0 1 5-5z" />
+                    </svg>
+                    {`${Math.round(day.precipitationProbability)}%`}
+                  </span>
+                  <span class="weather-week-uv">
+                    UV <b>{`${day.uvIndexMax.toFixed(1)}`}</b>
+                    <em>{uvIndexLabel(day.uvIndexMax).label}</em>
+                  </span>
+                  <span class="weather-week-wind">
+                    {`${Math.round(day.maxWindGust)} km/h`}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          {/* 6. 今日快指标 */}
+          <dl class="weather-metrics">
+            <div>
+              <dt>今日高／低</dt>
+              <dd data-weather-range>
+                {`${Math.round(today!.maxTemperature)}°／${Math.round(today!.minTemperature)}°`}
+              </dd>
+            </div>
+            <div>
+              <dt>今日降雨機率</dt>
+              <dd data-weather-rain>
+                {`${Math.round(today!.precipitationProbability)}%`}
+              </dd>
+            </div>
+            <div>
+              <dt>今日 UV 指數</dt>
+              <dd data-weather-uv>
+                {`${today!.uvIndexMax.toFixed(1)}（${uvIndexLabel(today!.uvIndexMax).label}）`}
+              </dd>
+            </div>
+            <div>
+              <dt>累計降雨量</dt>
+              <dd data-weather-rain-sum>
+                {`${today!.precipitationSum.toFixed(1)} mm`}
+              </dd>
+            </div>
+            <div>
+              <dt>最大陣風</dt>
+              <dd data-weather-gust>
+                {`${Math.round(today!.maxWindGust)} km/h`}
+              </dd>
+            </div>
+            <div>
+              <dt>日出／日落</dt>
+              <dd data-weather-sun>
+                {`${formatTimeOnly(sunrise!)} ／ ${formatTimeOnly(sunset!)}`}
+              </dd>
+            </div>
+          </dl>
+
+          <footer class="weather-footer">
+            <p>天氣預報不含即時海浪與潮位，請以現場告示牌與中央氣象署即時資料為準。</p>
+            <p>
+              氣象資料來源：
+              <a href={initialData!.source.url} target="_blank" rel="noopener" data-weather-source>
+                {initialData!.source.name}
+              </a>
+            </p>
+          </footer>
         </div>
-      </div>
-
-      <dl class="weather-metrics">
-        <div><dt>今日高／低</dt><dd data-weather-range>--°／--°</dd></div>
-        <div><dt>最高降雨機率</dt><dd data-weather-rain>--%</dd></div>
-        <div><dt>目前風速</dt><dd data-weather-wind>-- km/h</dd></div>
-        <div><dt>今日最大陣風</dt><dd data-weather-gust>-- km/h</dd></div>
-      </dl>
-
-      <ul class="weather-days" data-weather-days aria-label="三日天氣預報"></ul>
-
-      <footer class="weather-footer">
-        <p>自動天氣預報不含即時海浪與潮位，海況及現場警示優先。</p>
-        <p>
-          資料來源：
-          <a href="https://open-meteo.com/" target="_blank" rel="noopener" data-weather-source>
-            Open-Meteo
-          </a>
-        </p>
-      </footer>
-    </div>
+      )
+    }
 
     <div class="weather-error" data-weather-error hidden>
       <span aria-hidden="true">
@@ -76,145 +253,255 @@
   </div>
 
   <a class="weather-more" href="/best-time/">
-    查看最佳時間與天氣建議
+    查看最佳時間與潮汐建議
     <span aria-hidden="true">→</span>
   </a>
 </article>
 
 <script>
-  interface WeatherDay {
-    label: string;
-    icon: string;
-    condition: string;
-    maxTemperature: number;
-    minTemperature: number;
-    precipitationProbability: number;
-  }
+  import type { WeatherPayload } from "@/data/weather";
+  import {
+    describeWeather,
+    formatTimeOnly,
+    formatUpdatedAt,
+    uvIndexLabel,
+    windDirectionLabel
+  } from "@/data/weather";
 
-  interface WeatherResponse {
-    updatedAt: string;
-    current: {
-      icon: string;
-      condition: string;
-      weatherCode: number;
-      isDay: boolean;
-      temperature: number;
-      apparentTemperature: number;
-      windSpeed: number;
-    };
-    today: {
-      maxTemperature: number;
-      minTemperature: number;
-      precipitationProbability: number;
-      maxWindGust: number;
-    };
-    daily: WeatherDay[];
-    advice: {
-      level: "good" | "watch" | "avoid";
-      title: string;
-      text: string;
-    };
-    source: {
-      name: string;
-      url: string;
-    };
-  }
+  const cards = document.querySelectorAll<HTMLElement>("[data-weather-card]");
 
-  document.querySelectorAll<HTMLElement>("[data-weather-card]").forEach((card) => {
-    const loading = card.querySelector("[data-weather-loading]");
-    const content = card.querySelector("[data-weather-content]");
-    const error = card.querySelector("[data-weather-error]");
+  cards.forEach((card) => {
+    const loading = card.querySelector<HTMLElement>("[data-weather-loading]");
+    const error = card.querySelector<HTMLElement>("[data-weather-error]");
+    const content = card.querySelector<HTMLElement>("[data-weather-content]");
 
     const setText = (selector: string, value: string) => {
       const element = card.querySelector(selector);
       if (element) element.textContent = value;
     };
 
-    fetch("/api/weather", { headers: { Accept: "application/json" } })
-      .then((response) => {
-        if (!response.ok) throw new Error("Weather request failed");
-        return response.json();
-      })
-      .then((weather: WeatherResponse) => {
-        setText("[data-weather-icon]", weather.current.icon);
-        setText("[data-weather-temperature]", `${Math.round(weather.current.temperature)}°`);
+    const escapeHtml = (input: string) =>
+      input.replace(/[&<>"']/g, (char) =>
+        char === "&" ? "&amp;" :
+        char === "<" ? "&lt;" :
+        char === ">" ? "&gt;" :
+        char === '"' ? "&quot;" : "&#39;"
+      );
 
-        const thunder = [82, 95, 96, 99].includes(weather.current.weatherCode);
-        setText(
-          "[data-weather-condition]",
-          `${weather.current.isDay !== false ? "日間" : "夜間"} · ${
-            thunder ? "雷雨警示" : weather.current.condition
-          }`
-        );
-        setText("[data-weather-apparent]", `${Math.round(weather.current.apparentTemperature)}°`);
-        setText(
-          "[data-weather-range]",
-          `${Math.round(weather.today.maxTemperature)}°／${Math.round(weather.today.minTemperature)}°`
-        );
-        setText(
-          "[data-weather-rain]",
-          `${Math.round(weather.today.precipitationProbability)}%`
-        );
-        setText("[data-weather-wind]", `${Math.round(weather.current.windSpeed)} km/h`);
-        setText("[data-weather-gust]", `${Math.round(weather.today.maxWindGust)} km/h`);
-        setText("[data-weather-advice-title]", weather.advice.title);
-        setText("[data-weather-advice-text]", weather.advice.text);
+    const apply = (weather: WeatherPayload) => {
+      const [condition, icon] = describeWeather(
+        weather.current.weatherCode,
+        weather.current.isDay
+      );
 
-        const advice = card.querySelector("[data-weather-advice]");
-        if (advice instanceof HTMLElement) advice.dataset.level = weather.advice.level;
+      setText("[data-weather-icon]", weather.current.icon || icon);
+      setText("[data-weather-temperature]", `${Math.round(weather.current.temperature)}°`);
+      setText(
+        "[data-weather-condition]",
+        `${weather.current.isDay ? "日間" : "夜間"} · ${weather.current.condition || condition}`
+      );
+      setText("[data-weather-apparent]", `${Math.round(weather.current.apparentTemperature)}°`);
+      setText("[data-weather-humidity]", `${Math.round(weather.current.humidity)}%`);
+      setText(
+        "[data-wind-direction-text]",
+        `${windDirectionLabel(weather.current.windDirection)}`
+      );
+      setText("[data-wind-speed-text]", `${Math.round(weather.current.windSpeed)} km/h`);
+      setText("[data-weather-headline]", weather.advice.headline);
 
-        const updated = new Date(weather.updatedAt);
-        setText(
-          "[data-weather-updated]",
-          `更新於 ${new Intl.DateTimeFormat("zh-TW", {
-            month: "numeric",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            hour12: false
-          }).format(updated)}`
-        );
+      setText(
+        "[data-weather-range]",
+        `${Math.round(weather.today.maxTemperature)}°／${Math.round(weather.today.minTemperature)}°`
+      );
+      setText(
+        "[data-weather-rain]",
+        `${Math.round(weather.today.precipitationProbability)}%`
+      );
+      setText(
+        "[data-weather-uv]",
+        `${weather.today.uvIndexMax.toFixed(1)}（${uvIndexLabel(weather.today.uvIndexMax).label}）`
+      );
+      setText(
+        "[data-weather-rain-sum]",
+        `${weather.today.precipitationSum.toFixed(1)} mm`
+      );
+      setText(
+        "[data-weather-gust]",
+        `${Math.round(weather.today.maxWindGust)} km/h`
+      );
+      setText(
+        "[data-weather-sun]",
+        `${formatTimeOnly(weather.sunrise)} ／ ${formatTimeOnly(weather.sunset)}`
+      );
+      setText("[data-weather-sunrise]", formatTimeOnly(weather.sunrise));
+      setText("[data-weather-sunset]", formatTimeOnly(weather.sunset));
 
-        const source = card.querySelector("[data-weather-source]");
-        if (source instanceof HTMLAnchorElement) {
-          source.textContent = weather.source.name;
-          source.href = weather.source.url;
-        }
+      setText("[data-weather-updated]", `更新於 ${formatUpdatedAt(weather.updatedAt)}`);
 
-        const days = card.querySelector("[data-weather-days]");
-        if (days instanceof HTMLUListElement) {
-          days.replaceChildren(
-            ...weather.daily.map((day) => {
+      const source = card.querySelector("[data-weather-source]");
+      if (source instanceof HTMLAnchorElement) {
+        source.textContent = weather.source.name;
+        source.href = weather.source.url;
+      }
+
+      // 风险提醒
+      const alertsContainer = card.querySelector("[data-weather-alerts]");
+      if (alertsContainer instanceof HTMLUListElement) {
+        if (weather.advice.alerts.length > 0) {
+          alertsContainer.replaceChildren(
+            ...weather.advice.alerts.map((alert) => {
               const item = document.createElement("li");
-              const lead = document.createElement("div");
-              const label = document.createElement("strong");
-              const condition = document.createElement("span");
-              const values = document.createElement("div");
-              const temperatures = document.createElement("strong");
-              const rain = document.createElement("span");
-
-              label.textContent = day.label;
-              condition.textContent = `${day.icon} ${day.condition}`;
-              temperatures.textContent =
-                `${Math.round(day.maxTemperature)}°／${Math.round(day.minTemperature)}°`;
-              rain.textContent = `降雨 ${Math.round(day.precipitationProbability)}%`;
-              lead.append(label, condition);
-              values.append(temperatures, rain);
-              item.append(lead, values);
+              item.dataset.severity = alert.severity;
+              const tag = document.createElement("span");
+              tag.className = "weather-alert-tag";
+              tag.textContent =
+                alert.severity === "warning"
+                  ? "風險提醒"
+                  : alert.severity === "watch"
+                  ? "注意"
+                  : "提示";
+              const wrap = document.createElement("div");
+              const title = document.createElement("strong");
+              const text = document.createElement("p");
+              title.textContent = alert.title;
+              text.textContent = alert.text;
+              wrap.append(title, text);
+              item.append(tag, wrap);
               return item;
             })
           );
+          alertsContainer.hidden = false;
+        } else {
+          alertsContainer.replaceChildren();
+          alertsContainer.hidden = true;
         }
+      }
 
-        if (loading instanceof HTMLElement) loading.hidden = true;
-        if (error instanceof HTMLElement) error.hidden = true;
-        if (content instanceof HTMLElement) content.hidden = false;
-        card.setAttribute("aria-busy", "false");
+      // 三块建议
+      const adviceContainer = card.querySelector("[data-weather-advice]");
+      if (adviceContainer instanceof HTMLElement) {
+        const blocks: Array<{ title: string; icon: string; lines: string[] }> = [
+          { title: "出行穿搭", icon: "👕", lines: weather.advice.dress },
+          { title: "遊玩安排", icon: "🗺️", lines: weather.advice.plan },
+          { title: "隨身物品", icon: "🎒", lines: weather.advice.gear }
+        ];
+        adviceContainer.replaceChildren(
+          ...blocks
+            .filter((block) => block.lines.length > 0)
+            .map((block) => {
+              const article = document.createElement("article");
+              article.className = "weather-advice-block";
+              const header = document.createElement("header");
+              const mark = document.createElement("span");
+              mark.className = "weather-advice-mark";
+              mark.textContent = block.icon;
+              const strong = document.createElement("strong");
+              strong.textContent = block.title;
+              header.append(mark, strong);
+              const ul = document.createElement("ul");
+              ul.append(
+                ...block.lines.map((line) => {
+                  const li = document.createElement("li");
+                  li.textContent = line;
+                  return li;
+                })
+              );
+              article.append(header, ul);
+              return article;
+            })
+        );
+      }
+
+      // 海岸
+      const coastal = card.querySelector(".weather-coastal");
+      if (coastal instanceof HTMLElement) {
+        if (weather.advice.coastal.length > 0) {
+          coastal.replaceChildren(
+            (() => {
+              const header = document.createElement("header");
+              const mark = document.createElement("span");
+              mark.className = "weather-advice-mark";
+              mark.textContent = "🌊";
+              const strong = document.createElement("strong");
+              strong.textContent = "花瓶岩海岸提示";
+              header.append(mark, strong);
+              const ul = document.createElement("ul");
+              ul.append(
+                ...weather.advice.coastal.map((line) => {
+                  const li = document.createElement("li");
+                  li.textContent = line;
+                  return li;
+                })
+              );
+              const frag = document.createDocumentFragment();
+              frag.append(header, ul);
+              return frag;
+            })()
+          );
+          coastal.hidden = false;
+        } else {
+          coastal.replaceChildren();
+          coastal.hidden = true;
+        }
+      }
+
+      // 七日预报
+      const days = card.querySelector("[data-weather-days]");
+      if (days instanceof HTMLOListElement) {
+        days.replaceChildren(
+          ...weather.daily.map((day, index) => {
+            const item = document.createElement("li");
+            item.dataset.dayIndex = String(index);
+            if (index === 0) item.classList.add("weather-week-today");
+            const label = document.createElement("strong");
+            label.textContent = day.label;
+            const icon = document.createElement("span");
+            icon.className = "weather-week-icon";
+            icon.setAttribute("aria-hidden", "true");
+            icon.textContent = day.icon;
+            const condition = document.createElement("span");
+            condition.className = "weather-week-condition";
+            condition.textContent = day.condition;
+            const temp = document.createElement("span");
+            temp.className = "weather-week-temp";
+            temp.textContent =
+              `${Math.round(day.maxTemperature)}°／${Math.round(day.minTemperature)}°`;
+            const rain = document.createElement("span");
+            rain.className = "weather-week-rain";
+            rain.innerHTML = `
+              <svg viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M8 2a5 5 0 0 1 5 5c0 3-2 6-5 6s-5-3-5-6a5 5 0 0 1 5-5z"></path>
+              </svg>${escapeHtml(`${Math.round(day.precipitationProbability)}%`)}
+            `;
+            const uv = document.createElement("span");
+            uv.className = "weather-week-uv";
+            const uvLabel = uvIndexLabel(day.uvIndexMax).label;
+            uv.innerHTML = `UV <b>${escapeHtml(day.uvIndexMax.toFixed(1))}</b><em>${escapeHtml(uvLabel)}</em>`;
+            const wind = document.createElement("span");
+            wind.className = "weather-week-wind";
+            wind.textContent = `${Math.round(day.maxWindGust)} km/h`;
+            item.append(label, icon, condition, temp, rain, uv, wind);
+            return item;
+          })
+        );
+      }
+
+      if (loading) loading.hidden = true;
+      if (error) error.hidden = true;
+      if (content) content.hidden = false;
+      card.setAttribute("aria-busy", "false");
+    };
+
+    fetch("/api/weather", { headers: { Accept: "application/json" } })
+      .then((response) => {
+        if (!response.ok) throw new Error("Weather request failed");
+        return response.json() as Promise<WeatherPayload>;
       })
+      .then(apply)
       .catch(() => {
-        if (loading instanceof HTMLElement) loading.hidden = true;
-        if (content instanceof HTMLElement) content.hidden = true;
-        if (error instanceof HTMLElement) error.hidden = false;
+        if (loading) loading.hidden = true;
+        if (content && !content.hasAttribute("data-weather-initial")) content.hidden = true;
+        if (error) error.hidden = false;
         setText("[data-weather-updated]", "資料暫時無法取得");
         card.setAttribute("aria-busy", "false");
       });
@@ -289,7 +576,9 @@
 
   .weather-loading[hidden],
   .weather-error[hidden],
-  .weather-content[hidden] {
+  .weather-content[hidden],
+  .weather-alerts[hidden],
+  .weather-coastal[hidden] {
     display: none;
   }
 
@@ -344,19 +633,19 @@
     }
   }
 
-  .weather-summary {
+  /* ---------- 当前概况 ---------- */
+  .weather-current {
     display: grid;
-    padding: 30px 32px 20px;
-    grid-template-columns: 0.9fr 1.1fr;
-    align-items: stretch;
-    gap: 18px;
+    padding: 30px 32px 22px;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 24px;
   }
 
-  .weather-current {
+  .weather-current-main {
     display: flex;
-    min-width: 0;
     align-items: center;
-    gap: 18px;
+    gap: 22px;
   }
 
   .weather-icon {
@@ -366,7 +655,7 @@
   }
 
   .weather-condition {
-    margin: 0 0 2px;
+    margin: 0 0 4px;
     color: var(--muted);
     font-size: 0.86rem;
     font-weight: 700;
@@ -375,7 +664,8 @@
   .weather-temperature {
     display: flex;
     align-items: baseline;
-    gap: 12px;
+    flex-wrap: wrap;
+    gap: 12px 22px;
   }
 
   .weather-temperature > strong {
@@ -386,71 +676,332 @@
     line-height: 1;
   }
 
-  .weather-temperature span {
-    color: var(--muted);
-    font-size: 0.76rem;
-    white-space: nowrap;
-  }
-
-  .weather-temperature b {
-    color: var(--ocean-deep);
-  }
-
-  .weather-advice {
+  .weather-temperature-detail {
     display: grid;
-    padding: 18px 20px;
-    border: 1px solid rgba(23, 121, 138, 0.23);
-    background: rgba(114, 184, 177, 0.1);
-    grid-template-columns: 12px 1fr;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .weather-advice-dot {
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: var(--ocean);
-    box-shadow: 0 0 0 5px rgba(23, 121, 138, 0.12);
-  }
-
-  .weather-advice strong {
-    color: var(--ocean-deep);
-    font-size: 0.95rem;
-  }
-
-  .weather-advice p {
-    margin: 4px 0 0;
+    gap: 2px;
     color: var(--muted);
     font-size: 0.78rem;
-    line-height: 1.65;
   }
 
-  .weather-advice[data-level="watch"] {
-    border-color: rgba(194, 139, 48, 0.35);
-    background: #fff8e8;
+  .weather-temperature-detail b {
+    color: var(--ocean-deep);
+    font-weight: 700;
   }
 
-  .weather-advice[data-level="watch"] .weather-advice-dot {
-    background: #c28b30;
-    box-shadow: 0 0 0 5px rgba(194, 139, 48, 0.14);
+  .weather-headline {
+    align-self: flex-start;
+    padding: 10px 16px;
+    border: 1px solid var(--line);
+    background: var(--ocean-deep);
+    color: var(--sea-glass);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
   }
 
-  .weather-advice[data-level="avoid"] {
-    border-color: rgba(198, 111, 72, 0.38);
+  .weather-headline strong {
+    color: var(--white);
+  }
+
+  /* ---------- 风险提醒（置顶） ---------- */
+  .weather-alerts {
+    display: grid;
+    margin: 0;
+    padding: 0 32px 6px;
+    list-style: none;
+    gap: 10px;
+  }
+
+  .weather-alerts li {
+    display: grid;
+    align-items: center;
+    padding: 12px 16px;
+    border: 1px solid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  .weather-alerts li[data-severity="warning"] {
+    border-color: rgba(198, 111, 72, 0.4);
     background: #fff3ef;
   }
 
-  .weather-advice[data-level="avoid"] .weather-advice-dot {
-    background: var(--warning);
-    box-shadow: 0 0 0 5px rgba(198, 111, 72, 0.15);
+  .weather-alerts li[data-severity="watch"] {
+    border-color: rgba(194, 139, 48, 0.32);
+    background: #fff8e8;
   }
 
+  .weather-alerts li[data-severity="info"] {
+    border-color: rgba(23, 121, 138, 0.18);
+    background: rgba(23, 121, 138, 0.05);
+  }
+
+  .weather-alert-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--ocean-deep);
+    color: var(--white);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+  }
+
+  .weather-alerts li[data-severity="warning"] .weather-alert-tag {
+    background: var(--warning);
+  }
+
+  .weather-alerts li[data-severity="watch"] .weather-alert-tag {
+    background: #c28b30;
+  }
+
+  .weather-alerts li strong {
+    color: var(--ocean-deep);
+    font-size: 0.92rem;
+  }
+
+  .weather-alerts li p {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+
+  /* ---------- 三块标签 ---------- */
+  .weather-advice-grid {
+    display: grid;
+    margin: 14px 32px 0;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .weather-advice-block {
+    display: grid;
+    padding: 18px 18px 16px;
+    border: 1px solid var(--line);
+    background: var(--foam);
+    grid-template-rows: auto 1fr;
+    gap: 10px;
+  }
+
+  .weather-advice-block header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .weather-advice-mark {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border: 1px solid var(--line);
+    background: var(--white);
+    font-size: 1rem;
+  }
+
+  .weather-advice-block strong {
+    color: var(--ocean-deep);
+    font-size: 0.86rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .weather-advice-block ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .weather-advice-block li {
+    position: relative;
+    padding: 6px 0 6px 18px;
+    border-top: 1px dashed rgba(18, 59, 74, 0.16);
+    color: #42585c;
+    font-size: 0.82rem;
+    line-height: 1.65;
+  }
+
+  .weather-advice-block li:first-child {
+    border-top: 0;
+  }
+
+  .weather-advice-block li::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: 4px;
+    width: 6px;
+    height: 6px;
+    background: var(--ocean);
+  }
+
+  /* ---------- 海边专属 ---------- */
+  .weather-coastal {
+    margin: 14px 32px 0;
+    padding: 18px 22px;
+    border: 1px solid rgba(23, 121, 138, 0.3);
+    border-left: 4px solid var(--ocean);
+    background: rgba(114, 184, 177, 0.1);
+  }
+
+  .weather-coastal header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  .weather-coastal header strong {
+    color: var(--ocean-deep);
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .weather-coastal ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .weather-coastal li {
+    position: relative;
+    padding: 4px 0 4px 18px;
+    color: #2b3d44;
+    font-size: 0.84rem;
+    line-height: 1.7;
+  }
+
+  .weather-coastal li::before {
+    content: "🌊";
+    position: absolute;
+    top: 4px;
+    left: 0;
+    font-size: 0.7rem;
+  }
+
+  /* ---------- 七日预报 ---------- */
+  .weather-week {
+    margin: 22px 0 0;
+    padding: 22px 32px 24px;
+    border-top: 1px solid var(--line);
+    background: rgba(242, 237, 227, 0.4);
+  }
+
+  .weather-week header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    color: var(--muted);
+    font-size: 0.72rem;
+  }
+
+  .weather-week h3 {
+    margin: 0;
+    color: var(--ocean-deep);
+    font-size: 0.96rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .weather-week header b {
+    color: var(--ocean-deep);
+    font-weight: 700;
+  }
+
+  .weather-week-list {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    gap: 8px;
+    list-style: none;
+  }
+
+  .weather-week-list li {
+    display: grid;
+    padding: 12px 8px;
+    border: 1px solid var(--line);
+    background: var(--white);
+    grid-template-rows: auto auto auto auto auto auto;
+    text-align: center;
+    gap: 4px;
+  }
+
+  .weather-week-today {
+    border-color: var(--ocean-deep);
+    background: linear-gradient(180deg, rgba(23, 121, 138, 0.06), rgba(23, 121, 138, 0));
+  }
+
+  .weather-week-list strong {
+    color: var(--ocean-deep);
+    font-size: 0.84rem;
+  }
+
+  .weather-week-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+
+  .weather-week-condition {
+    color: var(--muted);
+    font-size: 0.66rem;
+    line-height: 1.2;
+  }
+
+  .weather-week-temp {
+    color: var(--ocean-deep);
+    font-size: 0.84rem;
+    font-weight: 700;
+  }
+
+  .weather-week-rain {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: var(--ocean);
+    font-size: 0.74rem;
+    font-weight: 700;
+  }
+
+  .weather-week-rain svg {
+    width: 11px;
+    height: 11px;
+    fill: currentColor;
+  }
+
+  .weather-week-uv {
+    color: var(--muted);
+    font-size: 0.66rem;
+  }
+
+  .weather-week-uv b {
+    color: var(--ocean-deep);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .weather-week-uv em {
+    display: block;
+    color: var(--warning);
+    font-size: 0.6rem;
+    font-style: normal;
+  }
+
+  .weather-week-wind {
+    color: var(--muted);
+    font-size: 0.66rem;
+  }
+
+  /* ---------- 今日快指标 ---------- */
   .weather-metrics {
     display: grid;
     margin: 0;
-    padding: 0 32px 26px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: 22px 32px 26px;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 10px;
   }
 
@@ -467,54 +1018,9 @@
   .weather-metrics dd {
     margin: 3px 0 0;
     color: var(--ocean-deep);
-    font-size: 0.94rem;
+    font-size: 0.86rem;
     font-weight: 750;
-  }
-
-  .weather-days {
-    display: grid;
-    margin: 0;
-    padding: 0;
-    border-top: 1px solid var(--line);
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    list-style: none;
-  }
-
-  .weather-days li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 17px 23px;
-    border-right: 1px solid var(--line);
-  }
-
-  .weather-days li:last-child {
-    border-right: 0;
-  }
-
-  .weather-days li > div {
-    display: grid;
-  }
-
-  .weather-days li > div:last-child {
-    text-align: right;
-  }
-
-  .weather-days strong {
-    color: var(--ocean-deep);
-    font-size: 0.84rem;
-  }
-
-  .weather-days span {
-    margin-top: 2px;
-    color: var(--muted);
-    font-size: 0.68rem;
-  }
-
-  .weather-days li > div:last-child span {
-    color: var(--ocean);
-    font-weight: 700;
+    line-height: 1.4;
   }
 
   .weather-footer {
@@ -548,6 +1054,43 @@
     color: var(--ocean-deep);
   }
 
+  @media (max-width: 1080px) {
+    .weather-current {
+      grid-template-columns: 1fr;
+    }
+
+    .weather-headline {
+      align-self: flex-start;
+    }
+
+    .weather-alerts,
+    .weather-advice-grid,
+    .weather-coastal {
+      margin-inline: 20px;
+    }
+
+    .weather-advice-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .weather-week {
+      padding-inline: 20px;
+    }
+
+    .weather-week-list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .weather-week-list li:nth-child(n+5) {
+      border-top: 1px solid var(--line);
+    }
+
+    .weather-metrics {
+      padding: 22px 20px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
   @media (max-width: 820px) {
     .weather-section {
       padding-block: 76px;
@@ -564,12 +1107,12 @@
       font-size: clamp(2.05rem, 9vw, 3.2rem);
     }
 
-    .weather-summary {
+    .weather-current {
       padding: 23px 20px 18px;
       grid-template-columns: 1fr;
     }
 
-    .weather-current {
+    .weather-current-main {
       gap: 13px;
     }
 
@@ -581,22 +1124,30 @@
       font-size: 3.3rem;
     }
 
+    .weather-alerts,
+    .weather-advice-grid,
+    .weather-coastal {
+      margin-inline: 16px;
+    }
+
+    .weather-week {
+      padding-inline: 16px;
+    }
+
+    .weather-week-list {
+      grid-template-columns: repeat(7, 132px);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 6px;
+    }
+
+    .weather-week-list li {
+      scroll-snap-align: start;
+    }
+
     .weather-metrics {
-      padding: 0 20px 20px;
+      padding: 22px 16px;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .weather-days {
-      grid-template-columns: 1fr;
-    }
-
-    .weather-days li {
-      border-right: 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .weather-days li:last-child {
-      border-bottom: 0;
     }
 
     .weather-footer {

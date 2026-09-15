@@ -1,0 +1,202 @@
+---
+import { seasonalProfiles } from "@/data/visitor";
+---
+
+<section class="seasonal section container" aria-labelledby="seasonal-heading">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Seasonal strategy</p>
+      <h2 id="seasonal-heading">花瓶岩季度遊覽策略：氣象、水質、野生動物</h2>
+    </div>
+    <p class="section-intro">
+      整理多年氣候平均、海況趨勢與物候節奏，作為行前參考。任何一年都可能出現極端天氣，現場判讀仍優先。
+    </p>
+  </div>
+
+  <div class="seasonal-table" role="table" aria-label="季度遊覽策略表">
+    <div class="seasonal-row seasonal-head" role="row">
+      <span role="columnheader">季節</span>
+      <span role="columnheader">月份</span>
+      <span role="columnheader">氣溫</span>
+      <span role="columnheader">海況</span>
+      <span role="columnheader">水質</span>
+      <span role="columnheader">野生動物</span>
+    </div>
+    {
+      seasonalProfiles.map((profile, index) => (
+        <div class="seasonal-row" role="row">
+          <span class="seasonal-season" role="cell">
+            <strong>{`0${index + 1}`}</strong>
+            <b>{profile.season}</b>
+          </span>
+          <span role="cell">{profile.period}</span>
+          <span role="cell">{profile.avgTempC}</span>
+          <span role="cell">{profile.seaState}</span>
+          <span role="cell">{profile.waterClarity}</span>
+          <span role="cell">{profile.wildlife}</span>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="seasonal-foot">
+    {
+      seasonalProfiles.map((profile) => (
+        <article>
+          <h3>{`${profile.season} · ${profile.period}`}</h3>
+          <p>
+            <strong>建議：</strong>
+            {profile.recommended}
+          </p>
+          <p>
+            <strong>注意：</strong>
+            {profile.watchFor}
+          </p>
+        </article>
+      ))
+    }
+  </div>
+  <p class="seasonal-source">
+    數據參考中央氣象署、屏東縣政府與 NOAA 多年氣候態；非預報，僅供行前參考。
+  </p>
+</section>
+
+<style>
+  .seasonal {
+    background: var(--foam);
+    border-top: 1px solid var(--line);
+  }
+
+  .seasonal h2 {
+    margin: 0 0 18px;
+    font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+    font-weight: 660;
+    letter-spacing: -0.04em;
+  }
+
+  .seasonal-table {
+    margin-top: 42px;
+    border: 1px solid var(--line);
+    background: var(--white);
+  }
+
+  .seasonal-row {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr 1fr 1.3fr 1.3fr 1.4fr;
+    align-items: stretch;
+    border-top: 1px solid var(--line);
+  }
+
+  .seasonal-row:first-child {
+    border-top: 0;
+  }
+
+  .seasonal-row > * {
+    padding: 16px 18px;
+    border-right: 1px solid var(--line);
+    color: #2b3d44;
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+
+  .seasonal-row > *:last-child {
+    border-right: 0;
+  }
+
+  .seasonal-head {
+    background: var(--ocean-deep);
+  }
+
+  .seasonal-head > * {
+    border-right: 1px solid rgba(255, 255, 255, 0.18);
+    color: var(--sea-glass);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .seasonal-season {
+    display: grid;
+    align-content: center;
+    gap: 4px;
+  }
+
+  .seasonal-season strong {
+    color: var(--ocean);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+  }
+
+  .seasonal-season b {
+    color: var(--ocean-deep);
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .seasonal-foot {
+    display: grid;
+    margin-top: 30px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .seasonal-foot article {
+    padding: 22px 24px;
+    border: 1px solid var(--line);
+    background: var(--white);
+  }
+
+  .seasonal-foot h3 {
+    margin: 0 0 12px;
+    color: var(--ocean-deep);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .seasonal-foot p {
+    margin: 0 0 8px;
+    color: #42585c;
+    font-size: 0.86rem;
+    line-height: 1.7;
+  }
+
+  .seasonal-foot strong {
+    color: var(--ocean-deep);
+    margin-right: 6px;
+  }
+
+  .seasonal-source {
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-size: 0.74rem;
+    text-align: right;
+  }
+
+  @media (max-width: 1080px) {
+    .seasonal-row {
+      grid-template-columns: 1.2fr 1fr 1fr 1.2fr;
+    }
+
+    .seasonal-row > *:nth-child(5),
+    .seasonal-row > *:nth-child(6) {
+      display: none;
+    }
+
+    .seasonal-foot {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .seasonal-row {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .seasonal-row > *:nth-child(3),
+    .seasonal-row > *:nth-child(4) {
+      display: none;
+    }
+  }
+</style>

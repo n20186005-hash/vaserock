@@ -12,6 +12,13 @@
 
 const WEATHER_API = "https://api.open-meteo.com/v1/forecast";
 
+const VASE_ROCK = {
+  latitude: 22.3556469,
+  longitude: 120.3807532,
+  fullName: "花瓶岩（Vase Rock）",
+  timezone: "Asia/Taipei"
+};
+
 // -----------------------------------------------------------------------------
 // 自定义重定向（301 默认 / 可指定 302）。按需在此扩充。
 // 注意：仅使用相对路径或绝对 URL，避免部署期 "Only relative URLs are allowed" 错误。
@@ -21,9 +28,23 @@ const REDIRECTS = {
 };
 
 // -----------------------------------------------------------------------------
-// 天气接口逻辑（从 functions/api/weather.js 迁移）
+// URL 规范化：trailing slash
+// Astro 静态产物为 /<slug>/index.html，canonical 与 site.url 一律带斜杠，
+//  // 因此将无尾斜杠的非根路径统一 301 至有尾斜杠版本。
 // -----------------------------------------------------------------------------
-const weatherDescriptions = {
+function shouldForceTrailingSlash(pathname) {
+  if (pathname === "/" || pathname.startsWith("/_") || pathname.startsWith("/api/")) {
+    return false;
+  }
+  if (pathname === "" || pathname === "/index.html") return false;
+  if (pathname.includes(".") || pathname.includes("?")) return false;
+  return !pathname.endsWith("/");
+}
+
+// -----------------------------------------------------------------------------
+// 天气接口逻辑（与 src/data/weather.ts 的输出结构保持一致）
+// -----------------------------------------------------------------------------
+const WEATHER_DESCRIPTIONS = {
   0: ["晴朗", "☀️"],
   1: ["大致晴朗", "🌤️"],
   2: ["局部多雲", "⛅"],
@@ -55,9 +76,9 @@ const weatherDescriptions = {
 };
 
 function describeWeather(code, isDay = true) {
-  const [condition, icon] = weatherDescriptions[code] ?? ["天氣變化", "🌤️"];
-  if (!isDay && code <= 1) return [condition, "🌙"];
-  return [condition, icon];
+  const entry = WEATHER_DESCRIPTIONS[code] ?? ["天氣變化", "🌤️"];
+  if (!isDay && code <= 1) return [entry[0], "🌙"];
+  return entry;
 }
 
 function requiredNumber(value, field) {
@@ -72,37 +93,214 @@ function dayLabel(date, index) {
   if (index === 1) return "明天";
   return new Intl.DateTimeFormat("zh-TW", {
     weekday: "short",
-    timeZone: "Asia/Taipei"
+    timeZone: VASE_ROCK.timezone
   }).format(new Date(`${date}T00:00:00+08:00`));
 }
 
-function weatherAdvice(currentCode, today) {
-  const severeWeather = [82, 95, 96, 99].includes(currentCode);
+function formatTimeOnly(iso) {
+  if (!iso) return "—";
+  const match = iso.match(/T(\d{2}):(\d{2})/);
+  return match ? `${match[1]}:${match[2]}` : iso;
+}
 
-  if (severeWeather || today.precipitationProbability >= 70 || today.maxWindGust >= 55) {
-    return {
-      level: "avoid",
-      title: "海岸天氣風險偏高",
-      text: "有雷雨、強降雨或強陣風可能，建議延後行程，並遠離水邊與空曠海岸。"
-    };
+/**
+ * 与 src/data/weather.ts 中的 buildAdvice 完全镜像。
+ */
+function buildAdvice({ current, today, sunrise, sunset }) {
+  const alerts = [];
+  const dress = [];
+  const plan = [];
+  const gear = [];
+  const coastal = [];
+
+  // 雷雨
+  if ([82, 95, 96, 99].includes(current.weatherCode)) {
+    alerts.push({
+      severity: "warning",
+      title: "雷雨警报",
+      text: "请远离海边礁石、空旷地与树下；不要下水、不要登山，及时到室内躲避。"
+    });
+  }
+
+  // 大风
+  if (today.maxWindGust >= 50) {
+    alerts.push({
+      severity: "warning",
+      title: "強風警告",
+      text: "海边浪况不稳，远离礁石与广告牌；海上活动与户外设施可能停摆。"
+    });
+  } else if (today.maxWindGust >= 35) {
+    alerts.push({
+      severity: "watch",
+      title: "海面风浪偏大",
+      text: "到礁石区拍照请加倍小心，避免在湿滑岩面长时间逗留。"
+    });
+  }
+
+  // 极端 UV
+  if (today.uvIndexMax >= 11) {
+    alerts.push({
+      severity: "warning",
+      title: "極端紫外線",
+      text: "户外曝晒 15 分鐘就可能晒伤；建议改为清晨或傍晚户外活动。"
+    });
+  }
+
+  // 强降雨
+  if (today.precipitationProbability >= 70 || today.precipitationSum >= 25) {
+    alerts.push({
+      severity: "watch",
+      title: "强降雨概率高",
+      text: "低洼路段可能短暂积水，沿海步道湿滑，建议调整为室内或港边活动。"
+    });
+  }
+
+  // 大雾
+  if ([45, 48].includes(current.weatherCode)) {
+    alerts.push({
+      severity: "watch",
+      title: "能見度差",
+      text: "船班可能延迟，跨海交通以现场公告为准；不适合远眺拍照。"
+    });
+  }
+
+  // 穿搭
+  if (today.maxTemperature >= 32) {
+    dress.push("天气炎热，建议穿透气浅色衣物；正午时段避免直接暴晒。");
+  } else if (today.maxTemperature >= 28) {
+    dress.push("气候温暖舒适，适合轻薄夏装。");
+  } else if (today.maxTemperature >= 22) {
+    dress.push("温暖宜人，长袖或薄外套即可。");
+  } else {
+    dress.push("气温偏低，建议携带外套；海风明显时体感更凉。");
+  }
+
+  const tempRange = today.maxTemperature - today.minTemperature;
+  if (tempRange > 8) {
+    dress.push("昼夜温差较大，准备一件方便穿脱的外套。");
   }
 
   if (
-    today.precipitationProbability >= 40 ||
-    today.maxWindGust >= 35 ||
-    today.maxTemperature >= 34
+    today.precipitationProbability >= 60 ||
+    [55, 57, 61, 63, 65, 80, 81, 82].includes(current.weatherCode)
   ) {
-    return {
-      level: "watch",
-      title: "今天需要保守安排",
-      text: "留意陣雨、強風或高溫，縮短停留時間並準備雨具、飲水與防曬用品。"
-    };
+    dress.push("有降雨可能，避免棉质衣物；快干材质更舒服。");
   }
 
+  // 游玩
+  if (today.precipitationProbability >= 60) {
+    plan.push("下雨概率高，户外行程建议延后或改为室内场馆。");
+  } else if (today.precipitationProbability >= 40) {
+    plan.push("可能有阵雨，安排可弹性调整的行程。");
+  }
+
+  if (today.maxTemperature >= 32 || today.uvIndexMax >= 8) {
+    plan.push("高温或强紫外线时段，建议清晨或傍晚再走海岸线；正午留在阴凉处休息。");
+  }
+
+  if (current.weatherCode === 2 || current.weatherCode === 3) {
+    plan.push("光线柔和均匀，没有强光斑，很适合拍照与长时间户外活动。");
+  }
+
+  if ([0, 1].includes(current.weatherCode) && sunrise && sunset) {
+    plan.push(`天气晴好，可考虑看日出（${formatTimeOnly(sunrise)}）或日落（${formatTimeOnly(sunset)}）。`);
+  }
+
+  if (today.maxWindGust >= 40) {
+    plan.push("海边浪较大，浮潜与水上活动可能停办；海岸观景请勿靠近浪溅区。");
+  }
+
+  if ([82,95,96,99].includes(current.weatherCode)) {
+    plan.push("雷雨期间不适合户外活动，请改在白沙港周边、室内展馆或餐厅。");
+  } else if ([45, 48].includes(current.weatherCode)) {
+    plan.push("能見度不佳，不适合登高远眺或拍摄海岸景观。");
+  }
+
+  if (plan.length === 0) {
+    plan.push("天气稳定，可依原本计划前往花瓶岩与周边海岸。");
+  }
+
+  // 装备
+  if (today.uvIndexMax >= 5 || today.maxTemperature >= 28) {
+    gear.push("防晒霜、墨镜、遮阳帽或薄长袖");
+  }
+
+  if (
+    today.precipitationProbability >= 60 ||
+    [55, 57, 61, 63, 65, 80, 81, 82, 95, 96, 99].includes(current.weatherCode)
+  ) {
+    gear.push("折叠雨伞或轻便雨衣");
+  }
+
+  if (today.maxWindGust >= 35 && today.precipitationProbability >= 40) {
+    gear[gear.length - 1] = "雨衣（不建议长柄伞，风大易折）";
+  }
+
+  if (today.maxTemperature >= 28 || today.uvIndexMax >= 6) {
+    gear.push("充足饮用水（每人至少 1.5L）");
+  }
+
+  if (today.maxWindGust < 50 && today.precipitationProbability < 60) {
+    gear.push("防滑凉鞋或礁石鞋，方便踩进潮池与浅滩");
+  }
+
+  if (tempRange > 8) {
+    gear.push("薄外套（防海风与早晚温差）");
+  }
+
+  // 海边专属
+  if (today.maxWindGust >= 40 || [82, 95, 96, 99].includes(current.weatherCode)) {
+    coastal.push("今日风浪偏大，不建议浮潜、潜水或下水；岸边拍照也请避开浪溅区。");
+  } else if (today.precipitationProbability >= 70) {
+    coastal.push("下雨天水质浑浊，能见度差；想下水可改去有遮蔽的潮池。");
+  } else if (today.uvIndexMax >= 8) {
+    coastal.push("阳光强烈，下水请穿防 UV 衣物或水母衣，避免长时间浮在水面上暴晒。");
+  } else {
+    coastal.push("海况稳定，可依现场告示牌评估是否下水；建议有合格教练陪同。");
+  }
+
+  if (today.maxWindGust >= 30) {
+    coastal.push("礁石区湿滑，拍照请勿背向海面，并避免攀爬湿岩。");
+  }
+
+  coastal.push("想赶海或下水，请先查花瓶岩潮汐表；珊瑚礁海域留 2 小时缓冲避开最低潮前后。");
+
+  if (!current.isDay) {
+    coastal.push("夜间海岸视野差，请勿靠近礁石；绿蠵龟孵化区夜间禁止强光与噪音。");
+  }
+
+  // 综合等级
+  let level = "good";
+  if (alerts.some((a) => a.severity === "warning")) level = "avoid";
+  else if (
+    alerts.some((a) => a.severity === "watch") ||
+    today.uvIndexMax >= 8 ||
+    today.maxWindGust >= 35 ||
+    today.maxTemperature >= 32
+  ) {
+    level = "watch";
+  }
+
+  // headline
+  const headlineParts = [];
+  if (today.precipitationProbability >= 60) headlineParts.push("降雨概率高");
+  else if (current.weatherCode <= 1) headlineParts.push("晴朗穩定");
+  else if ([2, 3].includes(current.weatherCode)) headlineParts.push("多雲陰天");
+  else headlineParts.push(today.condition);
+
+  if (today.uvIndexMax >= 8) headlineParts.push("紫外線強");
+  if (today.maxWindGust >= 35) headlineParts.push("風偏大");
+  if (today.maxTemperature >= 32) headlineParts.push("高溫");
+  if (today.maxTemperature < 18) headlineParts.push("偏涼");
+
   return {
-    level: "good",
-    title: "天氣條件相對穩定",
-    text: "仍請確認潮位、浪況與現場警示；天氣預報不代表海況一定安全。"
+    level,
+    headline: headlineParts.slice(0, 3).join("，"),
+    dress,
+    plan,
+    gear,
+    alerts,
+    coastal
   };
 }
 
@@ -112,14 +310,13 @@ function normalizeWeather(raw) {
   }
 
   const currentCode = requiredNumber(raw.current.weather_code, "current.weather_code");
-  const [currentCondition, currentIcon] = describeWeather(
-    currentCode,
-    raw.current.is_day === 1
-  );
+  const isDay = raw.current.is_day === 1;
+  const [currentCondition, currentIcon] = describeWeather(currentCode, isDay);
 
-  const daily = raw.daily.time.slice(0, 3).map((date, index) => {
+  const totalDays = Math.min(raw.daily.time.length, 7);
+  const daily = raw.daily.time.slice(0, totalDays).map((date, index) => {
     const code = requiredNumber(raw.daily.weather_code?.[index], `daily.weather_code.${index}`);
-    const [condition, icon] = describeWeather(code);
+    const [condition, icon] = describeWeather(code, true);
 
     return {
       date,
@@ -139,58 +336,89 @@ function normalizeWeather(raw) {
         raw.daily.precipitation_probability_max?.[index],
         `daily.precipitation_probability_max.${index}`
       ),
+      precipitationSum: requiredNumber(
+        raw.daily.precipitation_sum?.[index] ?? 0,
+        `daily.precipitation_sum.${index}`
+      ),
+      maxWindSpeed: requiredNumber(
+        raw.daily.wind_speed_10m_max?.[index] ?? 0,
+        `daily.wind_speed_10m_max.${index}`
+      ),
       maxWindGust: requiredNumber(
-        raw.daily.wind_gusts_10m_max?.[index],
+        raw.daily.wind_gusts_10m_max?.[index] ?? 0,
         `daily.wind_gusts_10m_max.${index}`
+      ),
+      uvIndexMax: requiredNumber(
+        raw.daily.uv_index_max?.[index] ?? 0,
+        `daily.uv_index_max.${index}`
       )
     };
   });
 
-  if (daily.length < 3) throw new Error("Three-day forecast unavailable");
+  if (daily.length < 1) throw new Error("Forecast unavailable");
+
+  const current = {
+    weatherCode: currentCode,
+    isDay,
+    condition: currentCondition,
+    icon: currentIcon,
+    temperature: requiredNumber(raw.current.temperature_2m, "current.temperature_2m"),
+    apparentTemperature: requiredNumber(
+      raw.current.apparent_temperature,
+      "current.apparent_temperature"
+    ),
+    windSpeed: requiredNumber(raw.current.wind_speed_10m, "current.wind_speed_10m"),
+    windDirection: requiredNumber(
+      raw.current.wind_direction_10m ?? 0,
+      "current.wind_direction_10m"
+    ),
+    humidity: requiredNumber(raw.current.relative_humidity_2m, "current.relative_humidity_2m"),
+    uvIndex: requiredNumber(raw.current.uv_index ?? 0, "current.uv_index"),
+    pressure: requiredNumber(
+      raw.current.surface_pressure ?? 1013,
+      "current.surface_pressure"
+    )
+  };
+
+  const sunrise = String(raw.daily.sunrise?.[0] ?? "");
+  const sunset = String(raw.daily.sunset?.[0] ?? "");
+
+  const advice = buildAdvice({ current, today: daily[0], sunrise, sunset });
 
   return {
-    location: "花瓶岩",
+    location: VASE_ROCK.fullName,
     updatedAt: `${raw.current.time}:00+08:00`,
     source: {
       name: "Open-Meteo",
       url: "https://open-meteo.com/"
     },
-    current: {
-      weatherCode: currentCode,
-      isDay: raw.current.is_day === 1,
-      condition: currentCondition,
-      icon: currentIcon,
-      temperature: requiredNumber(raw.current.temperature_2m, "current.temperature_2m"),
-      apparentTemperature: requiredNumber(
-        raw.current.apparent_temperature,
-        "current.apparent_temperature"
-      ),
-      windSpeed: requiredNumber(raw.current.wind_speed_10m, "current.wind_speed_10m")
-    },
+    current,
     today: daily[0],
     daily,
-    advice: weatherAdvice(currentCode, daily[0])
+    sunrise,
+    sunset,
+    advice
   };
 }
 
 function upstreamUrl() {
   const url = new URL(WEATHER_API);
-  url.searchParams.set("latitude", "22.3556469");
-  url.searchParams.set("longitude", "120.3807532");
+  url.searchParams.set("latitude", VASE_ROCK.latitude.toString());
+  url.searchParams.set("longitude", VASE_ROCK.longitude.toString());
   url.searchParams.set(
     "current",
-    "temperature_2m,apparent_temperature,weather_code,wind_speed_10m,is_day"
+    "temperature_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,relative_humidity_2m,is_day,uv_index,surface_pressure"
   );
   url.searchParams.set(
     "daily",
-    "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,wind_gusts_10m_max"
+    "weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max,uv_index_max,sunrise,sunset"
   );
-  url.searchParams.set("timezone", "Asia/Taipei");
-  url.searchParams.set("forecast_days", "3");
+  url.searchParams.set("timezone", VASE_ROCK.timezone);
+  url.searchParams.set("forecast_days", "7");
   return url;
 }
 
-async function handleWeather(request, env, ctx) {
+async function handleWeather(request, ctx) {
   const requestUrl = new URL(request.url);
   const cacheKey = new Request(`${requestUrl.origin}${requestUrl.pathname}`, { method: "GET" });
   const cache = caches.default;
@@ -286,7 +514,22 @@ export default {
       return Response.redirect(url.toString(), 301);
     }
 
-    // 1b. 自定义重定向
+    // 1a. 协议规范化：http -> https（301）
+    if (url.protocol === "http:") {
+      url.protocol = "https:";
+      return Response.redirect(url.toString(), 301);
+    }
+
+    // 1b. Trailing slash 规范化：/foo -> /foo/（301，仅 GET HEAD）
+    if (
+      request.method === "GET" &&
+      shouldForceTrailingSlash(url.pathname)
+    ) {
+      url.pathname = `${url.pathname}/`;
+      return Response.redirect(url.toString(), 301);
+    }
+
+    // 1c. 自定义重定向
     const custom = REDIRECTS[url.pathname];
     if (custom) {
       return Response.redirect(custom.to, custom.status ?? 301);

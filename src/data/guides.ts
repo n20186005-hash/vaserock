@@ -26,6 +26,11 @@ export type Guide = {
   related: string[];
   faq?: FAQ[];
   action?: { label: string; href: string; external?: boolean };
+  /**
+   * 站内 SEO 内部链接（用于把高 CTR 页面权重传递到 zero-click 页面）。
+   * 锚文本带关键词，description 是更口语化的提示。
+   */
+  links?: { label: string; href: string; description?: string }[];
 };
 
 export const guides: Guide[] = [
@@ -78,9 +83,9 @@ export const guides: Guide[] = [
     slug: "from-baisha-port",
     eyebrow: "登島第一站",
     title: "從白沙觀光港走到花瓶岩",
-    seoTitle: "白沙港到花瓶岩怎麼走｜步行距離與回港提醒",
+    seoTitle: "白沙港到花瓶岩怎麼走｜步行 5–10 分鐘、回港時間與行李建議",
     description:
-      "白沙觀光港到花瓶岩約 300 公尺；查看步行順序、時間抓法與搭船前回程提醒。",
+      "白沙觀光港到花瓶岩約 300 公尺、步行 5–10 分鐘；給你出港後步行順序、行李託運建議與搭船前回程時間抓法，避免錯過船班。",
     lead:
       "花瓶岩離白沙觀光港很近，適合安排在剛下船或回程前；但搬運大件行李、炎熱午後或趕船時，體感會和地圖距離不同。",
     image: "/images/baisha-port.webp",
@@ -130,9 +135,9 @@ export const guides: Guide[] = [
     slug: "best-time",
     eyebrow: "光線 × 潮位 × 人流",
     title: "花瓶岩什麼時候去最好？",
-    seoTitle: "花瓶岩最佳時間｜清晨、日間、傍晚怎麼選",
+    seoTitle: "花瓶岩最佳造訪時間｜何時去最美？拍照光線、潮汐與避開人潮攻略",
     description:
-      "依拍照、看海、潮間帶與行程需求，比較花瓶岩清晨、日間與傍晚的到訪差異。",
+      "掌握花瓶岩的最佳拍攝與觀景時刻！分析清晨順光時間、退潮潮間帶觀賞期、潮汐與季節氣候建議，避開人潮與雨季。",
     lead:
       "沒有單一時段適合所有人。想拍安靜畫面選清晨，想看海水色澤選日間，想要暖色光線可選傍晚；任何時段都要再看當日海況。",
     image: "/images/vase-rock-hero.webp",
@@ -213,7 +218,29 @@ export const guides: Guide[] = [
       label: "查看中央氣象署潮汐預報",
       href: "https://www.cwa.gov.tw/V8/C/M/tide.html",
       external: true
-    }
+    },
+    links: [
+      {
+        label: "花瓶岩最佳造訪時間",
+        href: "/best-time/",
+        description: "看懂光線與潮汐後，再決定清晨、日間還是傍晚出發。"
+      },
+      {
+        label: "從白沙港走到花瓶岩",
+        href: "/from-baisha-port/",
+        description: "登島後第一站的步行順序、回港時間與行李建議。"
+      },
+      {
+        label: "花瓶岩常見問題 FAQ",
+        href: "/faq/",
+        description: "門票、開放時間、退潮、浮潛等 7 個出發前必看問答。"
+      },
+      {
+        label: "花瓶岩浮潛與下水指南",
+        href: "/snorkeling/",
+        description: "周邊珊瑚礁、海龜觀察、潮汐與初學者安全須知。"
+      }
+    ]
   },
   {
     slug: "photo-guide",
@@ -261,9 +288,9 @@ export const guides: Guide[] = [
     slug: "snorkeling",
     eyebrow: "海況優先",
     title: "花瓶岩浮潛與下水指南",
-    seoTitle: "花瓶岩浮潛指南｜裝備、海況與初學者提醒",
+    seoTitle: "小琉球花瓶岩浮潛攻略｜潮汐水況、海龜出沒點與水上安全須知",
     description:
-      "了解花瓶岩周邊浮潛環境、初學者裝備、海況判斷與海龜觀察原則。",
+      "小琉球花瓶岩浮潛全指南！解密花瓶岩周邊珊瑚礁生態、海龜經常出沒區域、潮汐注意事宜、初學者裝備租借建議與退潮下水安全。",
     lead:
       "花瓶岩周邊是熱門水域，但熱門不等於每天、每個人都適合下水。第一次浮潛、不熟潮流或不會游泳，請選擇合格教練與完整裝備。",
     image: "/images/turtle-snorkel.webp",
@@ -510,7 +537,29 @@ export const guides: Guide[] = [
         note: "半日路線仍要依天候、體力、船班與景點開放狀況縮放；不要把浮潛硬塞進趕船行程。"
       }
     ],
-    related: ["nearby", "map", "from-baisha-port"]
+    related: ["nearby", "map", "from-baisha-port"],
+    links: [
+      {
+        label: "花瓶岩最佳造訪時間",
+        href: "/best-time/",
+        description: "30 分鐘、1 小時、半日哪個適合你？這裡告訴你依光線與潮汐選時段。"
+      },
+      {
+        label: "花瓶岩常見問題 FAQ",
+        href: "/faq/",
+        description: "門票、開放時間、退潮、玩水疑問一次解答。"
+      },
+      {
+        label: "花瓶岩浮潛指南",
+        href: "/snorkeling/",
+        description: "潮汐、海龜觀察與初學者下水前的安全判斷。"
+      },
+      {
+        label: "花瓶岩潮汐指南",
+        href: "/tide-guide/",
+        description: "完整潮位玩法、趕海窗口與安全判讀。"
+      }
+    ]
   },
   {
     slug: "family-guide",
@@ -558,9 +607,9 @@ export const guides: Guide[] = [
     slug: "faq",
     eyebrow: "出發前最後確認",
     title: "花瓶岩常見問題",
-    seoTitle: "花瓶岩 FAQ｜門票、開放時間、停留與交通",
+    seoTitle: "小琉球花瓶岩 FAQ｜浮潛收費、潮汐注意、退潮時間與玩水常見問題",
     description:
-      "回答花瓶岩是否要門票、何時開放、停留多久、從白沙港怎麼走、能否浮潛等常見問題。",
+      "解答花瓶岩旅遊所有疑問：可以下水嗎？適合帶小孩嗎？要門票嗎？如何看退潮時間？前往花瓶岩前必看的 7 個常見問答。",
     lead:
       "把最常被問的到訪問題集中在這裡。遇到天候、海況、交通或管制變動時，仍以現場與主管機關最新資訊為準。",
     image: "/images/vase-rock-water.webp",

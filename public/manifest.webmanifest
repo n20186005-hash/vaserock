@@ -1,0 +1,59 @@
+{
+  "name": "Vase Rock｜小琉球花瓶岩旅遊指南",
+  "short_name": "Vase Rock",
+  "description": "小琉球花瓶岩獨立旅遊指南：Google Maps 位置、白沙港步行路線、潮汐玩法、拍照建議、浮潛安全與周邊景點。",
+  "lang": "zh-Hant-TW",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbfcf8",
+  "theme_color": "#123b4a",
+  "categories": ["travel", "lifestyle"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Google Maps 導航",
+      "short_name": "導航",
+      "description": "直接開啟 Google Maps 開始導航到花瓶岩。",
+      "url": "/map/",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "拍照指南",
+      "short_name": "拍照",
+      "description": "查看花瓶岩拍照時間、構圖與安全距離建議。",
+      "url": "/photo-guide/"
+    },
+    {
+      "name": "安全提醒",
+      "short_name": "安全",
+      "description": "花瓶岩礁石、海況與生態安全守則。",
+      "url": "/safety/"
+    }
+  ]
+}

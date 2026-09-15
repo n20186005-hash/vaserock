@@ -1,0 +1,130 @@
+---
+import { visitorEtiquette } from "@/data/visitor";
+---
+
+<section class="etiquette section container" aria-labelledby="etiquette-heading">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Visitor responsibility</p>
+      <h2 id="etiquette-heading">花瓶岩科普與訪客責任</h2>
+    </div>
+    <p class="section-intro">
+      花瓶岩所在的珊瑚礁海岸是活生生的生態系；訪客的選擇決定它能存續多久。下列守則基於海洋保育署公告與在地導覽員的共識整理。
+    </p>
+  </div>
+
+  <div class="etiquette-grid">
+    {
+      visitorEtiquette.map((topic, index) => (
+        <article class="etiquette-card">
+          <header>
+            <span class="etiquette-index">{`0${index + 1}`}</span>
+            <h3>{topic.topic}</h3>
+          </header>
+          <p class="etiquette-rule">
+            <strong>守則</strong>
+            <span>{topic.rule}</span>
+          </p>
+          <p class="etiquette-reason">
+            <strong>為什麼</strong>
+            <span>{topic.reason}</span>
+          </p>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .etiquette {
+    background: var(--ocean-deep);
+    color: var(--white);
+    border-top: 1px solid var(--line);
+  }
+
+  .etiquette .eyebrow {
+    color: var(--sea-glass);
+  }
+
+  .etiquette h2 {
+    margin: 0 0 18px;
+    font-size: clamp(1.7rem, 2.6vw, 2.6rem);
+    font-weight: 660;
+    letter-spacing: -0.04em;
+    color: var(--white);
+  }
+
+  .etiquette .section-intro {
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .etiquette-grid {
+    display: grid;
+    margin-top: 42px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .etiquette-card {
+    display: grid;
+    padding: 24px 26px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.04);
+    grid-template-rows: auto 1fr 1fr;
+    gap: 14px;
+  }
+
+  .etiquette-card header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+
+  .etiquette-index {
+    color: var(--sea-glass);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+  }
+
+  .etiquette-card h3 {
+    margin: 0;
+    color: var(--white);
+    font-size: 1.05rem;
+    font-weight: 720;
+    letter-spacing: -0.02em;
+  }
+
+  .etiquette-rule,
+  .etiquette-reason {
+    margin: 0;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.86rem;
+    line-height: 1.7;
+  }
+
+  .etiquette-rule strong,
+  .etiquette-reason strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--sea-glass);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 1080px) {
+    .etiquette-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .etiquette-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

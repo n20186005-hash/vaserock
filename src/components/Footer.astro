@@ -1,5 +1,25 @@
 ---
-import { primaryNav, vaseRock } from "@/data/site";
+import { primaryNav, vaseRock, site, ga4Id } from "@/data/site";
+const year = new Date().getFullYear();
+
+// E-E-A-T 权威外链：只保留 .gov.tw 主管机关，作为权威背书链接
+const governmentSources = [
+  {
+    label: "花瓶岩景點頁面",
+    publisher: "大鵬灣國家風景區管理處",
+    url: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=222"
+  },
+  {
+    label: "全國潮汐預報",
+    publisher: "交通部中央氣象署",
+    url: "https://www.cwa.gov.tw/V8/C/M/tide.html"
+  },
+  {
+    label: "小琉球海龜保育資料",
+    publisher: "海洋委員會海洋保育署",
+    url: "https://www.oca.gov.tw/"
+  }
+];
 ---
 
 <footer class="site-footer">
@@ -25,21 +45,73 @@ import { primaryNav, vaseRock } from "@/data/site";
       </div>
       <div>
         <p>深入了解</p>
-        <a href="/tide-guide/">潮汐指南</a>
+        <a href="/best-time/">最佳時間</a>
+        <a href="/photo-guide/">拍照指南</a>
         <a href="/snorkeling/">浮潛指南</a>
         <a href="/geology/">地質形成</a>
-        <a href="/faq/">常見問題</a>
       </div>
       <div>
         <p>網站資訊</p>
         <a href="/about/">資料與圖片來源</a>
+        <a href="/faq/">常見問題</a>
+        <a href="/safety/">安全須知</a>
         <a href="/family-guide/">親子與長輩</a>
-        <a href="/itinerary/">行程建議</a>
       </div>
     </div>
   </div>
+
+  <div class="footer-authority container">
+    <p class="footer-authority-title">
+      <span aria-hidden="true">🏛️</span>
+      主管機關與權威資料
+    </p>
+    <div class="footer-authority-list">
+      {governmentSources.map((source) => (
+        <a
+          href={source.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-track="authority_link"
+        >
+          <strong>{source.label}</strong>
+          <small>{source.publisher}</small>
+          <span aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <div class="footer-meta container">
+    <p>
+      評分與評價數同步自 Google 地圖（Google Maps）使用者評價 · 同步時間
+      <strong>2026 年 9 月</strong> ·
+      原始評論與最新動態請至
+      <a
+        href={vaseRock.reviewsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Google 地圖 <span aria-hidden="true">↗</span>
+      </a>
+      查閱；版權歸原作者與 Google 地圖所有。
+    </p>
+    <p>
+      <strong>圖片版權：</strong>本網站所展示的所有圖片，其著作權及版權均歸原攝影者所有；
+      本站僅依各檔案原始授權（CC BY、CC BY-SA、CC0 等）使用，並於
+      <a href="/about/">資料與圖片來源</a>
+      詳列拍攝者、檔案來源與授權條款。
+    </p>
+    <p>
+      評分與評價內容僅於本站頁面展示，未進入 JSON-LD 結構化資料，以避免 Google
+      判斷違反評價使用規範。
+    </p>
+    <p class="footer-tech">
+      本網站使用 Google Analytics 4（GA4 · <code>{ga4Id}</code>）衡量流量，並支援 PWA 離線瀏覽與安裝。
+    </p>
+    <p>© {year} {site.domain} · vase rock · liuqiu · pingtung · taiwan</p>
+  </div>
+
   <div class="footer-bottom container">
-    <p>© {new Date().getFullYear()} VaseRock.com</p>
     <p>交通、潮汐、海況與管制資訊請以現場及主管機關最新公告為準。</p>
     <a href="#top">回到頁首 ↑</a>
   </div>
@@ -53,20 +125,19 @@ import { primaryNav, vaseRock } from "@/data/site";
     </svg>
     地圖
   </a>
+  <a href="/tide-guide/">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 14c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2"></path>
+      <path d="M3 19c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2"></path>
+    </svg>
+    潮汐
+  </a>
   <a href="/from-baisha-port/">
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="m4 18 5-11 3 7 3-9 5 13"></path>
       <path d="M3 18h18"></path>
     </svg>
     交通
-  </a>
-  <a href="/photo-guide/">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <rect x="3" y="6" width="18" height="13" rx="2"></rect>
-      <circle cx="12" cy="12.5" r="3.2"></circle>
-      <path d="m8 6 1.2-2h5.6L16 6"></path>
-    </svg>
-    拍照
   </a>
   <a href="/safety/">
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -76,4 +147,3 @@ import { primaryNav, vaseRock } from "@/data/site";
     安全
   </a>
 </nav>
-

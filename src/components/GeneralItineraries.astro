@@ -1,0 +1,169 @@
+---
+import { generalItineraries } from "@/data/visitor";
+---
+
+<section class="general section container" aria-labelledby="general-heading">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">Suggested routes</p>
+      <h2 id="general-heading">花瓶岩通用遊覽路線：半日、全日、30 分鐘</h2>
+    </div>
+    <p class="section-intro">
+      不知道要排多久？下列三套時間預算的通用路線可作為行前錨點，再依當天潮位、體力與同行人調整。
+    </p>
+  </div>
+
+  <div class="general-grid">
+    {
+      generalItineraries.map((itinerary, index) => (
+        <article class={`general-card general-card-${itinerary.id}`}>
+          <header>
+            <span class="general-index">{`0${index + 1}`}</span>
+            <span class="general-duration">{itinerary.duration}</span>
+            <h3>{itinerary.title}</h3>
+            <p class="general-pace">{itinerary.pace}</p>
+          </header>
+          <ol class="general-steps">
+            {itinerary.steps.map((step, stepIndex) => (
+              <li>
+                <div class="general-time">
+                  <strong>{step.minutes}</strong>
+                  <span>分鐘</span>
+                </div>
+                <div class="general-stop">
+                  <strong>{step.name}</strong>
+                  <p>{step.note}</p>
+                </div>
+                <span class="general-step-index">{`0${stepIndex + 1}`}</span>
+              </li>
+            ))}
+          </ol>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .general {
+    background: var(--white);
+    border-top: 1px solid var(--line);
+  }
+
+  .general h2 {
+    margin: 0 0 18px;
+    font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+    font-weight: 660;
+    letter-spacing: -0.04em;
+  }
+
+  .general-grid {
+    display: grid;
+    margin-top: 42px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .general-card {
+    display: grid;
+    border: 1px solid var(--line);
+    background: var(--foam);
+    grid-template-rows: auto 1fr;
+  }
+
+  .general-card header {
+    padding: 22px 24px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .general-index {
+    color: var(--ocean);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+  }
+
+  .general-duration {
+    display: block;
+    margin-top: 8px;
+    color: var(--ocean-deep);
+    font-size: 1.25rem;
+    font-weight: 720;
+    letter-spacing: -0.02em;
+  }
+
+  .general-card h3 {
+    margin: 12px 0 6px;
+    color: var(--ocean-deep);
+    font-size: 1.05rem;
+    font-weight: 720;
+  }
+
+  .general-pace {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .general-steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .general-steps li {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 14px;
+    padding: 14px 24px;
+    border-top: 1px solid rgba(18, 59, 74, 0.1);
+    align-items: center;
+  }
+
+  .general-steps li:first-child {
+    border-top: 0;
+  }
+
+  .general-time {
+    display: grid;
+    align-content: center;
+    text-align: center;
+    color: var(--ocean);
+  }
+
+  .general-time strong {
+    font-size: 1.1rem;
+    font-weight: 720;
+  }
+
+  .general-time span {
+    color: var(--muted);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+  }
+
+  .general-stop strong {
+    color: var(--ocean-deep);
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .general-stop p {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .general-step-index {
+    color: var(--muted);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+  }
+
+  @media (max-width: 1080px) {
+    .general-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -240,30 +240,75 @@ const faqSchema = guide.faq
           </section>
         )}
 
+        {guide.links && guide.links.length > 0 && (
+          <section class="guide-links-section" aria-label="延伸閱讀">
+            <p class="eyebrow">延伸閱讀</p>
+            <h2>看完繼續看</h2>
+            <p class="guide-links-lead">
+              從潮汐理解、行程安排、浮潛安全到常見問題的完整閱讀順序。
+            </p>
+            <ul class="guide-links">
+              {guide.links.map((link) => (
+                <li>
+                  <a href={link.href}>
+                    <strong>{link.label}</strong>
+                    {link.description && <p>{link.description}</p>}
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {guide.slug === "about" && (
           <>
             <section class="source-section" aria-labelledby="source-heading">
               <p class="eyebrow">Sources</p>
               <h2 id="source-heading">主要資料來源</h2>
+              <p class="source-section-intro">
+                評價 · 同步時間 <strong>2026 年 9 月</strong>。
+                所有評分與評價數據同步自 Google 地圖使用者評價，
+                同步時間 2026 年 9 月；版權歸原作者與 Google 地圖所有；
+                本站僅作為引用展示，原始評論請至 Google 地圖查看。
+              </p>
               <div class="source-list">
                 {authoritativeSources.map((source, index) => (
                   <a href={source.url} target="_blank" rel="noopener noreferrer">
                     <span>0{index + 1}</span>
                     <div>
                       <strong>{source.label}</strong>
-                      <small>{source.publisher}</small>
+                      <small>
+                        {source.publisher}
+                        {source.label.includes("Google") && (
+                          <>
+                            {" · 同步時間 2026 年 9 月"}
+                          </>
+                        )}
+                      </small>
                     </div>
                     <b aria-hidden="true">↗</b>
                   </a>
                 ))}
               </div>
+              <p class="source-section-foot">
+                <strong>評分與評價數同步自 Google Maps · 2026 年 9 月 ·</strong>
+                <a
+                  href={vaseRock.reviewsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="source-reviews-link"
+                >
+                  點擊查看 Google 地圖全部評價 ↗
+                </a>
+              </p>
             </section>
 
             <section class="credit-section" aria-labelledby="credit-heading">
               <p class="eyebrow">Photography</p>
               <h2 id="credit-heading">實景圖片授權</h2>
               <p class="credit-intro">
-                圖片已依網站版位調整尺寸，部分圖片經裁切；各檔案仍依其原始授權條款使用。
+                <strong>圖片版權：</strong>本網站所展示的所有圖片，其著作權及版權均歸原攝影者所有；本站僅依各檔案的原始授權條款（CC BY、CC BY-SA、CC0 等）使用，並依網站版位調整尺寸，部分圖片經裁切。
               </p>
               <div class="credit-list">
                 {imageCredits.map((credit) => (

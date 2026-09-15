@@ -1,7 +1,7 @@
 ---
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import { site, vaseRock } from "@/data/site";
+import { site, vaseRock, pwa, ga4Id } from "@/data/site";
 import "@/styles/global.css";
 
 interface Breadcrumb {
@@ -22,11 +22,11 @@ interface Props {
 }
 
 const {
-  title = "小琉球花瓶岩旅遊指南｜Google 地圖、交通、潮汐與拍照",
+  title = "花瓶石 Vase Rock｜小琉球必訪地標全攻略：交通、潮汐與浮潛指南",
   description = site.description,
   path = "/",
-  image = "/og/homepage.webp",
-  imageAlt = "小琉球海岸上的花瓶岩",
+  image = vaseRock.heroImage,
+  imageAlt = "花瓶岩（Vase Rock）海岸全景——屏東縣琉球鄉白沙觀光港旁",
   type = "website",
   breadcrumbs = [],
   schema = [],
@@ -36,38 +36,88 @@ const {
 const canonical = new URL(path, site.url).toString();
 const socialImage = new URL(image, site.url).toString();
 
-const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "Vase Rock｜小琉球花瓶岩",
-  url: site.url,
-  inLanguage: "zh-Hant-TW",
-  description: site.description
-};
-
+// -----------------------------------------------------------------------------
+// 结构化数据：TouristAttraction（单景点 SEO 实体绑定）
+// 注意：Google Maps 评分与评价数**不进入 JSON-LD**，
+// 仅在页面 UI 展示并注明来源，以规避 Google 判违规风险。
+// -----------------------------------------------------------------------------
 const attractionSchema = {
   "@context": "https://schema.org",
   "@type": "TouristAttraction",
-  name: vaseRock.name,
+  "@id": `${site.url}#attraction`,
+  name: vaseRock.fullName,
   alternateName: vaseRock.alternateName,
   url: site.url,
-  description: "位於屏東縣琉球鄉的小琉球珊瑚礁岩自然地標與旅遊景點。",
+  description:
+    "Comprehensive visitor guide to Vase Rock (花瓶岩) in Liuqiu Township, Pingtung County, Taiwan — including Google Maps location, walking route from Baisha Port, tide guide, photography tips, snorkeling safety and nearby landmarks.",
+  image: [vaseRock.heroImageAbsolute],
   isAccessibleForFree: true,
+  publicAccess: true,
+  additionalType: "https://schema.org/Beach",
+  touristType: ["Beach", "Natural Landmark", "Geological Formation"],
+  availableLanguage: ["zh-Hant-TW", "en"],
+  openingHoursSpecification: {
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    opens: "00:00",
+    closes: "23:59",
+    description: "戶外海岸景點，每日開放；海況與臨時管制仍以現場告示為準。"
+  },
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: vaseRock.fullAddress,
+    addressLocality: vaseRock.city,
+    addressRegion: vaseRock.stateProvince,
+    postalCode: vaseRock.postalCode,
+    addressCountry: vaseRock.countryCode
+  },
   geo: {
     "@type": "GeoCoordinates",
     latitude: vaseRock.latitude,
     longitude: vaseRock.longitude
   },
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "琉球鄉",
-    addressRegion: "屏東縣",
-    addressCountry: "TW"
-  },
   hasMap: vaseRock.placeUrl,
-  image: socialImage
+  subjectOf: {
+    "@type": "WebPage",
+    url: `${site.url}/geology/`,
+    name: "花瓶岩地質形成"
+  },
+  sameAs: [vaseRock.placeUrl, vaseRock.reviewsUrl, vaseRock.govtTourismUrl]
 };
 
+// WebSite 实体（站点级语义网络锚点 + SearchAction）
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${site.url}#website`,
+  name: site.name,
+  url: site.url,
+  inLanguage: "zh-Hant-TW",
+  description: site.description,
+  publisher: {
+    "@type": "Organization",
+    name: "Vase Rock",
+    url: site.url
+  },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${site.url}/search?q={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
+  }
+};
+
+// BreadcrumbList
 const breadcrumbSchema = breadcrumbs.length
   ? {
       "@context": "https://schema.org",
@@ -91,36 +141,38 @@ const schemas = [
 ---
 
 <!doctype html>
-<html lang="zh-Hant-TW">
+<html lang={pwa.lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#123b4a" />
+    <meta name="theme-color" content={pwa.themeColor} />
     <meta name="format-detection" content="telephone=no" />
+
+    <!-- Canonical 规范网址 -->
+    <link rel="canonical" href={canonical} />
+
+    <!-- Favicon / Apple Touch Icon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href={pwa.manifestUrl} />
+
+    {noindex && <meta name="robots" content="noindex,follow" />}
+
+    <!-- TDK -->
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Vase Rock" />
     <meta
       name="keywords"
-      content="花瓶岩,小琉球花瓶岩,花瓶石,Vase Rock,花瓶岩地圖,花瓶岩潮汐,花瓶岩拍照"
+      content="花瓶岩,花瓶石,Vase Rock,小琉球花瓶岩,Vase Rock Xiaoliuqiu,小琉球花瓶石,花瓶岩地圖,花瓶岩潮汐,花瓶岩浮潛,花瓶岩拍照,白沙港花瓶岩"
     />
-    <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    {noindex && <meta name="robots" content="noindex,follow" />}
 
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-HXM22WWPKP"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        window.dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-HXM22WWPKP");
-    </script>
-
-    <meta property="og:locale" content="zh_TW" />
+    <!-- Open Graph 社交标签（实体绑定） -->
+    <meta property="og:locale" content={site.locale} />
     <meta property="og:type" content={type} />
-    <meta property="og:site_name" content="Vase Rock｜小琉球花瓶岩" />
+    <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -129,12 +181,27 @@ const schemas = [
     <meta property="og:image:type" content="image/webp" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
     <meta name="twitter:image:alt" content={imageAlt} />
 
+    <!-- GA4 衡量（任务：新增 GA4：G-HXM22WWPKP） -->
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
+    <script is:inline define:vars={{ ga4Id }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", ga4Id);
+    </script>
+
+    <!-- JSON-LD 结构化数据 -->
     {schemas.map((item) => (
       <script is:inline type="application/ld+json" set:html={JSON.stringify(item)} />
     ))}
@@ -146,6 +213,18 @@ const schemas = [
       <slot />
     </main>
     <Footer />
+
+    <!-- PWA Service Worker 注册 -->
+    <script is:inline>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/sw.js").catch(() => {
+            /* 离线缓存注册失败时静默忽略，不影响页面正常使用 */
+          });
+        });
+      }
+    </script>
+
     <script is:inline>
       document.querySelectorAll("[data-copy]").forEach((button) => {
         button.addEventListener("click", async () => {

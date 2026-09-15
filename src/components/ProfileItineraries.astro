@@ -1,0 +1,244 @@
+---
+import { itinerariesByProfile } from "@/data/visitor";
+
+const iconPaths: Record<string, string> = {
+  family: "M7 5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm-4 8a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm12 0a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm-9 4 4 6h-2l-3-3-3 3H3l4-6zm10 0 4 6h-2l-3-3-3 3h-3l4-6z",
+  photo: "M5 6h3l2-2h4l2 2h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm7 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z",
+  accessible: "M12 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm-3 5h6v6h4l-5 8-5-8h4V10H9z"
+};
+---
+
+<section class="profile section container" aria-labelledby="profile-heading">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">By traveller type</p>
+      <h2 id="profile-heading">按人群定制的花瓶岩遊覽方案</h2>
+    </div>
+    <p class="section-intro">
+      不同體力、興趣與同行構成，會改變最適合的路線節奏。三種情境提供大點範圍的選擇，可依現況調整細節。
+    </p>
+  </div>
+
+  <div class="profile-grid">
+    {
+      itinerariesByProfile.map((profile, index) => (
+        <article class={`profile-card profile-card-${profile.id}`}>
+          <header>
+            <span class="profile-index">{`0${index + 1}`}</span>
+            <span class="profile-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d={iconPaths[profile.icon] ?? "M4 12h16v8H4z"} />
+              </svg>
+            </span>
+            <h3>{profile.profile}</h3>
+            <ul class="profile-meta">
+              <li>
+                <span>時長</span>
+                <b>{profile.duration}</b>
+              </li>
+              <li>
+                <span>節奏</span>
+                <b>{profile.pace}</b>
+              </li>
+            </ul>
+          </header>
+          <h4 class="profile-title">{profile.title}</h4>
+          <ol class="profile-stops">
+            {profile.stops.map((stop, stopIndex) => (
+              <li>
+                <span>{`0${stopIndex + 1}`}</span>
+                <div>
+                  <strong>{stop.name}</strong>
+                  <p>{stop.note}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <ul class="profile-tips">
+            {profile.tips.map((tip) => (
+              <li>
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="m5 10 3 3 7-7" />
+                </svg>
+                <span>{tip}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .profile {
+    background: var(--foam);
+    border-top: 1px solid var(--line);
+  }
+
+  .profile h2 {
+    margin: 0 0 18px;
+    font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+    font-weight: 660;
+    letter-spacing: -0.04em;
+  }
+
+  .profile-grid {
+    display: grid;
+    margin-top: 42px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .profile-card {
+    display: grid;
+    padding: 28px 26px;
+    border: 1px solid var(--line);
+    background: var(--white);
+    grid-template-rows: auto auto 1fr auto;
+    gap: 18px;
+  }
+
+  .profile-card header {
+    display: grid;
+    gap: 12px;
+  }
+
+  .profile-index {
+    color: var(--ocean);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+  }
+
+  .profile-icon {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    background: var(--ocean-deep);
+    color: var(--sea-glass);
+  }
+
+  .profile-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+  }
+
+  .profile-card h3 {
+    margin: 0;
+    color: var(--ocean-deep);
+    font-size: 1.18rem;
+    font-weight: 720;
+    letter-spacing: -0.02em;
+  }
+
+  .profile-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .profile-meta li {
+    display: grid;
+  }
+
+  .profile-meta span {
+    color: var(--muted);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .profile-meta b {
+    color: var(--ocean-deep);
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .profile-title {
+    margin: 0;
+    padding: 12px 0 0;
+    border-top: 1px dashed rgba(18, 59, 74, 0.18);
+    color: var(--ocean-deep);
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .profile-stops {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .profile-stops li {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 14px;
+    padding: 10px 0;
+    border-top: 1px solid rgba(18, 59, 74, 0.08);
+  }
+
+  .profile-stops li:first-child {
+    border-top: 0;
+  }
+
+  .profile-stops li > span {
+    color: var(--ocean);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+  }
+
+  .profile-stops strong {
+    color: var(--ocean-deep);
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .profile-stops p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+
+  .profile-tips {
+    margin: 0;
+    padding: 14px 0 0;
+    border-top: 1px dashed rgba(18, 59, 74, 0.18);
+    list-style: none;
+  }
+
+  .profile-tips li {
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    gap: 10px;
+    padding: 6px 0;
+    color: #42585c;
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+
+  .profile-tips svg {
+    width: 16px;
+    height: 16px;
+    margin-top: 3px;
+    color: var(--ocean);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media (max-width: 1080px) {
+    .profile-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
