@@ -83,7 +83,7 @@ export const guides: Guide[] = [
     slug: "from-baisha-port",
     eyebrow: "登島第一站",
     title: "從白沙觀光港走到花瓶岩",
-    seoTitle: "白沙港到花瓶岩怎麼走｜步行 5–10 分鐘、回港時間與行李建議",
+    seoTitle: "白沙港到花瓶岩怎麼走？步行路線與導航",
     description:
       "白沙觀光港到花瓶岩約 300 公尺、步行 5–10 分鐘；給你出港後步行順序、行李託運建議與搭船前回程時間抓法，避免錯過船班。",
     lead:
@@ -177,7 +177,7 @@ export const guides: Guide[] = [
     slug: "tide-guide",
     eyebrow: "先理解，再靠近",
     title: "花瓶岩潮汐與潮位玩法",
-    seoTitle: "花瓶岩潮汐指南｜低潮、滿潮與安全判讀",
+    seoTitle: "花瓶岩潮汐與漲退潮指南｜拍照與安全提醒",
     description:
       "了解花瓶岩較低、中間與較高潮位的景觀差異，並前往中央氣象署查詢當日潮汐。",
     lead:
@@ -220,6 +220,11 @@ export const guides: Guide[] = [
       external: true
     },
     links: [
+      {
+        label: "花瓶岩官方即時影像",
+        href: "https://www.dbnsa.gov.tw/zh-TW/Attraction/LiveVideoPage?a=402",
+        description: "大鵬灣國家風景區管理處提供的花瓶岩現場即時影像入口。"
+      },
       {
         label: "花瓶岩最佳造訪時間",
         href: "/best-time/",
@@ -288,7 +293,7 @@ export const guides: Guide[] = [
     slug: "snorkeling",
     eyebrow: "海況優先",
     title: "花瓶岩浮潛與下水指南",
-    seoTitle: "小琉球花瓶岩浮潛攻略｜潮汐水況、海龜出沒點與水上安全須知",
+    seoTitle: "花瓶岩浮潛指南｜海況、裝備與海龜保育",
     description:
       "小琉球花瓶岩浮潛全指南！解密花瓶岩周邊珊瑚礁生態、海龜經常出沒區域、潮汐注意事宜、初學者裝備租借建議與退潮下水安全。",
     lead:
@@ -419,7 +424,7 @@ export const guides: Guide[] = [
     slug: "geology",
     eyebrow: "一座會變化的島嶼",
     title: "花瓶岩是怎麼形成的？",
-    seoTitle: "花瓶岩形成原因｜隆起珊瑚礁與差異侵蝕",
+    seoTitle: "花瓶岩怎麼形成？隆起珊瑚礁與差異侵蝕｜小琉球",
     description:
       "用簡單圖解理解小琉球花瓶岩如何由隆起珊瑚礁、海水差異侵蝕與岩頂植物形成今日外觀。",
     lead:
@@ -607,7 +612,7 @@ export const guides: Guide[] = [
     slug: "faq",
     eyebrow: "出發前最後確認",
     title: "花瓶岩常見問題",
-    seoTitle: "小琉球花瓶岩 FAQ｜浮潛收費、潮汐注意、退潮時間與玩水常見問題",
+    seoTitle: "花瓶岩門票、開放時間與交通 FAQ｜小琉球花瓶石",
     description:
       "解答花瓶岩旅遊所有疑問：可以下水嗎？適合帶小孩嗎？要門票嗎？如何看退潮時間？前往花瓶岩前必看的 7 個常見問答。",
     lead:
@@ -629,6 +634,28 @@ export const guides: Guide[] = [
       }
     ],
     related: ["map", "best-time", "safety"],
+    links: [
+      {
+        label: "花瓶岩官方即時影像",
+        href: "https://www.dbnsa.gov.tw/zh-TW/Attraction/LiveVideoPage?a=402",
+        description: "大鵬灣國家風景區管理處提供的花瓶岩現場即時影像入口。"
+      },
+      {
+        label: "花瓶岩潮汐與漲退潮指南",
+        href: "/tide-guide/",
+        description: "看懂低潮、中潮與高潮的差異，再決定靠近與拍照時機。"
+      },
+      {
+        label: "白沙港到花瓶岩怎麼走",
+        href: "/from-baisha-port/",
+        description: "登島後的步行順序、回港時間與行李建議。"
+      },
+      {
+        label: "花瓶岩浮潛與下水指南",
+        href: "/snorkeling/",
+        description: "海況判斷、裝備與海龜觀察守則。"
+      }
+    ],
     faq: [
       {
         question: "花瓶岩需要門票嗎？",

@@ -67,17 +67,21 @@ export const vaseRock = {
   govtTourismUrl:
     "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=222",
 
-  // Google Maps 用户评价（同步时间 2026 年 9 月）
+  // Google Maps 用户评价（同步时间 2026 年 10 月，依用户提供最新资料更新）
   // 注意：根据任务要求，这些评分与评价数只展示在页面上，**不进入 JSON-LD**，
   // 以规避 Google 判违规（未经授权抓取评价内容）的风险。
   googleRating: {
-    score: 4.5,
-    count: 13036,
+    score: 4.6,
+    count: 13127,
     source: "Google 地圖使用者評價",
-    syncedAt: "2026 年 9 月",
+    syncedAt: "2026 年 10 月",
     reviewsUrl:
       "https://maps.app.goo.gl/oJ3AGMRhxSUNnrft9"
   },
+
+  // 大鵬灣國家風景區管理處官方「花瓶岩即時影像」頁面（用於 FAQ / 潮汐頁提供可靠即時入口）
+  officialLiveVideoUrl:
+    "https://www.dbnsa.gov.tw/zh-TW/Attraction/LiveVideoPage?a=402",
 
   // 主图路径（用于 canonical / og:image / JSON-LD image）
   heroImage: "/images/vase-rock-hero.webp",

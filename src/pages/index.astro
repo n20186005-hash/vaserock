@@ -65,6 +65,8 @@ try {
 
 <BaseLayout
   path="/"
+  title="小琉球花瓶岩（花瓶石）攻略｜交通、潮汐與拍照 - Vase Rock"
+  description="花瓶岩（又稱花瓶石，Vase Rock）是小琉球代表性地標，位於白沙觀光港附近。整理交通路線、拍照時段、潮位、浮潛與安全提醒，出發前快速掌握。"
   schema={faqSchema}
   image="/og/homepage.webp"
   imageAlt="花瓶岩（Vase Rock）海岸全景——屏東縣琉球鄉白沙觀光港旁"
@@ -89,7 +91,7 @@ try {
         <!-- H1：花瓶岩（琉球鄉）— 实体全称 + 城市绑定 -->
         <h1>花瓶岩<br />琉球鄉<span>旅遊指南</span></h1>
         <p class="hero-summary">
-          歡迎來到 <strong>花瓶岩（Vase Rock）</strong>，小琉球最具辨識度的中央地標。
+          歡迎來到 <strong>花瓶岩（又稱花瓶石，Vase Rock）</strong>，小琉球最具辨識度的自然地標。
           位於琉球鄉、屏東縣、臺灣核心位置，是旅客規劃小琉球的起點。
         </p>
         <p class="hero-entity-line">
@@ -665,7 +667,7 @@ try {
         <span class="sources-tag">評價來源</span>
         <h3>Google 地圖使用者評價</h3>
         <p>
-          評分 4.5 / 13,036 則評價 · 同步時間 <strong>2026 年 9 月</strong>。
+          評分 {vaseRock.googleRating.score} / {vaseRock.googleRating.count.toLocaleString()} 則評價 · 同步時間 <strong>{vaseRock.googleRating.syncedAt}</strong>。
           內容僅於本頁面展示，未進入 JSON-LD 結構化資料，原始評論與最新動態請以 Google 地圖為準。
         </p>
         <a
@@ -710,7 +712,7 @@ try {
     <div class="sources-attribution">
       <p>
         <strong>評分與評價版權說明：</strong>本網站所引用的 Google 地圖評分與評價內容，
-        同步自 Google 地圖使用者評價，同步時間 <strong>2026 年 9 月</strong>；
+        同步自 Google 地圖使用者評價，同步時間 <strong>{vaseRock.googleRating.syncedAt}</strong>；
         版權歸原作者與 Google 地圖所有；本站僅作為引用展示，不對原始評價做重製或衍生使用。
       </p>
       <p>

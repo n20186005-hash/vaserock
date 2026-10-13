@@ -267,9 +267,9 @@ const faqSchema = guide.faq
               <p class="eyebrow">Sources</p>
               <h2 id="source-heading">主要資料來源</h2>
               <p class="source-section-intro">
-                評價 · 同步時間 <strong>2026 年 9 月</strong>。
+                評價 · 同步時間 <strong>{vaseRock.googleRating.syncedAt}</strong>。
                 所有評分與評價數據同步自 Google 地圖使用者評價，
-                同步時間 2026 年 9 月；版權歸原作者與 Google 地圖所有；
+                同步時間 {vaseRock.googleRating.syncedAt}；版權歸原作者與 Google 地圖所有；
                 本站僅作為引用展示，原始評論請至 Google 地圖查看。
               </p>
               <div class="source-list">
@@ -282,7 +282,7 @@ const faqSchema = guide.faq
                         {source.publisher}
                         {source.label.includes("Google") && (
                           <>
-                            {" · 同步時間 2026 年 9 月"}
+                            {" · 同步時間 "}{vaseRock.googleRating.syncedAt}
                           </>
                         )}
                       </small>
@@ -292,7 +292,7 @@ const faqSchema = guide.faq
                 ))}
               </div>
               <p class="source-section-foot">
-                <strong>評分與評價數同步自 Google Maps · 2026 年 9 月 ·</strong>
+                <strong>評分與評價數同步自 Google Maps · {vaseRock.googleRating.syncedAt} ·</strong>
                 <a
                   href={vaseRock.reviewsUrl}
                   target="_blank"
