@@ -439,7 +439,10 @@ async function handleWeather(request, ctx) {
       }
     });
 
-    ctx.waitUntil(cache.put(cacheKey, response.clone()));
+    // 快取失敗不應讓已成功取得的天氣資料變成 502。
+    ctx.waitUntil(cache.put(cacheKey, response.clone()).catch((error) => {
+      console.warn("weather cache write failed", error);
+    }));
     return response;
   } catch (error) {
     console.error(
@@ -537,7 +540,7 @@ export default {
 
     // 2. 动态 / API 路由
     if (url.pathname === "/api/weather" && request.method === "GET") {
-      return handleWeather(request, env, ctx);
+      return handleWeather(request, ctx);
     }
 
     // 3. 静态资源（由 ASSETS 绑定回源；找不到时返回其 404）
