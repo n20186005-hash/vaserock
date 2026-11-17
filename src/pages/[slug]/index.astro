@@ -32,7 +32,7 @@ const articleSchema = {
   inLanguage: "zh-Hant-TW",
   mainEntityOfPage: `https://vaserock.com${path}`,
   image: `https://vaserock.com${guide.image}`,
-  dateModified: "2026-07-27",
+  dateModified: guide.place || ["name-origin", "water-entry-guide"].includes(guide.slug) ? "2026-11-17" : "2026-07-27",
   author: {
     "@type": "Organization",
     name: "Vase Rock"
@@ -64,7 +64,7 @@ const faqSchema = guide.faq
   title={guide.seoTitle}
   description={guide.description}
   path={path}
-  image={`/og/${guide.slug}.webp`}
+  image={guide.place || guide.slug === "name-origin" || guide.slug === "water-entry-guide" ? guide.image : `/og/${guide.slug}.webp`}
   imageAlt={guide.imageAlt}
   type="article"
   breadcrumbs={[
@@ -85,8 +85,7 @@ const faqSchema = guide.faq
           style={`object-position: ${guide.imagePosition ?? "center"};`}
         />
         <div class="image-index" aria-hidden="true">
-          <span>22°21′N</span>
-          <span>120°22′E</span>
+          {guide.place ? <span>LIUQIU · PINGTUNG</span> : <><span>22°21′N</span><span>120°22′E</span></>}
         </div>
       </div>
       <div class="guide-hero-copy container">
@@ -98,6 +97,9 @@ const faqSchema = guide.faq
         <p class="eyebrow">{guide.eyebrow}</p>
         <h1>{guide.title}</h1>
         <p class="guide-lead">{guide.lead}</p>
+        {guide.place && (
+          <p class="guide-lead">{guide.place.hours} · {guide.place.admission} · <a href={guide.place.mapUrl} target="_blank" rel="noopener noreferrer">位置與最新 Google 評價 ↗</a></p>
+        )}
         <div class="guide-actions">
           {guide.action ? (
             <a
@@ -133,6 +135,35 @@ const faqSchema = guide.faq
         ))}
       </div>
     </section>
+
+    {guide.place && (
+      <section class="section container" aria-labelledby="place-manager-heading">
+        <p class="eyebrow">About · 管理與服務</p>
+        <h2 id="place-manager-heading">{guide.place.managerTitle}</h2>
+        <p class="guide-lead">{guide.place.managerDescription}</p>
+        <p><a class="text-link" href={guide.place.sourceUrl} target="_blank" rel="noopener noreferrer">查看主管機關景點資訊 ↗</a></p>
+        <h2>景點基本資訊</h2>
+        <p><strong>地址：</strong>{guide.place.address}</p>
+        <p><strong>導航：</strong><a class="text-link" href={guide.place.mapUrl} target="_blank" rel="noopener noreferrer">開啟此景點的 Google Maps ↗</a></p>
+        <p>此處為景點專屬搜尋連結；出發前請核對 Google Maps 顯示的名稱與標記位置。</p>
+        <div class="place-detail-card">
+          <h3>基本資訊一覽</h3>
+          <dl class="place-detail-list">
+            <div><dt>正式名稱</dt><dd>{guide.place.officialName}</dd></div>
+            <div><dt>景點類型</dt><dd>{guide.place.type}</dd></div>
+            <div><dt>地址</dt><dd>{guide.place.address}</dd></div>
+            <div><dt>開放時間</dt><dd>{guide.place.hours}</dd></div>
+            <div><dt>門票價格</dt><dd>{guide.place.admission}</dd></div>
+            <div><dt>建議停留</dt><dd>{guide.place.visitDuration}</dd></div>
+            <div><dt>遊客評價</dt><dd>{guide.place.ratingNote} <a href={guide.place.mapUrl} target="_blank" rel="noopener noreferrer">查看評價 ↗</a></dd></div>
+          </dl>
+        </div>
+        <div class="place-detail-card">
+          <h3>交通指南</h3><p>{guide.place.arrival}</p>
+          <p><a class="text-link" href={guide.place.mapUrl} target="_blank" rel="noopener noreferrer">使用景點專屬 Google Maps 導航 ↗</a></p>
+        </div>
+      </section>
+    )}
 
     {guide.slug === "map" && (
       <section class="map-feature section container" aria-labelledby="map-heading">
@@ -324,6 +355,43 @@ const faqSchema = guide.faq
         )}
       </div>
     </div>
+
+    {guide.place && (
+      <section class="section container place-more-detail" aria-labelledby="place-highlights-heading">
+        <p class="eyebrow">Explore the place</p>
+        <h2 id="place-highlights-heading">發現這處景點的魅力</h2>
+        <ol class="place-numbered-list">
+          {guide.place.highlights.map((item) => <li>{item}</li>)}
+        </ol>
+        <h2>推薦遊覽路線</h2>
+        <ol class="place-numbered-list">
+          {guide.place.route.map((step) => <li>{step}</li>)}
+        </ol>
+        <h2>遊覽須知</h2>
+        <ul class="place-bullet-list">{guide.place.etiquette.map((item) => <li>{item}</li>)}</ul>
+        <h2>拍照機位與構圖</h2>
+        <ol class="place-numbered-list">{guide.place.photoSpots.map((item) => <li>{item}</li>)}</ol>
+        <h2>住宿與行程建議</h2><p>{guide.place.accommodation}</p>
+        <h2>遊客評價與更新</h2><p>{guide.place.ratingNote}</p>
+        <p><a class="text-link" href={guide.place.mapUrl} target="_blank" rel="noopener noreferrer">查看 Google Maps 評價 ↗</a></p>
+        <h2>交通與地圖</h2><p>{guide.place.address}</p>
+        <p>{guide.place.arrival}</p>
+        <a class="button button-primary" href={guide.place.mapUrl} target="_blank" rel="noopener noreferrer">開啟景點地圖 ↗</a>
+      </section>
+    )}
+
+    {guide.gallery && (
+      <section class="section container" aria-labelledby="place-gallery-heading">
+        <p class="eyebrow">Photography</p>
+        <h2 id="place-gallery-heading">景點實景照片</h2>
+        {guide.gallery.map((photo) => (
+          <figure>
+            <img src={photo.src} alt={photo.alt} loading="lazy" width="1200" height="800" style="max-width:100%;height:auto;border-radius:1rem;" />
+            <figcaption>{photo.alt}</figcaption>
+          </figure>
+        ))}
+      </section>
+    )}
 
     <section class="related section">
       <div class="container">

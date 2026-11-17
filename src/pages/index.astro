@@ -540,6 +540,7 @@ try {
         <span>01</span>
         <h3>白沙觀光港</h3>
         <p>花瓶岩最近的核心地標。旅客從屏東東港搭船抵達後，步行約 300 公尺即可抵達花瓶岩海岸。</p>
+        <a class="text-link" href="/baisha-tourist-harbor/">白沙觀光港完整指南 →</a>
       </article>
       <article class="nearby-home-card">
         <img
@@ -552,9 +553,39 @@ try {
         <span>02</span>
         <h3>中澳沙灘</h3>
         <p>花瓶岩東側的親水沙灘，適合半日海岸小環線與日落行程；不擅長浮潛也能踏浪觀景。</p>
+        <a class="text-link" href="/zhongao-beach/">中澳沙灘完整指南 →</a>
       </article>
+      <article class="nearby-home-card">
+        <img src="/images/liuqiu-visitor-center.jpg" alt="琉球管理站暨遊客中心的建築外觀" width="960" height="720" loading="lazy" />
+        <span>03</span><h3>琉球管理站暨遊客中心</h3>
+        <p>白沙觀光港旁山腰上的旅遊資訊站，包含建築故事、諮詢服務與港灣觀景平台。</p>
+        <a class="text-link" href="/liuqiu-visitor-center/">遊客中心完整指南 →</a>
+      </article>
+      <article class="nearby-home-card">
+        <img src="/images/beauty-cave.jpg" alt="小琉球美人洞景區入口與珊瑚礁岩" width="960" height="720" loading="lazy" />
+        <span>04</span><h3>美人洞</h3>
+        <p>小琉球西北側的珊瑚礁洞穴景區，可認識十三景、岩石步道與海岸視野。</p>
+        <a class="text-link" href="/beauty-cave/">美人洞完整指南 →</a>
+      </article>
+      {[
+        { name: "龍蝦洞", slug: "lobster-cave", image: "/images/lobster-cave.jpg", description: "天然海蝕溝與珊瑚礁岩，適合安全岸上地質觀察。" },
+        { name: "山豬溝", slug: "shanzhugou", image: "/images/shanzhugou.jpg", description: "珊瑚礁森林峽谷、老雀榕與一線天步道。" },
+        { name: "烏鬼洞", slug: "wugui-cave", image: "/images/wugui-cave.jpg", description: "島西南側石灰岩洞穴、榕樹與海景路線。" },
+        { name: "蛤板灣沙灘", slug: "haban-bay", image: "/images/haban-bay.jpg", description: "貝殼砂、夕陽與海龜保育海岸；禁止下水游泳。" },
+        { name: "厚石裙礁", slug: "houshi-reef", image: "/images/houshi-reef.jpg", description: "東南岸海蝕溝槽與百褶裙狀礁岩，適合地質觀察。" },
+        { name: "白燈塔", slug: "white-lighthouse", image: "/images/white-lighthouse.jpg", description: "1929年建造的白色圓柱航標，見證島嶼海上交通。" },
+        { name: "碧雲寺", slug: "biyun-temple", image: "/images/biyun-temple.jpg", description: "島中央觀音信仰古寺與竹林生態濕地步道。" },
+        { name: "三隆宮", slug: "sanlong-temple", image: "/images/sanlong-temple.jpg", description: "三府千歲信仰中心，認識每三年一科迎王祭典。" }
+      ].map((place, index) => (
+        <article class="nearby-home-card">
+          <img src={place.image} alt={`小琉球${place.name}景點實景`} width="960" height="720" loading="lazy" />
+          <span>{String(index + 5).padStart(2, "0")}</span><h3>{place.name}</h3><p>{place.description}</p>
+          <a class="text-link" href={`/${place.slug}/`}>{place.name}完整指南 →</a>
+        </article>
+      ))}
     </div>
     <a class="text-link" href="/nearby/">查看完整順遊路線 <span>→</span></a>
+    <p class="section-intro">想更了解這座地標？閱讀<a href="/name-origin/">花瓶岩名稱由來與自然形成過程</a>；準備浮潛的旅客可先看<a href="/water-entry-guide/">花瓶岩下水前安全檢查</a>。</p>
   </section>
 
   <!-- 季度遊覽策略：氣象、水質、野生動物 -->

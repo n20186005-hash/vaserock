@@ -90,6 +90,7 @@ export const vaseRock = {
 
 export const primaryNav = [
   { href: "/tide-guide/", label: "潮汐指南" },
+  { href: "/name-origin/", label: "花瓶岩由來" },
   { href: "/itinerary/", label: "行程建議" },
   { href: "/map/", label: "地圖" },
   { href: "/from-baisha-port/", label: "怎麼前往" },
@@ -98,6 +99,28 @@ export const primaryNav = [
 ];
 
 export const imageCredits = [
+  { file: "houshi-reef.jpg", title: "厚石裙礁", author: "大鵬灣國家風景區管理處", license: "官方景點照片", source: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=238" },
+  { file: "white-lighthouse.jpg", title: "白燈塔純白塔身", author: "大鵬灣國家風景區管理處", license: "官方景點照片", source: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=248" },
+  { file: "biyun-temple.jpg", title: "碧雲寺", author: "大鵬灣國家風景區管理處", license: "官方景點照片", source: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=249" },
+  { file: "sanlong-temple.jpg", title: "三隆宮廟宇外觀", author: "大鵬灣國家風景區管理處", license: "官方景點照片", source: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=253" },
+  { file: "lobster-cave.jpg", title: "Lobster Cave, Lamay Island", author: "Wikimedia Commons", license: "詳原始檔案頁", source: "https://commons.wikimedia.org/wiki/File:Lobster_Cave,_Lamay_Island.JPG" },
+  { file: "shanzhugou.jpg", title: "Yixiantian in Shanzhugou", author: "Taiwania Justo", license: "CC BY-SA 4.0", source: "https://commons.wikimedia.org/wiki/File:Yixiantian_in_Shanzhugou,_Lamay_Island_02.JPG" },
+  { file: "wugui-cave.jpg", title: "烏鬼洞出口與風景區記事碑", author: "Wikimedia Commons", license: "詳原始檔案頁", source: "https://commons.wikimedia.org/wiki/File:%E7%83%8F%E9%AC%BC%E6%B4%9E%E5%87%BA%E5%8F%A3%E8%88%87%E7%83%8F%E9%AC%BC%E6%B4%9E%E9%A2%A8%E6%99%AF%E5%8D%80%E8%A8%98%E4%BA%8B%E7%A2%91.jpg" },
+  { file: "haban-bay.jpg", title: "蛤板灣沙灘", author: "大鵬灣國家風景區管理處", license: "詳官方圖片頁", source: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=231" },
+  {
+    file: "beauty-cave.jpg",
+    title: "小琉球美人洞",
+    author: "Outlookxp",
+    license: "CC BY-SA 4.0",
+    source: "https://commons.wikimedia.org/wiki/File:%E5%B0%8F%E7%90%89%E7%90%83%E7%BE%8E%E4%BA%BA%E6%B4%9E.jpg"
+  },
+  {
+    file: "liuqiu-visitor-center.jpg",
+    title: "小琉球遊客中心",
+    author: "Wikimedia Commons 攝影者",
+    license: "詳原始檔案頁",
+    source: "https://commons.wikimedia.org/wiki/File:%E5%B0%8F%E7%90%89%E7%90%83%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83.jpg"
+  },
   {
     file: "vase-rock-hero.webp",
     title: "Vase Rock on Lambai Island (Xiaoliuqiu)",

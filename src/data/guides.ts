@@ -21,6 +21,13 @@ export type Guide = {
   image: string;
   imageAlt: string;
   imagePosition?: string;
+  gallery?: { src: string; alt: string }[];
+  place?: {
+    address: string; mapUrl: string; managerTitle: string; managerDescription: string; sourceUrl: string;
+    officialName: string; type: string; hours: string; admission: string; visitDuration: string;
+    arrival: string; highlights: string[]; route: string[]; etiquette: string[]; photoSpots: string[];
+    accommodation: string; ratingNote: string;
+  };
   facts: { label: string; value: string }[];
   sections: GuideSection[];
   related: string[];
@@ -34,6 +41,208 @@ export type Guide = {
 };
 
 export const guides: Guide[] = [
+  {
+    slug: "liuqiu-visitor-center",
+    eyebrow: "白沙港旁的旅遊資訊站",
+    title: "琉球管理站暨遊客中心｜交通、設施與海景平台",
+    seoTitle: "小琉球遊客中心攻略｜地址、開放資訊、白沙港步行與海景平台",
+    description: "小琉球琉球管理站暨遊客中心位於白沙觀光港旁山腰，介紹紅瓦建築、旅遊諮詢、海景平台、抵達方式及順遊路線。",
+    lead: "下船後若需要重新確認島上交通、景點與參觀順序，位於白沙港半山腰的琉球管理站暨遊客中心，是一個適合先取得資訊、再開始環島的節點。",
+    image: "/images/liuqiu-visitor-center.jpg", imageAlt: "小琉球管理站暨遊客中心建築實景",
+    gallery: [{ src: "/images/liuqiu-visitor-center.jpg", alt: "琉球管理站暨遊客中心外觀與入口" }],
+    facts: [{ label: "建築", value: "三層樓遊客中心" }, { label: "位置", value: "白沙港半山腰" }, { label: "服務", value: "旅遊資訊與導覽" }, { label: "景觀", value: "港灣海景平台" }],
+    place: {
+      address: "929 臺灣屏東縣琉球鄉民族路20-1號", mapUrl: "https://www.google.com/maps/search/?api=1&query=%E7%90%89%E7%90%83%E7%AE%A1%E7%90%86%E7%AB%99%E6%9A%A8%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83", managerTitle: "關於琉球管理站暨遊客中心", managerDescription: "琉球管理站暨遊客中心由交通部觀光署大鵬灣國家風景區管理處設置與提供旅遊服務。管理處於2009年取得原琉球鄉圖書館土地與建物使用權並整建為遊客中心。這裡是旅遊諮詢及景區導覽節點，不是港口船班售票櫃檯。", sourceUrl: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=207",
+      officialName: "琉球管理站暨遊客中心", type: "遊客資訊中心、觀景平台與公共服務建築", hours: "室內服務時段依管理處最新公告；戶外空間依現場開放情況", admission: "一般旅遊諮詢服務不另收景點門票", visitDuration: "約15–30分鐘，依諮詢需求調整", arrival: "由白沙觀光港沿道路步行上坡至半山腰；注意坡度與人車動線，行動不便者可先詢問無障礙到達方式。", highlights: ["紅瓦屋頂與三層樓建築，具有島嶼公共服務建築的特色", "從圖書館轉型為遊客中心，反映觀光接待需求的發展", "旅遊諮詢與動靜態導覽可協助安排島上行程", "戶外平台能遠望白沙港與海面"], route: ["從白沙觀光港確認交通與回程碼頭", "沿可通行道路上坡抵達遊客中心", "利用旅遊資訊櫃檯與導覽資料規劃行程", "在開放的戶外平台欣賞港景，再前往花瓶岩"], etiquette: ["室內諮詢區依現場服務時間進入", "管理站辦公區非一般遊客參觀空間", "坡道可能曝曬或濕滑，注意補水與腳步", "不要阻擋服務櫃檯或團體導覽動線"], photoSpots: ["建築入口安全位置：拍攝紅瓦與立面", "戶外海景平台：遠攝白沙港及船隻", "通往建築的上坡道路：以高低差呈現港口與山腰關係"], accommodation: "若住宿在白沙港附近，可登島後先詢問服務資訊，再安排周邊散步；住宿更遠者應衡量回港交通。", ratingNote: "最新評價請在此中心的專屬 Google Maps 頁面查詢，本站不展示未同步的即時評分。"
+    },
+    sections: [
+      { kicker: "探索", title: "在港邊山腰整理小琉球行程", body: "遊客中心位於白沙觀光港旁的半山腰，是旅客取得地圖與資訊的實用一站。先確認交通、開放資訊與行程路線，再選擇前往花瓶岩、中澳沙灘或島上其他景點。" },
+      { kicker: "建築與歷史", title: "從鄉立圖書館到遊客中心", body: "管理處官方介紹指出，為提升旅遊服務品質，於2009年取得原琉球鄉圖書館土地及建物並整建為永久性的管理站暨遊客中心。三層樓建築依地勢設入口與服務空間，外觀紅瓦是醒目的辨識元素。" },
+      { kicker: "核心體驗", title: "諮詢、導覽與港灣遠眺", body: "資訊櫃檯與導覽設施適合初次到訪者，戶外觀景平台則可觀看白沙港。平台是港區觀景的補充位置，請尊重管理辦公區的出入限制。" },
+      { kicker: "步行與交通", title: "從白沙港上坡抵達", body: "這段路線與平坦港區不同，需評估坡度、氣溫及行李負擔。建議先處理大型行李，再走到中心，必要時可詢問合適接駁方式。" },
+      { kicker: "拍照與順遊", title: "由港景接到花瓶岩", body: "在戶外平台拍攝港灣全景後，可沿道路返回港區，再到花瓶岩看珊瑚礁海蝕地貌；若當日海況不佳，遊客中心的資訊補給仍具有價值。" }
+    ],
+    related: ["baisha-tourist-harbor", "from-baisha-port", "nearby"],
+    faq: [{ question: "遊客中心在白沙港碼頭裡嗎？", answer: "不是，在港邊半山腰，需沿道路上坡前往。" }, { question: "可以在遊客中心買所有船票嗎？", answer: "這裡主要提供觀光資訊，船票與報到應向各航運業者確認。" }, { question: "遊客中心適合先去還是最後去？", answer: "初次登島適合先去取得資訊；若是回程前造訪，務必預留回到正確碼頭的時間。" }],
+    action: { label: "琉球遊客中心 Google Maps", href: "https://www.google.com/maps/search/?api=1&query=%E7%90%89%E7%90%83%E7%AE%A1%E7%90%86%E7%AB%99%E6%9A%A8%E9%81%8A%E5%AE%A2%E4%B8%AD%E5%BF%83", external: true },
+    links: [{ label: "管理處官方介紹", href: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=207" }, { label: "白沙觀光港", href: "/baisha-tourist-harbor/" }]
+  },
+  {
+    slug: "beauty-cave",
+    eyebrow: "小琉球西北海岸",
+    title: "美人洞｜珊瑚礁洞穴、十三景與海岸步道",
+    seoTitle: "小琉球美人洞攻略｜門票、十三景、珊瑚礁地形與交通路線",
+    description: "探索小琉球美人洞的1975年開發歷史、隆起珊瑚礁、十三景、門票與開放資訊、海岸步道和拍攝建議。",
+    lead: "美人洞位於小琉球西北側，特色是高位珊瑚礁岩、天然洞穴與海景步道；從花瓶岩的獨立礁石延伸到美人洞，能看到同一座珊瑚礁島不同的地貌。",
+    image: "/images/beauty-cave.jpg", imageAlt: "小琉球美人洞入口與珊瑚礁岩景觀實景", gallery: [{ src: "/images/beauty-cave.jpg", alt: "美人洞景區入口與周邊岩石步道" }],
+    facts: [{ label: "地形", value: "高位珊瑚礁洞穴" }, { label: "開闢", value: "1975年" }, { label: "區域", value: "琉球嶼西北側" }, { label: "特色", value: "十三景與海景" }],
+    place: {
+      address: "929 臺灣屏東縣琉球鄉美人洞景區（入口依現場標示）", mapUrl: "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E4%BA%BA%E6%B4%9E%20%E5%B0%8F%E7%90%89%E7%90%83", managerTitle: "關於美人洞的管理與歷史", managerDescription: "美人洞景區由琉球鄉公所於1975年以公共造產方式開闢。交通部觀光署大鵬灣國家風景區管理處提供官方景點資訊，票務及部分路段開放由相關權責單位公告。景區具有天然洞穴及人工整理步道，需同時尊重地質環境和設施管理。", sourceUrl: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=186",
+      officialName: "美人洞（Beauty Cave）", type: "珊瑚礁洞穴、收費景區、海岸步道", hours: "依琉球鄉公所景區當日開放與臨時管制公告", admission: "與山豬溝、烏鬼洞有聯票安排；實際票價請以琉球鄉公所公告為準", visitDuration: "建議約60–90分鐘，依開放步道與體力調整", arrival: "從白沙港、花瓶岩方向可依島上道路前往西北側；騎車應停在合法停車位置後步行入園。", highlights: ["高位珊瑚礁岩與洞穴構成天然岩壁景觀", "1975年由鄉公所以公共造產方式開闢，具有地方觀光發展歷史", "十三景涵蓋洞穴、岩石與眺海亭等多種看點", "部分路段涉及生態廊道與管制，路線需依當日告示調整"], route: ["抵達售票或入口區確認今日開放步道", "沿指定路線欣賞珊瑚礁岩與洞穴形貌", "選擇開放觀景位置眺望西北海岸", "循標示出口離開，按時間回港或續往其他景點"], etiquette: ["濕滑、狹窄或低矮洞道放慢腳步", "不觸摸或敲擊脆弱岩面，也不攀爬岩壁", "不得穿越封閉的生態廊道路段", "景區開放及票務依當日現場公告"], photoSpots: ["入口及標示區：記錄景區辨識地標", "開放洞穴外側：利用自然光呈現珊瑚礁紋理", "眺海亭等開放觀景處：拍攝海面與岩岸層次"], accommodation: "從白沙港周邊住宿出發可將美人洞排入半日西北海岸行程；需趕船者不宜壓縮步道參觀與返港緩衝。", ratingNote: "旅客評分與評論數請至美人洞專屬 Google Maps 地點頁查看最新資料。"
+    },
+    sections: [
+      { kicker: "景區概覽", title: "洞穴與海景並存的珊瑚礁步道", body: "美人洞不是單一洞口，而是由多段珊瑚礁岩景、洞穴與眺海位置構成的遊覽區。景觀重點是岩壁的凹凸紋理、縫隙與海岸遠景。" },
+      { kicker: "歷史與管理", title: "1975年地方公共造產景區", body: "依管理處記載，琉球鄉公所於1975年開闢美人洞。隨後形成十三景的遊覽體系，將自然岩洞轉化為可依步道參觀的公共觀光空間。" },
+      { kicker: "地質與觀察", title: "高位珊瑚礁與海蝕洞", body: "此處的高位珊瑚礁岩可以和花瓶岩的差異侵蝕形態相互對照。觀察時留意孔隙、層理與洞穴光影，但不應取樣、刻字或攀爬。" },
+      { kicker: "遊覽建議", title: "先看告示再選路線", body: "景區有狹窄通道及可能封閉的生態路段，入園前先查開放範圍。穿止滑包覆鞋、帶水、避免在雨後或浪況惡劣時接近危險邊緣。" },
+      { kicker: "拍攝與交通", title: "利用自然光與眺海視角", body: "洞口光線反差較大，可從安全平地拍攝洞穴框景與岩石表面；海景則適合從開放眺望區遠攝，切勿為了無人構圖跨過封閉線。" }
+    ],
+    related: ["nearby", "geology", "baisha-tourist-harbor"],
+    faq: [{ question: "美人洞與花瓶岩是同一處嗎？", answer: "不是。花瓶岩是北側海岸獨立礁岩，美人洞是西北側以珊瑚礁洞穴及步道為主的景區。" }, { question: "美人洞需要門票嗎？", answer: "屬於有聯票安排的景區，當日票價及適用範圍請向琉球鄉公所或現場售票處查詢。" }, { question: "美人洞所有步道都開放嗎？", answer: "不一定，部分路段有生態廊道及臨時管制，應以現場公告為準。" }],
+    action: { label: "美人洞 Google Maps", href: "https://www.google.com/maps/search/?api=1&query=%E7%BE%8E%E4%BA%BA%E6%B4%9E%20%E5%B0%8F%E7%90%89%E7%90%83", external: true },
+    links: [{ label: "大鵬灣美人洞官方介紹", href: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=186" }, { label: "花瓶岩附近景點", href: "/nearby/" }]
+  },
+  {
+    slug: "baisha-tourist-harbor",
+    eyebrow: "小琉球登島門戶",
+    title: "白沙觀光港｜登島交通與港灣散步指南",
+    seoTitle: "白沙觀光港攻略｜地址、船班動線、花瓶岩步行與拍照位置",
+    description: "白沙觀光港是小琉球主要登島港口。認識港區位置、碼頭動線、海港歷史、到花瓶岩的步行安排、觀景拍照與行前 FAQ。",
+    lead: "從東港搭船抵達小琉球，首先看見的往往是白沙觀光港。這裡不只供旅客上下船，也串連花瓶岩、中澳沙灘與島上旅行的第一段步行路線。",
+    image: "/images/baisha-port.webp",
+    imageAlt: "白沙觀光港的客輪、漁船與港灣實景",
+    gallery: [{ src: "/images/baisha-port.webp", alt: "白沙觀光港停泊船隻及港區景觀" }],
+    place: {
+      address: "929 臺灣屏東縣琉球鄉中山路74-1號（觀光資料所列地址）",
+      mapUrl: "https://www.google.com/maps/search/?api=1&query=%E7%99%BD%E6%B2%99%E8%A7%80%E5%85%89%E6%B8%AF%20%E5%B1%8F%E6%9D%B1%E7%B8%A3%E7%90%89%E7%90%83%E9%84%89",
+      managerTitle: "關於白沙觀光港的管理與服務",
+      managerDescription: "白沙觀光港是屏東縣小琉球的主要旅客港口。港區旅運設施與船班服務涉及屏東縣政府及不同航運營運單位；交通部觀光署大鵬灣國家風景區管理處提供景點導覽與觀光資訊。旅客應以現場港區公告、船公司及相關機關發布的資訊為準。",
+      sourceUrl: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=187",
+      officialName: "白沙觀光港（Baisha Tourist Harbor）", type: "客運港口、海上交通與港灣觀景", hours: "公共通行區依現場公告；客輪及服務設施按各自營運時間", admission: "港灣公共觀景不另售景點門票；搭船需購買船票", visitDuration: "非搭船觀景約 15–30 分鐘，另預留報到與候船時間",
+      arrival: "由東港依船公司公布之航線搭船至小琉球；島上請按實際抵達碼頭及指示前往港外道路。",
+      highlights: ["作為小琉球主要登島門戶，觀察客輪與島民日常交通", "防波堤、港池與候船設施構成港灣工程景觀", "可銜接花瓶岩的海蝕地貌與中澳沙灘的砂岸景觀", "港口與聚落的交界能看見觀光、運輸與在地生活的關係"],
+      route: ["確認抵達碼頭、回程船班及行李安排", "沿合法通行的港區步道欣賞船隻與港灣", "從港外道路前往花瓶岩，在安全岸邊觀景", "時間充裕再走往中澳沙灘，最後按船公司規定返港"],
+      etiquette: ["不進入管制碼頭、繫船區或作業空間", "行李與拍攝器材不要阻擋旅客動線", "依船公司要求提前報到，天候惡劣時以停航公告為準"],
+      photoSpots: ["港外安全位置：以船隻與海岸線作廣角構圖", "允許停留的候船周邊：拍攝碼頭與島嶼交通細節", "港外道路轉向花瓶岩一側：以人文港景對比自然礁岩"],
+      accommodation: "若預訂白沙港附近住宿，先詢問行李寄放與接送位置；若住在島內其他區域，回程日應預留返回正確碼頭的時間。",
+      ratingNote: "可至白沙觀光港的 Google Maps 地點頁查閱最新評分與評價數；本站不將未同步的分數寫成即時資料。"
+    },
+    facts: [{ label: "地點", value: "屏東縣琉球鄉" }, { label: "用途", value: "旅客進出港口" }, { label: "周邊", value: "花瓶岩、中澳沙灘" }, { label: "搭船", value: "依船公司公告" }],
+    sections: [
+      { kicker: "探索港灣", title: "從渡輪碼頭認識小琉球", body: "白沙觀光港是旅客進入小琉球的核心節點。港區兼具海上運輸、旅客服務與觀景功能，從船隻進出、堤岸到港外聚落，呈現島嶼與臺灣本島往來的日常。港口以交通設施為主，並非可任意進入的碼頭攝影場。" },
+      { kicker: "遊覽建議", title: "先確認碼頭，再安排港邊短遊", body: "下船後先處理行李、返程班次及交通工具，再到允許通行的港邊平整空間觀景。趕船時先回報到位置，不要在登船動線附近停留拍照。", bullets: ["下船先確認回程航線與報到碼頭", "若有大型行李，先安排寄放或運送", "港邊散步以人行安全區為主，不進入作業區", "晴天注意曝曬，遇強風留意港區公告"] },
+      { kicker: "景區特色", title: "客輪、港灣與島嶼海岸線", body: "港池與防波堤構成白沙港的主要工程景觀，船隻、岸上設施與遠處海面交織成島嶼交通的典型畫面。與自然海蝕地標花瓶岩不同，白沙港的看點是人類為海上交通建設的港灣空間。" },
+      { kicker: "基本資料", title: "地址、時間與費用", body: "觀光公開資料列示地址為屏東縣琉球鄉中山路74-1號。港邊公共通行區與碼頭管制範圍不同；搭船需依船公司票價、時刻及登船規則，不能把港區開放理解為全天候可進入所有設施。" },
+      { kicker: "交通方式", title: "如何抵達白沙觀光港", body: "從屏東東港搭乘前往小琉球的航班，實際抵達港口及碼頭以購票航線為準。島上可依住宿位置選擇步行、接駁或合法租用車輛；前往花瓶岩可沿港外安全道路步行，接近海岸後依指示通行。", bullets: ["搭船前核對出發港、抵達港及回程班次", "港區停車、上下客依現場標誌", "前往花瓶岩的路線詳見站內白沙港步行指南"] },
+      { kicker: "推薦路線", title: "白沙港到花瓶岩的短程散步", body: "01｜抵港後確認回程碼頭；02｜在可通行區域看港灣與船隻；03｜沿港外道路朝花瓶岩前進；04｜在岸上安全位置觀察珊瑚礁岩；05｜依時間返回港區，或改走中澳沙灘方向。請依現場道路與天候調整。" },
+      { kicker: "攝影機位", title: "三種港灣構圖", body: "在不妨礙乘客的安全位置，可拍攝船隻與堤岸的層次、港外聚落和藍色海面，以及返程前的港灣全景。避免把鏡頭架在通道中央，勿跨越欄杆或進入碼頭作業區。" },
+      { kicker: "周邊與住宿", title: "從交通節點安排島上停留", body: "白沙港適合連接花瓶岩與中澳沙灘。當日往返旅客可優先控制回港時間；過夜旅客則可按住宿位置與行李安排，把港口當作第一站或最後一站。" }
+    ],
+    related: ["from-baisha-port", "zhongao-beach", "nearby"],
+    faq: [{ question: "白沙觀光港就是小琉球所有船班的抵達港嗎？", answer: "不是所有航線都必然抵達同一碼頭。購票時應確認航線、營運船公司與實際港口。" }, { question: "白沙港可以免費散步嗎？", answer: "可在允許通行的公共空間觀景；登船區及部分港務設施受管制，搭船另須購票。" }, { question: "白沙港如何走到花瓶岩？", answer: "可參考本站從白沙觀光港到花瓶岩的步行指南，最後一段仍以現場道路與指標為準。" }],
+    action: { label: "白沙觀光港 Google Maps", href: "https://www.google.com/maps/search/?api=1&query=%E7%99%BD%E6%B2%99%E8%A7%80%E5%85%89%E6%B8%AF%20%E5%B1%8F%E6%9D%B1%E7%B8%A3%E7%90%89%E7%90%83%E9%84%89", external: true },
+    links: [{ label: "官方白沙觀光港介紹", href: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=187" }, { label: "從白沙港走到花瓶岩", href: "/from-baisha-port/" }, { label: "中澳沙灘遊覽指南", href: "/zhongao-beach/" }]
+  },
+  {
+    slug: "zhongao-beach",
+    eyebrow: "北岸貝殼砂海灘",
+    title: "中澳沙灘｜小琉球海岸與親子觀景指南",
+    seoTitle: "中澳沙灘攻略｜位置、貝殼砂、海龜保育、交通與拍照路線",
+    description: "小琉球中澳沙灘位於白沙觀光港旁，介紹貝殼砂形成、迎王請水文化、海龜產卵環境、步行交通、拍攝機位及 FAQ。",
+    lead: "位於白沙港旁的中澳沙灘，與花瓶岩的礁石輪廓形成對比：這裡是由珊瑚礁與貝殼碎屑堆積的海岸，也是小琉球重要的自然與地方文化場景。",
+    image: "/images/zhongao-beach.webp",
+    imageAlt: "小琉球中澳沙灘的貝殼砂海岸實景",
+    gallery: [{ src: "/images/zhongao-beach.webp", alt: "中澳沙灘海岸、砂地與海面景觀" }],
+    place: {
+      address: "929 臺灣屏東縣琉球鄉中澳沙灘（白沙觀光港東側）",
+      mapUrl: "https://www.google.com/maps/search/?api=1&query=%E4%B8%AD%E6%BE%B3%E6%B2%99%E7%81%98%20%E5%B0%8F%E7%90%89%E7%90%83",
+      managerTitle: "關於中澳沙灘的管理與保育",
+      managerDescription: "中澳沙灘位於大鵬灣國家風景區的琉球嶼範圍，觀光導覽與海域遊憩管理由交通部觀光署大鵬灣國家風景區管理處參與辦理；土地、海龜棲地保護與海岸清潔則涉及不同權責機關及琉球鄉公所。這片海岸同時是自然棲地，請依現場公告與季節性保育措施活動。",
+      sourceUrl: "https://www.dbnsa.gov.tw/attraction/AttractionPage?a=254",
+      officialName: "中澳沙灘（Zhongao Beach）", type: "貝殼砂海灘、海岸生態與地方文化", hours: "自然海岸無固定室內營業時段；實際進入範圍依海況及保育公告", admission: "一般岸上觀景不設固定售票口；水域活動與服務另計", visitDuration: "岸上觀景及拍照約 30–60 分鐘，不含水域活動",
+      arrival: "自白沙觀光港依港外道路及現場指標前往東側沙灘；由花瓶岩出發應走道路，不跨越海岸礁石。",
+      highlights: ["珊瑚礁與貝殼碎屑堆積形成的帶狀砂岸", "與花瓶岩海蝕礁石形成鮮明的地貌比較", "琉球迎王平安祭請水文化的活動場域", "涉及綠蠵龜棲地保護，造訪需要尊重野生動物"],
+      route: ["白沙觀光港確認補水、遮陽及返程動線", "沿港外道路抵達中澳沙灘入口，觀察現場告示", "在開放區域看貝殼砂、浪線與海岸曲線", "從原路返回港區，或安排花瓶岩地質觀察"],
+      etiquette: ["遵守海龜棲地及季節性封閉區域標示", "不使用強光干擾夜間生態，也不追逐海龜", "不撿拾珊瑚或貝殼、不留下垃圾", "浪況不佳時改為岸上觀景，不自行入水"],
+      photoSpots: ["沙灘開放區後緣：完整納入砂岸曲線與海平線", "港口方向的安全岸邊：用船隻襯托海岸空間", "日間側光的砂地：低角度拍攝貝殼砂與浪線紋理"],
+      accommodation: "選擇白沙港一帶住宿可將沙灘與花瓶岩安排在同次步行行程；需參加水域活動時，另與合法業者確認集合點及裝備。",
+      ratingNote: "最新旅客評分與評論數請以中澳沙灘的 Google Maps 地點頁為準；本站不顯示未經同步的即時數字。"
+    },
+    facts: [{ label: "位置", value: "琉球嶼東北側" }, { label: "地貌", value: "珊瑚與貝殼砂" }, { label: "鄰近", value: "白沙觀光港" }, { label: "保育", value: "海龜棲地" }],
+    sections: [
+      { kicker: "探索沙灘", title: "從港邊走進貝殼砂海岸", body: "中澳沙灘位於小琉球東北側，約在龍蝦洞至白沙新港間，白沙觀光港附近即可找到這片白色海岸。和花瓶岩的孤立礁石不同，這裡的看點在於沙岸延伸、浪線與港口地景的連續變化。" },
+      { kicker: "遊覽建議", title: "看海與拍照，也要為棲地留下空間", body: "建議先確認潮位、浪況與現場是否有保育或活動管制。沙灘看似平緩，仍可能有水流、浪湧與礁石；帶小孩的家庭應始終保持近距看顧，不把平緩地形誤認為安全下水保證。", bullets: ["留在合法開放的活動範圍", "不要移動沙灘上的海龜巢位標示", "不使用強光干擾夜間野生動物", "不採集珊瑚、貝殼或帶走沙粒"] },
+      { kicker: "地形特色", title: "珊瑚礁與貝殼碎屑形成沙岸", body: "依觀光主管機關公開資料，中澳沙灘的潮間帶與近岸環境受珊瑚礁、貝殼碎屑堆積影響，形成帶狀的貝殼砂海灘。與海蝕雕刻的花瓶岩相較，能直觀比較小琉球海岸的侵蝕與堆積兩種地形過程。" },
+      { kicker: "文化歷史", title: "迎王平安祭與「請水」儀式", body: "中澳沙灘不只有自然風景，也是地方宗教文化活動的空間。觀光資料記載，琉球迎王平安祭的「請水」儀式在此舉行。若遇相關祭典，應尊重儀式動線與現場安排，不為拍照干擾參與者。" },
+      { kicker: "基本資料", title: "位置、費用與時間", body: "地點為屏東縣琉球鄉中澳沙灘，鄰近白沙觀光港。自然海岸一般不設固定參觀售票口，但活動業者、設施及保育管制可能另有規定；夜間或惡劣天氣不適合自行接近無照明浪線。" },
+      { kicker: "交通方式", title: "從白沙港與花瓶岩前往", body: "從白沙觀光港周邊依現場道路與步行動線前往，若從花瓶岩出發，應先返回安全的港外道路再接往沙灘，不要沿海岸礁石尋找捷徑。騎車者請在合法停放處停妥。" },
+      { kicker: "建議步行路線", title: "港口、沙灘與礁岩的海岸比較", body: "01｜白沙港確認返程與補給；02｜前往中澳沙灘入口，觀察貝殼砂與海岸線；03｜在安全的岸上位置拍攝海面和港灣；04｜返回港區，再視時間前往花瓶岩觀察不同地貌。所有轉場以道路及現場指標為準。" },
+      { kicker: "攝影機位", title: "沙岸曲線、海面與港景", body: "適合使用三種構圖：遠景保留沙灘曲線與天空；中景記錄潮水與砂地紋理；從安全的岸上位置把港口船隻納入背景。日間光線較足時更容易拍出海水層次；不要為了鏡頭踏入限制區。" },
+      { kicker: "住宿與行程", title: "安排海岸慢遊而非趕景點", body: "若住在白沙港周邊，可將中澳沙灘與花瓶岩排為同一個短程海岸行程；若要參加水域活動，請事先確認合格業者與當日狀況，觀景與下水並非同一種行程。" }
+    ],
+    related: ["baisha-tourist-harbor", "nearby", "safety"],
+    faq: [{ question: "中澳沙灘就是花瓶岩嗎？", answer: "不是。中澳沙灘是白沙港附近的砂岸，花瓶岩則是另一處隆起珊瑚礁海蝕地標。" }, { question: "中澳沙灘可以帶小孩玩水嗎？", answer: "可先在岸上觀景；是否適合下水應依當日海況、公告和現場專業評估決定，孩童須有成人全程看顧。" }, { question: "中澳沙灘為什麼要注意海龜？", answer: "這裡涉及海龜產卵棲地保護，應遵守標示，不驚擾、不以強光照射，也不要占用保育區域。" }],
+    action: { label: "中澳沙灘 Google Maps", href: "https://www.google.com/maps/search/?api=1&query=%E4%B8%AD%E6%BE%B3%E6%B2%99%E7%81%98%20%E5%B0%8F%E7%90%89%E7%90%83", external: true },
+    links: [{ label: "官方中澳沙灘介紹", href: "https://www.dbnsa.gov.tw/attraction/AttractionPage?a=254" }, { label: "白沙觀光港指南", href: "/baisha-tourist-harbor/" }, { label: "花瓶岩地質與形成", href: "/name-origin/" }]
+  },
+  {
+    slug: "name-origin",
+    eyebrow: "地標故事與地質",
+    title: "花瓶岩為什麼叫花瓶岩？名稱由來與形成過程",
+    seoTitle: "花瓶岩由來｜花瓶石為什麼頭大身小？小琉球地質解說",
+    description: "花瓶岩又叫花瓶石：珊瑚礁岩抬升後受海水差異侵蝕，形成頭大身小的輪廓；岩頂植物使它像插著花的花瓶。附現場觀察重點與官方資料。",
+    lead: "花瓶岩不是人工雕刻的石像。它的名稱與外形都能從現場看懂：隆起的珊瑚礁、長期海蝕，以及長在岩頂的植物共同塑造了這座小琉球地標。",
+    image: "/images/vase-rock-geology.webp",
+    imageAlt: "小琉球花瓶岩珊瑚礁岩體與頭大身小的輪廓實景",
+    facts: [
+      { label: "別稱", value: "花瓶石" },
+      { label: "岩石", value: "隆起珊瑚礁岩" },
+      { label: "造型成因", value: "海水差異侵蝕" },
+      { label: "官方資料", value: "大鵬灣管理處" }
+    ],
+    sections: [
+      { kicker: "名稱由來", title: "為什麼叫「花瓶」？", body: "遠看花瓶岩，頂部較寬、下部收窄，像一只立在海邊的花瓶。大鵬灣國家風景區管理處也指出，岩頂生長的臭娘子、盒果藤等植物，好似花瓶中插著花草，名稱便由此而來。", bullets: ["先在岸邊找出頂部寬、腰部窄的輪廓", "觀察岩頂植被，不必靠近或攀爬", "退後一些，讓整座岩體與海平線一起入鏡"] },
+      { kicker: "形成過程", title: "先隆起，再經海水侵蝕", body: "花瓶岩原是一塊珊瑚礁岩，因地殼隆起而抬升至海面上。其後海水對岩體不同位置長期侵蝕，逐漸留下上寬下窄的外形。這是自然地形演變，不是短時間內由單一浪潮沖刷而成。", bullets: ["隆起：珊瑚礁岩抬升到海面以上", "侵蝕：海浪長期改變岩體周圍形狀", "留存：形成可從岸上辨識的地標輪廓"] },
+      { kicker: "現場看點", title: "從外觀讀懂珊瑚礁海岸", body: "除了花瓶岩本身，周圍海面下還有較新的珊瑚裙礁。對一般旅客而言，最容易辨認的是主岩體形狀、岩頂綠色植被，以及海浪與礁台交界；請從安全的岸上位置觀察，不踩踏珊瑚。" },
+      { kicker: "官方參考", title: "核對地質說明與景點位置", body: "以上形成過程與名稱說明參考交通部觀光署大鵬灣國家風景區管理處的花瓶岩景點介紹。地質背景可再搭配本站的地質專題閱讀。", bullets: ["官方花瓶岩景點介紹：https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=222", "Google Maps 景點位置：https://maps.app.goo.gl/oJ3AGMRhxSUNnrft9", "現場礁面濕滑，觀察不等於必須走近岩體"] }
+    ],
+    related: ["geology", "photo-guide", "map"],
+    links: [
+      { label: "大鵬灣管理處｜花瓶岩官方介紹", href: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=222", description: "核對名稱由來、隆起珊瑚礁與侵蝕的官方說明。" },
+      { label: "花瓶岩地質與珊瑚礁", href: "/geology/", description: "繼續了解海岸礁岩與觀察重點。" }
+    ],
+    faq: [
+      { question: "花瓶岩和花瓶石是不同景點嗎？", answer: "不是，兩個名稱指的是小琉球同一座海岸地標。" },
+      { question: "花瓶岩是人工造景嗎？", answer: "不是。大鵬灣國家風景區管理處說明，它是隆起珊瑚礁岩經長期海水差異侵蝕形成的自然地貌。" },
+      { question: "為何花瓶岩上面有植物？", answer: "官方景點介紹提到岩頂有臭娘子與盒果藤等植物，外觀像花瓶插著花草，也是名稱的由來。" }
+    ],
+    action: { label: "查看官方景點說明", href: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=222", external: true }
+  },
+  {
+    slug: "water-entry-guide",
+    eyebrow: "海域活動準備",
+    title: "花瓶岩下水指南：浮潛前先確認的事",
+    seoTitle: "花瓶岩下水指南｜浮潛入水前的海況、潮汐與安全檢查",
+    description: "小琉球花瓶岩可以下水嗎？整理浮潛前的合法活動區域、現場海況、潮流、裝備與教練帶領檢查事項；潮汐時間不能直接當作入水許可。",
+    lead: "看到清澈海水，不代表每個時段、每段礁岸都適合入水。這份指南用來協助你在預約或抵達花瓶岩時，向合格業者確認水域、浪況與退出路線。",
+    image: "/images/vase-rock-tide.webp",
+    imageAlt: "花瓶岩附近海面與露出水面的珊瑚礁海岸實景",
+    facts: [
+      { label: "活動類型", value: "浮潛／潛水" },
+      { label: "先確認", value: "合法水域與管制" },
+      { label: "再確認", value: "浪況、潮流、能見度" },
+      { label: "初學者", value: "專業人員帶領" }
+    ],
+    sections: [
+      { kicker: "是否能下水", title: "先問今天的水域是否開放、適不適合", body: "大鵬灣管理處的旅遊指引提醒遊客選擇合法水域活動。花瓶岩周邊有浮潛與潛水活動，但實際可否入水要看當日公告、海況與業者評估，不應單靠網路文章判斷。", bullets: ["確認活動位置與當日是否有管制", "詢問當地合格業者或教練當天的入水安排", "不自行跨越標示、繩索或警戒區"] },
+      { kicker: "入水前", title: "五個現場檢查", body: "入水前應確認浪況、水溫、潮汐流向與流速，以及水下地形和能見度。若有湧浪、流速不明、雷雨或身體不適，選擇岸上觀景也是完整的花瓶岩行程。", bullets: ["有沒有浪突然拍上礁面？", "入水及上岸位置是否由帶領人員確認？", "潮流與退潮時段是否影響返程？", "裝備是否合身，是否有同伴與救援安排？", "能否清楚說出不適時的停止手勢與撤退路線？"] },
+      { kicker: "潮汐不是許可", title: "退潮也未必適合下水", body: "低潮可使更多礁台露出，但同時可能遇到尖銳礁石、淺水區和浪打區。潮汐表提供時間資訊，不能替代當天的浪、流與現場管制判讀。", note: "這不是指定下水點或路線；不要依文字說明自行從礁面入水。" },
+      { kicker: "海洋生態", title: "遇到海龜與珊瑚，保持距離", body: "小琉球海域有綠蠵龜活動。保持距離、不追逐觸摸、不餵食、不踩踏珊瑚，並依專業帶領人員指示行動。看見海龜不是保證，也不是追近的理由。" },
+      { kicker: "資料與導航", title: "出發前核對官方公告", body: "可使用中央氣象署潮汐預報、管理處官方旅遊指引及現場公告核對資訊。花瓶岩的 Google Maps 位置只用於抵達景點，不代表推薦入水點。", bullets: ["大鵬灣小琉球旅遊指引：https://www.dbnsa.gov.tw/zh-TW/PlanTrip/articles?a=428", "中央氣象署潮汐預報：https://www.cwa.gov.tw/V8/C/M/tide.html", "官方花瓶岩即時影像：https://www.dbnsa.gov.tw/zh-TW/Attraction/LiveVideoPage?a=402"] }
+    ],
+    related: ["snorkeling", "tide-guide", "safety"],
+    links: [
+      { label: "大鵬灣管理處｜小琉球旅遊指引", href: "https://www.dbnsa.gov.tw/zh-TW/PlanTrip/articles?a=428", description: "查核合法水域活動與生態保育提醒。" },
+      { label: "中央氣象署潮汐預報", href: "https://www.cwa.gov.tw/V8/C/M/tide.html", description: "行前查詢當日潮位，仍須判斷現場浪況。" },
+      { label: "花瓶岩潮汐指南", href: "/tide-guide/", description: "了解不同潮位下的礁面變化與風險。" }
+    ],
+    faq: [
+      { question: "花瓶岩退潮就能下水嗎？", answer: "不能只憑退潮判斷。仍需核對海況、合法活動範圍、現場公告與專業帶領人員的評估。" },
+      { question: "第一次浮潛可以自己從礁岸下水嗎？", answer: "不建議自行在不熟悉的礁岸入水。應選擇合格業者，依當日安全安排參加活動。" },
+      { question: "Google Maps 定位是浮潛入口嗎？", answer: "不是。地圖標示景點位置，非指定入水點；入水與上岸地點須依現場規範與帶領人員指示。" }
+    ],
+    action: { label: "查看官方旅遊指引", href: "https://www.dbnsa.gov.tw/zh-TW/PlanTrip/articles?a=428", external: true }
+  },
   {
     slug: "map",
     eyebrow: "定位與導航",
@@ -500,7 +709,8 @@ export const guides: Guide[] = [
         note: "實際開放、收費、停車與道路狀況可能調整；出發前查看各景點當日公告。"
       }
     ],
-    related: ["itinerary", "from-baisha-port", "family-guide"]
+    related: ["baisha-tourist-harbor", "zhongao-beach", "liuqiu-visitor-center", "beauty-cave", "itinerary"],
+    links: [{ label: "白沙觀光港完整景點專頁", href: "/baisha-tourist-harbor/", description: "交通門戶、港灣工程、攝影及登船提醒。" }, { label: "中澳沙灘完整景點專頁", href: "/zhongao-beach/", description: "貝殼砂、迎王文化、海龜保育與海岸步行。" }, { label: "琉球管理站暨遊客中心", href: "/liuqiu-visitor-center/", description: "白沙港半山腰的旅遊服務、建築歷史與海景平台。" }, { label: "美人洞景區", href: "/beauty-cave/", description: "珊瑚礁洞穴、十三景、步道與票務資訊。" }, { label: "花瓶岩地質由來", href: "/name-origin/", description: "將珊瑚礁海蝕與沙岸堆積一起認識。" }]
   },
   {
     slug: "itinerary",
@@ -735,6 +945,164 @@ export const guides: Guide[] = [
     related: ["geology", "safety", "faq"]
   }
 ];
+
+type NearbyAddition = {
+  slug: string; name: string; english: string; description: string; image: string;
+  official: string; address: string; manager: string; hours: string; admission: string;
+  duration: string; history: string; landscape: string; culture: string; route: string[];
+  tips: string[]; photos: string[]; faq: FAQ[]; related: string[];
+};
+
+const nextNearby: NearbyAddition[] = [
+  {
+    slug: "lobster-cave", name: "龍蝦洞", english: "Lobster Cave", image: "/images/lobster-cave.jpg",
+    description: "小琉球東北海岸的天然海蝕溝與礁岩觀景點，觀察浪蝕地形、往返白沙港的交通與安全拍照方式。",
+    official: "https://www.dbnsa.gov.tw/zh-tw/PlanTrip/articles?a=566", address: "929 臺灣屏東縣琉球鄉龍蝦洞海岸（依 Google Maps 景點標記導航）",
+    manager: "龍蝦洞位於小琉球海岸，屬大鵬灣國家風景區遊憩範圍；觀光資訊由大鵬灣國家風景區管理處提供。海岸與保育管制仍依現場各權責機關公告。這是天然海蝕地形，不是人工開鑿的觀光洞穴。",
+    hours: "自然海岸依天候及現場公告通行；不建議夜間接近礁岩", admission: "岸上公共觀景無固定售票口", duration: "約20–40分鐘",
+    history: "龍蝦洞是小琉球長期受到海浪侵蝕的海岸地貌之一。名稱來自當地地形稱呼，應以自然海蝕溝觀察為主，不將民間說法當成可考證的開發年代。",
+    landscape: "珊瑚礁岩經浪蝕形成凹槽、孔洞與不規則岩壁，潮位改變可見礁面面積；濕滑與浪湧風險也隨之變化。",
+    culture: "與花瓶岩的獨立海蝕礁柱、附近中澳沙灘的堆積砂岸相比，龍蝦洞展示的是岩岸被海水切割出的溝槽。",
+    route: ["先由白沙港確認返程交通", "沿島上道路到龍蝦洞標示位置", "從安全岸邊觀察海蝕溝與浪線，不入水", "視時間與潮況返回道路，續往中澳沙灘"],
+    tips: ["強浪或雨後不站上礁面", "勿跨越護欄尋找低角度照片", "攜帶防滑鞋、飲水與防曬", "不踩珊瑚或撈取潮池生物"],
+    photos: ["從高處安全岸邊取海蝕溝全景", "以岩壁孔隙和海面作對比", "從道路入口拍攝海岸地貌及遠景"],
+    faq: [{ question: "龍蝦洞可以下水嗎？", answer: "海蝕溝受浪與潮流影響，不應把景點導航當作下水點；以岸上觀察為主。" }, { question: "龍蝦洞離花瓶岩遠嗎？", answer: "同在小琉球北側一帶，可沿道路安排順遊；實際時間依交通工具和停車位置而異。" }], related: ["zhongao-beach", "nearby", "safety"]
+  },
+  {
+    slug: "shanzhugou", name: "山豬溝", english: "Shanzhugou", image: "/images/shanzhugou.jpg",
+    description: "小琉球西側約400公尺珊瑚礁森林溝谷，認識斷崖、一線天、老雀榕與蕨類、收費資訊及遊覽路線。",
+    official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=229", address: "929 臺灣屏東縣琉球鄉山豬溝風景區",
+    manager: "山豬溝為琉球鄉三大收費景區之一，票務與景區出入應依琉球鄉公所公告；交通部觀光署大鵬灣國家風景區管理處提供自然地景與遊覽資訊。園區步道與生態區域須遵循現場管理規則。",
+    hours: "依琉球鄉公所收費景區開放時段與現場公告", admission: "與美人洞、烏鬼洞有聯票安排；最新價格依鄉公所公告", duration: "約40–70分鐘",
+    history: "山豬溝保留較完整的島嶼原始植相。其名稱有不同地方解釋，其中一說與耐風、耐鹽的「山豬枷」灌叢有關。",
+    landscape: "島西側斷崖形成深谷，步道蜿蜒約400公尺。高位珊瑚礁石灰岩壁與貝殼、珊瑚化石相互交錯，造就一線天般的狹窄視角。",
+    culture: "老雀榕的根系、姑婆芋、蕨類與藤蔓攀附岩壁，讓珊瑚礁島上呈現如森林峽谷的空間感；這也是認識島嶼植物適應的場所。",
+    route: ["確認入口、門票與今日開放路段", "沿指定步道進入珊瑚礁岩谷", "觀察一線天、老樹根與蕨類", "由標示出口離開，續往蛤板灣或烏鬼洞"],
+    tips: ["步道潮濕處放慢腳步", "勿觸碰化石、攀折植物", "注意蚊蟲與林下光線變化", "不跨越封閉路段"],
+    photos: ["一線天岩壁的自然框景", "老雀榕根系與珊瑚礁岩的近景", "木棧道與森林層次的縱深"],
+    faq: [{ question: "山豬溝是登山步道嗎？", answer: "是以珊瑚礁溝谷、森林與步道觀察為主的景區，並非高山健行。" }, { question: "山豬溝需要門票嗎？", answer: "屬聯票收費景區，請在入口核對票價和開放時間。" }], related: ["beauty-cave", "haban-bay", "wugui-cave"]
+  },
+  {
+    slug: "wugui-cave", name: "烏鬼洞", english: "Black Devil Cave", image: "/images/wugui-cave.jpg",
+    description: "小琉球西南側石灰岩洞穴景區，介紹珊瑚礁迷宮地形、入口榕樹、歷史傳說、門票與安全路線。",
+    official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=236", address: "929 臺灣屏東縣琉球鄉烏鬼洞風景區",
+    manager: "烏鬼洞由琉球鄉公所於1975年以公共造產方式開發為風景區。今日的參觀、票務及現場路線依鄉公所管理公告辦理；大鵬灣國家風景區管理處提供官方景點解說。",
+    hours: "依琉球鄉公所收費景區開放時段與臨時公告", admission: "與美人洞、山豬溝有聯票安排；票價依現場公告", duration: "約45–75分鐘",
+    history: "烏鬼洞相關故事包含地方傳說；可將傳說視為地名文化，但不宜與已確定的歷史事件混淆。1975年開闢景區則有管理處公開資料可核對。",
+    landscape: "小琉球西南方分布多處珊瑚礁石灰岩洞穴，洞道曲折、部分狹窄；入口礁岩上的老榕樹盤根錯節，是岩石與植物相互依存的醒目景觀。",
+    culture: "洞穴、海景與地方故事構成烏鬼洞的旅遊特色；從狹窄岩道轉到開闊海景，可體會同一塊珊瑚礁岩地形的尺度差異。",
+    route: ["抵達景區入口核對票務與開放路段", "沿標示步道觀察入口榕樹及岩壁", "在允許通行的洞道慢行，不逆向擁擠", "從觀景區看海並依出口標示離開"],
+    tips: ["狹窄處留意頭部與腳下", "不攀爬洞穴岩壁或擅入封閉區", "穿防滑包覆鞋，不使用閃光干擾其他遊客", "有幽閉恐懼或行動限制者先評估路線"],
+    photos: ["景區入口與記事碑", "榕樹根系附著岩壁的細節", "開放洞道的自然光與海景出口"],
+    faq: [{ question: "烏鬼洞適合帶小孩嗎？", answer: "可視孩子年齡及狹窄步道適應能力安排，成人應全程陪同。" }, { question: "烏鬼洞是否與美人洞共用票券？", answer: "三大景區有聯票安排，實際適用與價格請以現場公告為準。" }], related: ["shanzhugou", "haban-bay", "beauty-cave"]
+  },
+  {
+    slug: "haban-bay", name: "蛤板灣沙灘", english: "Haban Bay Beach", image: "/images/haban-bay.jpg",
+    description: "小琉球蛤板灣（威尼斯沙灘）白色貝殼砂海岸攻略，包含夕陽拍攝、海龜保育夜間管制與禁止游泳提醒。",
+    official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=231", address: "929 臺灣屏東縣琉球鄉蛤板灣沙灘",
+    manager: "蛤板灣位於大鵬灣國家風景區小琉球範圍。屏東縣政府依法規劃綠蠵龜與漁業資源保育措施，交通部觀光署大鵬灣國家風景區管理處發布遊客資訊及管制提醒；各項現場措施應依主管機關公告。",
+    hours: "一般日間岸上觀景；每年5月1日至10月31日20:00至翌日05:00沙灘與潮間帶禁止一般遊客擅入，其他臨時管制另依公告", admission: "自然海岸觀景一般無門票；非開放時段不可擅入", duration: "約30–60分鐘（日間岸上觀景）",
+    history: "蛤板灣又被稱作威尼斯沙灘，是小琉球西部少見的堆積性沙岸。它以貝殼砂與夕陽景觀聞名，但同時是需要保護的海龜棲地。",
+    landscape: "約百公尺的貝殼砂海灘與周圍珊瑚礁岩形成對比；這類沉積沙岸與花瓶岩、龍蝦洞的海蝕地貌不同。",
+    culture: "海岸的旅遊價值包含靜看海景與保育學習。管理處明確提醒曾有多起溺水事故，遊客勿下水游泳，不能把夕陽沙灘推薦成游泳地點。",
+    route: ["出發前查當日管制及日落時間", "從合法入口到沙灘後緣觀察貝殼砂", "在安全、未限制區域拍攝海岸與夕陽", "天色轉暗前離開，避免進入夜間保育時段"],
+    tips: ["請勿下水游泳，官方曾提醒溺水事件", "5至10月夜間管制時段不可擅入", "不打光照射海龜、不接近巢位", "不撿拾珊瑚貝殼或留下垃圾"],
+    photos: ["岸上後緣拍攝彎曲的砂岸線", "夕陽側光呈現貝殼砂紋理", "以礁岩作前景、海面作背景的遠景"],
+    faq: [{ question: "蛤板灣可以游泳嗎？", answer: "官方景點介紹提醒這裡曾發生溺水事件，遊客請勿下水游泳。" }, { question: "蛤板灣晚上可以進入嗎？", answer: "每年5月1日至10月31日20:00至翌日05:00有夜間管制，一般遊客不得擅入沙灘及潮間帶；其他日期仍應注意公告。" }], related: ["shanzhugou", "wugui-cave", "nearby"]
+  },
+  {
+    slug: "houshi-reef", name: "厚石裙礁", english: "Houshi Fringing Reef", image: "/images/houshi-reef.jpg",
+    description: "小琉球東南海岸的大面積珊瑚礁裙狀海蝕地形，從大福漁港至海子口觀察溝槽、奇岩與環島公路景色。",
+    official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=238", address: "929 臺灣屏東縣琉球鄉厚石裙礁（官方座標22.32275, 120.36119）",
+    manager: "厚石裙礁是小琉球東南沿岸自然景觀，交通部觀光署大鵬灣國家風景區管理處提供景點資訊及解說。它不是單一建築或設有固定入口的收費公園；道路、海岸通行與保育規範以現場權責單位公告為準。",
+    hours: "管理處列示每日開放；海岸取景仍依天候、浪況及管制", admission: "沿線公共觀景通常不另售景點門票", duration: "約30–60分鐘，分點停留",
+    history: "厚石裙礁因岩面被海水侵蝕出一道道溝槽，從高處望去宛如百褶裙而得名。這些形態記錄珊瑚礁地層抬升後，持續受海浪與鹽風雕刻的過程。",
+    landscape: "礁岩主要分布在大福漁港與海子口之間的東南岸，既有連續平坦礁面，也有深淺不同的浪蝕槽與孤立奇岩。紅番石、觀音石等形象石是沿線可辨識的觀察題材。",
+    culture: "厚石路段適合與花瓶岩對照：花瓶岩以局部差異侵蝕形成頭大身小的礁柱，厚石則是大範圍海蝕溝槽的連續地景。從環島道路欣賞比踏入潮濕礁面更安全。",
+    route: ["由白沙港沿環島道路往東南岸行進", "在合規停靠處先看整體裙礁地形", "觀察紅番石、觀音石及海蝕溝的不同尺度", "續往白燈塔或烏鬼洞，不穿越浪打礁盤"],
+    tips: ["只在可停車和可通行位置取景", "漲潮、強浪或雨後不要下到礁面", "不踩踏潮池生物或採取珊瑚石", "以遠景與側光呈現溝槽陰影"],
+    photos: ["環島道路安全觀景處拍攝裙狀礁岩全貌", "從側面捕捉海蝕槽的明暗紋理", "用大福漁港方向海岸線作地理參照"],
+    faq: [{ question: "厚石裙礁是一個固定入口嗎？", answer: "不是單一入口建築，礁岩沿東南岸分布，依官方座標和道路合法停靠點觀察。" }, { question: "可以走到厚石裙礁的海溝裡嗎？", answer: "不建議進入受浪襲的礁盤或海蝕槽，避免濕滑與突發湧浪。" }], related: ["white-lighthouse", "wugui-cave", "nearby"]
+  },
+  {
+    slug: "white-lighthouse", name: "白燈塔", english: "White Lighthouse", image: "/images/white-lighthouse.jpg",
+    description: "認識小琉球白燈塔1929年建造的航海功能、白色圓柱塔身、戰後修復歷史，以及從厚石裙礁順遊的方式。",
+    official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=248", address: "929 臺灣屏東縣琉球鄉白燈塔（官方座標22.32886, 120.36651）",
+    manager: "白燈塔是具有航行指引功能的燈塔設施，日常航標維護屬航政燈塔管理權責；交通部觀光署大鵬灣國家風景區管理處提供旅遊介紹。周邊可遊覽範圍不等於塔身內部開放，應遵守現場圍欄與告示。",
+    hours: "官方景點列示每日開放；塔內及設備區不視為開放參觀", admission: "外部環境觀賞無固定景點票口", duration: "約15–30分鐘",
+    history: "燈塔建於1929年（日治時期昭和四年），第二次世界大戰期間受損，1952年由海關修復。這座小型航標見證小琉球海上交通與近代航行安全設施的發展。",
+    landscape: "白色圓形鋼筋混凝土塔身高約10公尺，位於厚石裙礁西側的高地，光束射程原設計可達20海里。塔身與周圍植被形成鮮明對比。",
+    culture: "與海岸奇岩相比，白燈塔代表航海基礎設施：漁船、客輪與海上活動需要可辨識的航標。遊客可理解燈塔為何建於高處，以及海上與陸地觀看角度的差異。",
+    route: ["先在厚石裙礁合法觀景處停留", "依白燈塔專屬地圖往高處道路行進", "在開放外圍拍攝白色圓柱塔身及環境", "返回道路後可續往碧雲寺，避免擅闖設備區"],
+    tips: ["不攀爬圍牆或進入航標設施", "高地道路留意會車與停車位置", "林蔭路段留意蚊蟲、雨後落葉", "夜間不以強光干擾航標或周遭居民"],
+    photos: ["側面取景呈現圓柱白塔與樹冠", "沿外部開放路線拍塔體比例", "由合法觀景點遠看其高地位置"],
+    faq: [{ question: "白燈塔可以登塔嗎？", answer: "觀光景點資訊不等於塔內開放，請以現場設施管制為準，不可自行入內。" }, { question: "小琉球白燈塔建於哪一年？", answer: "大鵬灣管理處記載建於1929年，二戰受損後於1952年修復。" }], related: ["houshi-reef", "biyun-temple", "nearby"]
+  },
+  {
+    slug: "biyun-temple", name: "碧雲寺", english: "Biyun Temple", image: "/images/biyun-temple.jpg",
+    description: "小琉球島中央1736年創建的觀音信仰中心，介紹廟宇空間、香客文化、竹林生態步道與交通、參拜禮儀。",
+    official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=249", address: "929 臺灣屏東縣琉球鄉和平路61號（官方座標22.33814, 120.36992）",
+    manager: "碧雲寺是地方宗教廟宇，日常參拜與廟務由寺方管理。交通部觀光署大鵬灣國家風景區管理處提供歷史與旅遊介紹；寺內禮儀、活動及開放空間以寺方現場指示為準，不能將寺方與政府觀光單位混為同一管理主體。",
+    hours: "參拜依寺方每日開放安排；法會可能調整動線", admission: "一般參拜不以觀光門票入場；香油錢隨個人意願", duration: "約20–45分鐘",
+    history: "碧雲寺創建於1736年，主祀觀音菩薩，是小琉球歷史悠久的信仰中心。廟宇和三隆宮各自承載佛教觀音信仰與王爺祭典傳統，呈現島民不同的宗教生活。",
+    landscape: "除了主殿、香爐及屋脊裝飾，寺下方有竹林生態濕地步道。竹影與流水讓島中央的宗教空間和珊瑚礁海岸形成鮮明對照。",
+    culture: "參拜重點除了觀音佛祖，也在於觀察居民如何在節慶、還願與日常生活中使用廟埕。建築裝飾可留意屋脊、柱面與主殿層次，但不應妨礙正在進行的科儀。",
+    route: ["沿環島內部道路抵達和平路61號", "在廟埕先閱讀告示並整理服裝", "依允許動線參觀主殿及建築細節", "若竹林步道開放，可緩步觀察，再續往白燈塔"],
+    tips: ["廟內有人禮拜時輕聲慢行", "神像及宗教儀式拍攝先徵詢現場意見", "香灰、供品與廟務用品不要任意觸碰", "竹林濕滑處穿止滑鞋並尊重封閉標示"],
+    photos: ["廟埕拍正殿與屋脊輪廓", "近距離記錄允許拍攝的雕飾與柱面", "下方竹林步道取林蔭與流水層次"],
+    faq: [{ question: "碧雲寺供奉哪位神明？", answer: "主要供奉觀音菩薩（觀音佛祖），與主祀三府千歲的三隆宮不同。" }, { question: "碧雲寺旁有自然步道嗎？", answer: "官方介紹提及寺下方的竹林生態濕地步道，進入前應核對當日開放情況。" }], related: ["sanlong-temple", "white-lighthouse", "nearby"]
+  },
+  {
+    slug: "sanlong-temple", name: "三隆宮", english: "Sanlong Temple", image: "/images/sanlong-temple.jpg",
+    description: "小琉球本福村三府千歲信仰中心，認識清代創廟脈絡、每三年一科迎王祭典、宮廟建築與白沙港順遊路線。",
+    official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=253", address: "929 臺灣屏東縣琉球鄉中山路45號（官方座標22.34675, 120.37674）",
+    manager: "三隆宮是地方宗教廟宇，廟務、參拜秩序及迎王祭典活動由宮廟及地方祭典組織籌辦。大鵬灣國家風景區管理處提供旅遊解說，並非宮廟日常管理單位；節慶日期、管制道路與參拜規範以主辦單位公告為準。",
+    hours: "官方列示每日開放；大型科儀與迎王期間依廟方調整", admission: "一般參拜無固定觀光門票；祭典活動安排另查公告", duration: "約20–45分鐘，祭典日另計",
+    history: "三隆宮又稱王爺廟，奉祀池府、吳府、朱府三府千歲，官方介紹將創廟傳統追溯至清乾隆初年。它與小琉球漁民出海祈福的習俗緊密相連。",
+    landscape: "廟宇的牌樓、彩繪、廟埕與正殿共同形成地方信仰空間。觀察牌樓與屋脊色彩，也能理解為何迎王遶境需要從宮廟延伸到聚落與街道。",
+    culture: "每三年一科的迎王平安祭典以三隆宮為重要主廟，包含迎王、遶境、王船相關儀式等地方共同參與的活動。漁船返港、鄉親返鄉與提供飲食的習俗，展示海島社會的凝聚力。",
+    route: ["由白沙觀光港沿中山路往聚落步行或騎行", "在三隆宮牌樓前辨識地標與活動公告", "由開放廟埕欣賞建築及正殿，尊重參拜動線", "回港或改往碧雲寺，祭典時注意臨時交管"],
+    tips: ["祭典人潮時不阻擋神轎與工作人員", "廟埕攝影避開正在進行的儀式", "不要把迎王活動寫成每日固定演出", "遵守香爐、供桌及廟務區域規範"],
+    photos: ["從中山路合法位置拍牌樓與入口", "在開放廟埕呈現主殿屋脊與彩繪", "若遇公開祭典，在不阻路前提下拍集體文化場景"],
+    faq: [{ question: "三隆宮與碧雲寺有何不同？", answer: "三隆宮主要供奉三府千歲、與迎王祭典關係密切；碧雲寺則以觀音菩薩信仰為核心。" }, { question: "小琉球迎王祭典每天都能看到嗎？", answer: "不是。迎王為每三年一科的周期性祭典，日期和活動內容應向廟方與地方公告核實。" }], related: ["biyun-temple", "baisha-tourist-harbor", "nearby"]
+  }
+];
+
+for (const item of nextNearby) {
+  const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${item.name} 小琉球 屏東縣琉球鄉`)}`;
+  guides.push({
+    slug: item.slug, eyebrow: "小琉球周邊探索", title: `${item.name}｜小琉球景點完整指南`,
+    seoTitle: `${item.name}攻略｜交通、景點特色、開放與拍照｜小琉球`, description: item.description,
+    lead: item.description, image: item.image, imageAlt: `小琉球${item.name}景點實景`, gallery: [{ src: item.image, alt: `${item.name}實際景觀與遊覽環境` }],
+    facts: [{ label: "名稱", value: item.english }, { label: "地點", value: "屏東縣琉球鄉" }, { label: "建議停留", value: item.duration }, { label: "資訊來源", value: "大鵬灣管理處" }],
+    place: { officialName: `${item.name}（${item.english}）`, type: item.landscape.slice(0, 35), address: item.address, mapUrl,
+      managerTitle: `關於${item.name}的管理與保育`, managerDescription: item.manager, sourceUrl: item.official,
+      hours: item.hours, admission: item.admission, visitDuration: item.duration,
+      arrival: `由白沙觀光港出發，沿島上合法道路前往${item.name}；以景點專屬地圖和現場指標確認入口，勿將地圖終點視為可直接穿越礁岩的步道。`,
+      highlights: [item.history, item.landscape, item.culture], route: item.route, etiquette: item.tips, photoSpots: item.photos,
+      accommodation: `可依住宿地點與返船時間安排${item.name}及附近景點。若住在白沙港周邊，跨島移動應另計交通與停車時間。`,
+      ratingNote: `最新評分與評論數請於${item.name}專屬 Google Maps 地點頁查看，本站不捏造即時評價。` },
+    sections: [
+      { kicker: "探索景點", title: `認識${item.name}`, body: item.history },
+      { kicker: "景區特色", title: "地形、環境與觀察重點", body: item.landscape },
+      { kicker: "人文與生態", title: "看見自然與島嶼生活", body: item.culture },
+      { kicker: "遊覽建議", title: "出發前先安排交通與安全", body: `建議停留${item.duration}。${item.route.join("；")}。`, bullets: item.tips },
+      { kicker: "拍攝指南", title: "在開放區域取景", body: item.photos.join("；") }
+    ],
+    related: item.related, faq: item.faq,
+    action: { label: `${item.name} Google Maps`, href: mapUrl, external: true },
+    links: [{ label: "主管機關景點資訊", href: item.official, description: "核對地點、開放與旅遊規範。" }, { label: "更多周邊景點", href: "/nearby/" }]
+  });
+}
+
+const nearbyIndex = guides.find((guide) => guide.slug === "nearby");
+if (nearbyIndex) {
+  nearbyIndex.related.push(...nextNearby.map((item) => item.slug));
+  nearbyIndex.links ??= [];
+  for (const item of nextNearby) {
+    nearbyIndex.links.push({ label: `${item.name}完整景點專頁`, href: `/${item.slug}/`, description: item.description });
+  }
+}
 
 export const guideBySlug = Object.fromEntries(
   guides.map((guide) => [guide.slug, guide])

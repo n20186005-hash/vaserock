@@ -3206,3 +3206,15 @@ button {
     padding-block: 50px;
   }
 }
+.place-detail-card { margin-top: 1.75rem; padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid rgba(20, 75, 88, .16); border-radius: 1.25rem; background: rgba(245, 249, 248, .75); }
+.place-detail-card h3 { font-size: 1.35rem; margin-bottom: 1rem; }
+.place-detail-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem 1.5rem; }
+.place-detail-list div { padding: .8rem 0; border-bottom: 1px solid rgba(20, 75, 88, .13); }
+.place-detail-list dt { font-size: .82rem; letter-spacing: .04em; color: #62777a; margin-bottom: .3rem; }
+.place-detail-list dd { margin: 0; line-height: 1.65; overflow-wrap: anywhere; }
+.place-more-detail { max-width: 1100px; }
+.place-more-detail h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin: 2rem 0 1rem; }
+.place-more-detail p { line-height: 1.8; }
+.place-numbered-list, .place-bullet-list { padding-left: 1.5rem; display: grid; gap: .8rem; line-height: 1.75; }
+.place-numbered-list li::marker { color: #237d83; font-weight: 700; }
+@media (max-width: 640px) { .place-detail-list { grid-template-columns: 1fr; } .place-detail-card { padding: 1.2rem; } }
