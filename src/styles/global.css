@@ -3229,6 +3229,17 @@ button {
   }
 }
 .place-detail-card { margin-top: 1.75rem; padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid rgba(20, 75, 88, .16); border-radius: 1.25rem; background: rgba(245, 249, 248, .75); }
+.place-overview { max-width: 1100px; }
+.place-overview h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.28; margin-bottom: 1rem; }
+.place-overview p { line-height: 1.85; }
+.place-manager-card { padding: clamp(1.5rem, 4vw, 3rem); border-radius: 1.5rem; background: #eaf3f1; border-left: 5px solid #237d83; }
+.place-manager-card p:not(.eyebrow) { max-width: 75ch; margin-bottom: 1.2rem; }
+.place-overview-intro { padding: clamp(1.5rem, 4vw, 2.5rem) 0 .5rem; max-width: 80ch; }
+.place-overview-intro h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); margin: 1.5rem 0 .75rem; }
+.place-planning-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.place-planning-grid .place-detail-card { height: 100%; }
+.place-planning-grid h3 { margin: 1.2rem 0 .4rem; font-size: 1rem; }
+.place-disclaimer { color: #536d72; font-size: .9rem; margin-top: 1.25rem; }
 .place-detail-card h3 { font-size: 1.35rem; margin-bottom: 1rem; }
 .place-detail-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem 1.5rem; }
 .place-detail-list div { padding: .8rem 0; border-bottom: 1px solid rgba(20, 75, 88, .13); }
@@ -3239,4 +3250,4 @@ button {
 .place-more-detail p { line-height: 1.8; }
 .place-numbered-list, .place-bullet-list { padding-left: 1.5rem; display: grid; gap: .8rem; line-height: 1.75; }
 .place-numbered-list li::marker { color: #237d83; font-weight: 700; }
-@media (max-width: 640px) { .place-detail-list { grid-template-columns: 1fr; } .place-detail-card { padding: 1.2rem; } }
+@media (max-width: 700px) { .place-detail-list, .place-planning-grid { grid-template-columns: 1fr; } .place-detail-card { padding: 1.2rem; } .place-manager-card { border-left-width: 4px; } }

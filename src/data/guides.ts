@@ -947,7 +947,7 @@ export const guides: Guide[] = [
 ];
 
 type NearbyAddition = {
-  slug: string; name: string; english: string; description: string; image: string;
+  slug: string; name: string; english: string; description: string; image: string; category: string;
   official: string; address: string; manager: string; hours: string; admission: string;
   duration: string; history: string; landscape: string; culture: string; route: string[];
   tips: string[]; photos: string[]; faq: FAQ[]; related: string[];
@@ -956,7 +956,7 @@ type NearbyAddition = {
 
 const nextNearby: NearbyAddition[] = [
   {
-    slug: "lobster-cave", name: "龍蝦洞", english: "Lobster Cave", image: "/images/lobster-cave.jpg",
+    slug: "lobster-cave", name: "龍蝦洞", english: "Lobster Cave", image: "/images/lobster-cave.jpg", category: "天然海蝕溝、珊瑚礁岩岸觀景點",
     description: "小琉球東北海岸的天然海蝕溝與礁岩觀景點，觀察浪蝕地形、往返白沙港的交通與安全拍照方式。",
     official: "https://www.dbnsa.gov.tw/zh-tw/PlanTrip/articles?a=566", address: "929 臺灣屏東縣琉球鄉龍蝦洞海岸（依 Google Maps 景點標記導航）",
     manager: "龍蝦洞位於小琉球海岸，屬大鵬灣國家風景區遊憩範圍；觀光資訊由大鵬灣國家風景區管理處提供。海岸與保育管制仍依現場各權責機關公告。這是天然海蝕地形，不是人工開鑿的觀光洞穴。",
@@ -972,7 +972,7 @@ const nextNearby: NearbyAddition[] = [
     faq: [{ question: "龍蝦洞可以下水嗎？", answer: "海蝕溝受浪與潮流影響，不應把景點導航當作下水點；以岸上觀察為主。" }, { question: "龍蝦洞離花瓶岩遠嗎？", answer: "同在小琉球北側一帶，可沿道路安排順遊；實際時間依交通工具和停車位置而異。" }], related: ["zhongao-beach", "nearby", "safety"]
   },
   {
-    slug: "shanzhugou", name: "山豬溝", english: "Shanzhugou", image: "/images/shanzhugou.jpg",
+    slug: "shanzhugou", name: "山豬溝", english: "Shanzhugou", image: "/images/shanzhugou.jpg", category: "收費自然風景區、珊瑚礁森林步道",
     description: "小琉球西側約400公尺珊瑚礁森林溝谷，認識斷崖、一線天、老雀榕與蕨類、收費資訊及遊覽路線。",
     official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=229", address: "929 臺灣屏東縣琉球鄉山豬溝風景區",
     manager: "山豬溝為琉球鄉三大收費景區之一，票務與景區出入應依琉球鄉公所公告；交通部觀光署大鵬灣國家風景區管理處提供自然地景與遊覽資訊。園區步道與生態區域須遵循現場管理規則。",
@@ -988,7 +988,7 @@ const nextNearby: NearbyAddition[] = [
     faq: [{ question: "山豬溝是登山步道嗎？", answer: "是以珊瑚礁溝谷、森林與步道觀察為主的景區，並非高山健行。" }, { question: "山豬溝需要門票嗎？", answer: "屬聯票收費景區，請在入口核對票價和開放時間。" }], related: ["beauty-cave", "haban-bay", "wugui-cave"]
   },
   {
-    slug: "wugui-cave", name: "烏鬼洞", english: "Black Devil Cave", image: "/images/wugui-cave.jpg",
+    slug: "wugui-cave", name: "烏鬼洞", english: "Black Devil Cave", image: "/images/wugui-cave.jpg", category: "收費自然風景區、珊瑚礁石灰岩洞穴",
     description: "小琉球西南側石灰岩洞穴景區，介紹珊瑚礁迷宮地形、入口榕樹、歷史傳說、門票與安全路線。",
     official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=236", address: "929 臺灣屏東縣琉球鄉烏鬼洞風景區",
     manager: "烏鬼洞由琉球鄉公所於1975年以公共造產方式開發為風景區。今日的參觀、票務及現場路線依鄉公所管理公告辦理；大鵬灣國家風景區管理處提供官方景點解說。",
@@ -1004,7 +1004,7 @@ const nextNearby: NearbyAddition[] = [
     faq: [{ question: "烏鬼洞適合帶小孩嗎？", answer: "可視孩子年齡及狹窄步道適應能力安排，成人應全程陪同。" }, { question: "烏鬼洞是否與美人洞共用票券？", answer: "三大景區有聯票安排，實際適用與價格請以現場公告為準。" }], related: ["shanzhugou", "haban-bay", "beauty-cave"]
   },
   {
-    slug: "haban-bay", name: "蛤板灣沙灘", english: "Haban Bay Beach", image: "/images/haban-bay.jpg",
+    slug: "haban-bay", name: "蛤板灣沙灘", english: "Haban Bay Beach", image: "/images/haban-bay.jpg", category: "貝殼砂海灘、夕陽觀景與海龜保育區",
     description: "小琉球蛤板灣（威尼斯沙灘）白色貝殼砂海岸攻略，包含夕陽拍攝、海龜保育夜間管制與禁止游泳提醒。",
     official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=231", address: "929 臺灣屏東縣琉球鄉蛤板灣沙灘",
     manager: "蛤板灣位於大鵬灣國家風景區小琉球範圍。屏東縣政府依法規劃綠蠵龜與漁業資源保育措施，交通部觀光署大鵬灣國家風景區管理處發布遊客資訊及管制提醒；各項現場措施應依主管機關公告。",
@@ -1020,7 +1020,7 @@ const nextNearby: NearbyAddition[] = [
     faq: [{ question: "蛤板灣可以游泳嗎？", answer: "官方景點介紹提醒這裡曾發生溺水事件，遊客請勿下水游泳。" }, { question: "蛤板灣晚上可以進入嗎？", answer: "每年5月1日至10月31日20:00至翌日05:00有夜間管制，一般遊客不得擅入沙灘及潮間帶；其他日期仍應注意公告。" }], related: ["shanzhugou", "wugui-cave", "nearby"]
   },
   {
-    slug: "houshi-reef", name: "厚石裙礁", english: "Houshi Fringing Reef", image: "/images/houshi-reef.jpg",
+    slug: "houshi-reef", name: "厚石裙礁", english: "Houshi Fringing Reef", image: "/images/houshi-reef.jpg", category: "珊瑚礁海蝕地形、環島公路沿線觀景",
     description: "小琉球東南海岸的大面積珊瑚礁裙狀海蝕地形，從大福漁港至海子口觀察溝槽、奇岩與環島公路景色。",
     official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=238", address: "929 臺灣屏東縣琉球鄉厚石裙礁（官方座標22.32275, 120.36119）",
     manager: "厚石裙礁是小琉球東南沿岸自然景觀，交通部觀光署大鵬灣國家風景區管理處提供景點資訊及解說。它不是單一建築或設有固定入口的收費公園；道路、海岸通行與保育規範以現場權責單位公告為準。",
@@ -1036,7 +1036,7 @@ const nextNearby: NearbyAddition[] = [
     faq: [{ question: "厚石裙礁是一個固定入口嗎？", answer: "不是單一入口建築，礁岩沿東南岸分布，依官方座標和道路合法停靠點觀察。" }, { question: "可以走到厚石裙礁的海溝裡嗎？", answer: "不建議進入受浪襲的礁盤或海蝕槽，避免濕滑與突發湧浪。" }], related: ["white-lighthouse", "wugui-cave", "nearby"]
   },
   {
-    slug: "white-lighthouse", name: "白燈塔", english: "White Lighthouse", image: "/images/white-lighthouse.jpg",
+    slug: "white-lighthouse", name: "白燈塔", english: "White Lighthouse", image: "/images/white-lighthouse.jpg", category: "近代航海燈塔、歷史航標與高地建築",
     description: "認識小琉球白燈塔1929年建造的航海功能、白色圓柱塔身、戰後修復歷史，以及從厚石裙礁順遊的方式。",
     official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=248", address: "929 臺灣屏東縣琉球鄉白燈塔（官方座標22.32886, 120.36651）",
     manager: "白燈塔是具有航行指引功能的燈塔設施，日常航標維護屬航政燈塔管理權責；交通部觀光署大鵬灣國家風景區管理處提供旅遊介紹。周邊可遊覽範圍不等於塔身內部開放，應遵守現場圍欄與告示。",
@@ -1052,7 +1052,7 @@ const nextNearby: NearbyAddition[] = [
     faq: [{ question: "白燈塔可以登塔嗎？", answer: "觀光景點資訊不等於塔內開放，請以現場設施管制為準，不可自行入內。" }, { question: "小琉球白燈塔建於哪一年？", answer: "大鵬灣管理處記載建於1929年，二戰受損後於1952年修復。" }], related: ["houshi-reef", "biyun-temple", "nearby"]
   },
   {
-    slug: "biyun-temple", name: "碧雲寺", english: "Biyun Temple", image: "/images/biyun-temple.jpg",
+    slug: "biyun-temple", name: "碧雲寺", english: "Biyun Temple", image: "/images/biyun-temple.jpg", category: "觀音信仰寺院、傳統宗教建築與文化景點",
     description: "小琉球島中央1736年創建的觀音信仰中心，介紹廟宇空間、香客文化、竹林生態步道與交通、參拜禮儀。",
     official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=249", address: "929 臺灣屏東縣琉球鄉和平路61號（官方座標22.33814, 120.36992）",
     manager: "碧雲寺是地方宗教廟宇，日常參拜與廟務由寺方管理。交通部觀光署大鵬灣國家風景區管理處提供歷史與旅遊介紹；寺內禮儀、活動及開放空間以寺方現場指示為準，不能將寺方與政府觀光單位混為同一管理主體。",
@@ -1068,7 +1068,7 @@ const nextNearby: NearbyAddition[] = [
     faq: [{ question: "碧雲寺供奉哪位神明？", answer: "主要供奉觀音菩薩（觀音佛祖），與主祀三府千歲的三隆宮不同。" }, { question: "碧雲寺旁有自然步道嗎？", answer: "官方介紹提及寺下方的竹林生態濕地步道，進入前應核對當日開放情況。" }], related: ["sanlong-temple", "white-lighthouse", "nearby"]
   },
   {
-    slug: "sanlong-temple", name: "三隆宮", english: "Sanlong Temple", image: "/images/sanlong-temple.jpg",
+    slug: "sanlong-temple", name: "三隆宮", english: "Sanlong Temple", image: "/images/sanlong-temple.jpg", category: "王爺信仰宮廟、迎王祭典文化與傳統建築",
     description: "小琉球本福村三府千歲信仰中心，認識清代創廟脈絡、每三年一科迎王祭典、宮廟建築與白沙港順遊路線。",
     official: "https://www.dbnsa.gov.tw/zh-tw/attraction/AttractionPage?a=253", address: "929 臺灣屏東縣琉球鄉中山路45號（官方座標22.34675, 120.37674）",
     manager: "三隆宮是地方宗教廟宇，廟務、參拜秩序及迎王祭典活動由宮廟及地方祭典組織籌辦。大鵬灣國家風景區管理處提供旅遊解說，並非宮廟日常管理單位；節慶日期、管制道路與參拜規範以主辦單位公告為準。",
@@ -1092,7 +1092,7 @@ for (const item of nextNearby) {
     seoTitle: `${item.name}攻略｜交通、景點特色、開放與拍照｜小琉球`, description: item.description,
     lead: item.description, image: item.image, imageAlt: `小琉球${item.name}景點實景`, gallery: [{ src: item.image, alt: `${item.name}實際景觀與遊覽環境` }],
     facts: [{ label: "名稱", value: item.english }, { label: "地點", value: "屏東縣琉球鄉" }, { label: "建議停留", value: item.duration }, { label: "資訊來源", value: "大鵬灣管理處" }],
-    place: { officialName: `${item.name}（${item.english}）`, type: item.landscape.slice(0, 35), address: item.address, mapUrl,
+    place: { officialName: `${item.name}（${item.english}）`, type: item.category, address: item.address, mapUrl,
       managerTitle: `關於${item.name}的管理與保育`, managerDescription: item.manager, sourceUrl: item.official,
       hours: item.hours, admission: item.admission, visitDuration: item.duration,
       arrival: item.arrival,

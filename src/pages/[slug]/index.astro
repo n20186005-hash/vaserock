@@ -150,30 +150,51 @@ const attractionSchema = guide.place ? {
     </section>
 
     {guide.place && (
-      <section class="section container" aria-labelledby="place-manager-heading">
-        <p class="eyebrow">About · 管理與服務</p>
-        <h2 id="place-manager-heading">{guide.place.managerTitle}</h2>
-        <p class="guide-lead">{guide.place.managerDescription}</p>
-        <p><a class="text-link" href={guide.place.sourceUrl} target="_blank" rel="noopener noreferrer">查看主管機關景點資訊 ↗</a></p>
-        <h2>景點基本資訊</h2>
-        <p><strong>地址：</strong>{guide.place.address}</p>
-        <p><strong>導航：</strong><a class="text-link" href={guide.place.mapUrl} target="_blank" rel="noopener noreferrer">開啟此景點的 Google Maps ↗</a></p>
-        <p>地圖連結對應本頁景點名稱；出發前請核對 Google Maps 顯示的入口與道路位置。</p>
-        <div class="place-detail-card">
-          <h3>基本資訊一覽</h3>
+      <section class="section container place-overview" aria-labelledby="place-manager-heading">
+        <div class="place-manager-card">
+          <p class="eyebrow">About · 景點管理與維護</p>
+          <h2 id="place-manager-heading">{guide.place.managerTitle}</h2>
+          <p>{guide.place.managerDescription}</p>
+          <a class="text-link" href={guide.place.sourceUrl} target="_blank" rel="noopener noreferrer">主管機關與景點資料 ↗</a>
+        </div>
+
+        <div class="place-overview-intro">
+          <p class="eyebrow">Explore · 景點概覽</p>
+          <h2>走進{guide.place.officialName.split('（')[0]}</h2>
+          <p>{guide.lead}</p>
+          <h3>遊覽建議與觀察重點</h3>
+          <ul class="place-bullet-list">
+            {guide.place.highlights.slice(0, 2).map((point) => <li>{point}</li>)}
+          </ul>
+          <p>建議先依序安排：{guide.place.route.slice(0, 2).join(' → ')}。</p>
+        </div>
+
+        <div class="place-detail-card" id="place-basic-info">
+          <p class="eyebrow">Visitor information</p>
+          <h2>景點基本資料</h2>
           <dl class="place-detail-list">
             <div><dt>正式名稱</dt><dd>{guide.place.officialName}</dd></div>
             <div><dt>景點類型</dt><dd>{guide.place.type}</dd></div>
             <div><dt>地址</dt><dd>{guide.place.address}</dd></div>
-            <div><dt>開放時間</dt><dd>{guide.place.hours}</dd></div>
-            <div><dt>門票價格</dt><dd>{guide.place.admission}</dd></div>
             <div><dt>建議停留</dt><dd>{guide.place.visitDuration}</dd></div>
-            <div><dt>遊客評價</dt><dd>{guide.place.ratingNote} <a href={guide.place.mapUrl} target="_blank" rel="noopener noreferrer">查看評價 ↗</a></dd></div>
           </dl>
         </div>
-        <div class="place-detail-card">
-          <h3>交通指南</h3><p>{guide.place.arrival}</p>
-          <p><a class="text-link" href={guide.place.mapUrl} target="_blank" rel="noopener noreferrer">使用景點專屬 Google Maps 導航 ↗</a></p>
+        <div class="place-planning-grid">
+          <div class="place-detail-card">
+            <p class="eyebrow">Hours & admission</p>
+            <h2>開放時間與門票價格</h2>
+            <h3>開放時間</h3><p>{guide.place.hours}</p>
+            <h3>門票及費用</h3><p>{guide.place.admission}</p>
+            <p class="place-disclaimer">遇到天候、祭典、保育或臨時管制，請依景點現場公告安排參觀。</p>
+          </div>
+          <div class="place-detail-card">
+            <p class="eyebrow">Getting here</p>
+            <h2>交通方式與導航</h2>
+            <p>{guide.place.arrival}</p>
+            <p><strong>地址：</strong>{guide.place.address}</p>
+            <a class="text-link" href={guide.place.mapUrl} target="_blank" rel="noopener noreferrer">開啟這處景點的 Google Maps ↗</a>
+            <p class="place-disclaimer">導航連結使用本景點名稱；出發前請核對入口與可通行道路。</p>
+          </div>
         </div>
       </section>
     )}
