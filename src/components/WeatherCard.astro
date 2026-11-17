@@ -8,12 +8,28 @@ export interface Props {
 
 const { initialData = null } = Astro.props as Props;
 const hasData = initialData !== null;
+// 即使建置時無法取得資料，也需保留完整 DOM，讓用戶端請求成功後能填入預報。
+const emptyDay = {
+  date: "", label: "", weatherCode: 0, condition: "", icon: "",
+  maxTemperature: 0, minTemperature: 0, precipitationProbability: 0,
+  precipitationSum: 0, maxWindSpeed: 0, maxWindGust: 0, uvIndexMax: 0
+};
+const displayData: WeatherPayload = initialData ?? {
+  location: "", updatedAt: "", source: { name: "Open-Meteo", url: "https://open-meteo.com/" },
+  current: {
+    weatherCode: 0, isDay: true, condition: "", icon: "", temperature: 0,
+    apparentTemperature: 0, windSpeed: 0, windDirection: 0, humidity: 0,
+    uvIndex: 0, pressure: 0
+  },
+  today: emptyDay, daily: [], sunrise: "", sunset: "",
+  advice: { level: "watch", headline: "", dress: [], plan: [], gear: [], alerts: [], coastal: [] }
+};
 
-const current = initialData?.current;
-const today = initialData?.today;
-const advice = initialData?.advice;
-const sunrise = initialData?.sunrise;
-const sunset = initialData?.sunset;
+const current = displayData.current;
+const today = displayData.today;
+const advice = displayData.advice;
+const sunrise = displayData.sunrise;
+const sunset = displayData.sunset;
 ---
 
 <article
@@ -48,8 +64,8 @@ const sunset = initialData?.sunset;
     }
 
     {
-      hasData && (
-        <div class="weather-content" data-weather-content>
+      (
+        <div class="weather-content" data-weather-content hidden={!hasData}>
           {/* 1. 当前概况：温度 + 体感 + 概况 */}
           <div class="weather-current">
             <div class="weather-current-main">
@@ -158,7 +174,7 @@ const sunset = initialData?.sunset;
               <span>日出 <b data-weather-sunrise>{formatTimeOnly(sunrise!)}</b> ／ 日落 <b data-weather-sunset>{formatTimeOnly(sunset!)}</b></span>
             </header>
             <ol class="weather-week-list" data-weather-days>
-              {initialData!.daily.map((day, index) => (
+              {displayData.daily.map((day, index) => (
                 <li data-day-index={index} class={index === 0 ? "weather-week-today" : ""}>
                   <strong>{day.label}</strong>
                   <span class="weather-week-icon" aria-hidden="true">{day.icon}</span>
@@ -226,8 +242,8 @@ const sunset = initialData?.sunset;
             <p>天氣預報不含即時海浪與潮位，請以現場告示牌與中央氣象署即時資料為準。</p>
             <p>
               氣象資料來源：
-              <a href={initialData!.source.url} target="_blank" rel="noopener" data-weather-source>
-                {initialData!.source.name}
+              <a href={displayData.source.url} target="_blank" rel="noopener" data-weather-source>
+                {displayData.source.name}
               </a>
             </p>
           </footer>
@@ -248,6 +264,7 @@ const sunset = initialData?.sunset;
           請稍後再試，或直接查看
           <a href="https://www.cwa.gov.tw/" target="_blank" rel="noopener">中央氣象署</a>。
         </p>
+        <button type="button" class="weather-retry" data-weather-retry>重新整理天氣資料</button>
       </div>
     </div>
   </div>
@@ -274,6 +291,7 @@ const sunset = initialData?.sunset;
     const loading = card.querySelector<HTMLElement>("[data-weather-loading]");
     const error = card.querySelector<HTMLElement>("[data-weather-error]");
     const content = card.querySelector<HTMLElement>("[data-weather-content]");
+    const retry = card.querySelector<HTMLButtonElement>("[data-weather-retry]");
 
     const setText = (selector: string, value: string) => {
       const element = card.querySelector(selector);
@@ -492,19 +510,35 @@ const sunset = initialData?.sunset;
       card.setAttribute("aria-busy", "false");
     };
 
-    fetch("/api/weather", { headers: { Accept: "application/json" } })
-      .then((response) => {
+    const loadWeather = async () => {
+      if (loading) loading.hidden = false;
+      if (error) error.hidden = true;
+      if (retry) retry.disabled = true;
+      card.setAttribute("aria-busy", "true");
+      setText("[data-weather-updated]", "正在取得最新資料…");
+      try {
+        const response = await fetch(`/api/weather?refresh=${Date.now()}`, {
+          headers: { Accept: "application/json" }, cache: "no-store"
+        });
         if (!response.ok) throw new Error("Weather request failed");
-        return response.json() as Promise<WeatherPayload>;
-      })
-      .then(apply)
-      .catch(() => {
+        const weather = (await response.json()) as WeatherPayload;
+        if (!weather.current || !weather.today || !Array.isArray(weather.daily) || !weather.advice) {
+          throw new Error("Incomplete weather data");
+        }
+        apply(weather);
+      } catch {
         if (loading) loading.hidden = true;
-        if (content && !content.hasAttribute("data-weather-initial")) content.hidden = true;
+        if (content) content.hidden = true;
         if (error) error.hidden = false;
         setText("[data-weather-updated]", "資料暫時無法取得");
         card.setAttribute("aria-busy", "false");
-      });
+      } finally {
+        if (retry) retry.disabled = false;
+      }
+    };
+
+    retry?.addEventListener("click", loadWeather);
+    void loadWeather();
   });
 </script>
 
@@ -617,6 +651,22 @@ const sunset = initialData?.sunset;
     color: var(--ocean);
     font-weight: 800;
   }
+
+  .weather-retry {
+    margin-top: 14px;
+    padding: 10px 18px;
+    border: 1px solid var(--ocean);
+    background: var(--ocean);
+    color: white;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .weather-retry:hover { filter: brightness(0.9); }
+  .weather-retry:focus-visible { outline: 3px solid var(--ocean-deep); outline-offset: 3px; }
+  .weather-retry:disabled { opacity: 0.6; cursor: wait; }
 
   .weather-loading-icon {
     width: 40px;

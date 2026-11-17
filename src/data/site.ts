@@ -72,7 +72,7 @@ export const vaseRock = {
   // 以规避 Google 判违规（未经授权抓取评价内容）的风险。
   googleRating: {
     score: 4.6,
-    count: 13127,
+    count: 13215,
     source: "Google 地圖使用者評價",
     syncedAt: "2026 年 10 月",
     reviewsUrl:
