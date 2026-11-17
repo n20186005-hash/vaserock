@@ -1174,7 +1174,7 @@ button {
   gap: 16px;
 }
 
-.tide-card {
+.tide-home .tide-card {
   position: relative;
   overflow: hidden;
   min-height: 500px;
@@ -1183,7 +1183,7 @@ button {
   background: var(--sand);
 }
 
-.tide-card.active {
+.tide-home .tide-card.active {
   background: var(--sea-pale);
 }
 
@@ -1192,11 +1192,26 @@ button {
   inset: 0;
 }
 
+.tide-level::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 31, 40, 0.06) 0%, rgba(5, 31, 40, 0.15) 40%, rgba(5, 31, 40, 0.87) 100%);
+  content: "";
+}
+
+.tide-level img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .tide-level > span {
   position: absolute;
+  z-index: 1;
   top: 25%;
   left: 50%;
-  color: rgba(18, 59, 74, 0.13);
+  color: rgba(255, 255, 255, 0.25);
   font-size: clamp(3.4rem, 5vw, 5.5rem);
   font-weight: 780;
   letter-spacing: -0.07em;
@@ -1212,7 +1227,7 @@ button {
   fill: rgba(23, 121, 138, 0.16);
 }
 
-.tide-card.active .tide-level svg {
+.tide-home .tide-card.active .tide-level svg {
   fill: rgba(23, 121, 138, 0.25);
 }
 
@@ -1223,8 +1238,8 @@ button {
   font-weight: 800;
 }
 
-.tide-card h3,
-.tide-card p {
+.tide-home .tide-card h3,
+.tide-home .tide-card p {
   position: absolute;
   z-index: 2;
   right: 35px;
@@ -1232,15 +1247,16 @@ button {
   left: 35px;
 }
 
-.tide-card h3 {
+.tide-home .tide-card h3 {
   margin: 0;
+  color: var(--white);
   font-size: 1.55rem;
 }
 
-.tide-card p {
+.tide-home .tide-card p {
   bottom: 28px;
   margin: 0;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.92);
   font-size: 0.83rem;
   line-height: 1.65;
 }
@@ -2851,7 +2867,7 @@ button {
     grid-template-columns: 1fr;
   }
 
-  .tide-card {
+  .tide-home .tide-card {
     min-height: 390px;
   }
 

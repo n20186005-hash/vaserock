@@ -184,12 +184,13 @@ const extremePoints = FOUR_EXTREMES.map((e) => {
         </div>
       </header>
 
+      <div class="tide-chart-viewport" role="region" aria-label="24 小時潮位圖，可水平捲動" tabindex="0">
       <svg
         class="tide-chart-svg"
         viewBox={`0 0 ${viewWidth} ${viewHeight}`}
         role="img"
         aria-label="花瓶岩未來 24 小時潮位曲線"
-        preserveAspectRatio="none"
+        preserveAspectRatio="xMidYMid meet"
       >
         <defs>
           <linearGradient id="tide-fill" x1="0" y1="0" x2="0" y2="1">
@@ -295,6 +296,7 @@ const extremePoints = FOUR_EXTREMES.map((e) => {
           {`${Math.round(minLevel)}`}cm
         </text>
       </svg>
+      </div>
     </section>
 
     {/* 4. 三块标签：赶海 / 拍照 / 下水 */}
@@ -828,7 +830,19 @@ const extremePoints = FOUR_EXTREMES.map((e) => {
   .tide-chart-svg {
     display: block;
     width: 100%;
+    min-width: 760px;
     height: auto;
+  }
+
+  .tide-chart-viewport {
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+  }
+
+  .tide-chart-viewport:focus-visible {
+    outline: 2px solid var(--ocean);
+    outline-offset: 3px;
   }
 
   .tide-chart-now-label {
@@ -1294,6 +1308,8 @@ const extremePoints = FOUR_EXTREMES.map((e) => {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    .tide-window-note { align-items: flex-start; flex-wrap: wrap; }
+
     .tide-actions {
       align-items: flex-start;
       flex-direction: column;
@@ -1305,5 +1321,15 @@ const extremePoints = FOUR_EXTREMES.map((e) => {
       flex-direction: column;
       gap: 6px;
     }
+  }
+
+  @media (max-width: 480px) {
+    .tide-current-range,
+    .tide-card-list,
+    .tide-tomorrow-grid { grid-template-columns: 1fr; }
+
+    .tide-current-range > div { border-left: 0; }
+    .tide-current-range > div:nth-child(2) { border-top: 1px solid rgba(18, 59, 74, 0.08); }
+    .tide-tomorrow-block { grid-template-columns: minmax(0, 1fr) auto auto; }
   }
 </style>
