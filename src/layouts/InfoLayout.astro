@@ -1,0 +1,35 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+interface Props { title: string; description: string; path: string; updated?: string }
+const { title, description, path, updated = "2026 年 11 月 17 日" } = Astro.props;
+---
+<BaseLayout title={`${title}｜花瓶岩旅遊指南`} description={description} path={path}>
+  <article class="info-page container">
+    <nav aria-label="麵包屑"><a href="/">首頁</a> ／ {title}</nav>
+    <p class="eyebrow">Vase Rock · 網站資訊</p>
+    <h1>{title}</h1>
+    <p class="info-intro">{description}</p>
+    <p class="info-updated">最後更新：{updated}</p>
+    <div class="info-content"><slot /></div>
+    <p class="info-back"><a href="/">返回花瓶岩首頁 →</a></p>
+  </article>
+</BaseLayout>
+
+<style>
+  .info-page { padding-block: clamp(90px, 12vw, 170px) 100px; max-width: 980px; }
+  .info-page nav { margin-bottom: 45px; color: var(--muted); font-size: 0.85rem; }
+  .info-page nav a { color: var(--ocean); }
+  .info-page h1 { font-size: clamp(2.7rem, 7vw, 5.6rem); line-height: 1.1; letter-spacing: -0.055em; margin: 18px 0 28px; }
+  .info-intro { font-size: clamp(1.1rem, 2vw, 1.4rem); line-height: 1.75; max-width: 740px; }
+  .info-updated { color: var(--muted); font-size: 0.82rem; margin: 28px 0 48px; }
+  .info-content { padding-top: 20px; border-top: 1px solid var(--line); line-height: 1.9; }
+  .info-back { margin-top: 60px; }
+  .info-back a { color: var(--ocean); font-weight: 700; }
+  :global(.info-content h2) { margin: 42px 0 12px; font-size: clamp(1.45rem, 3vw, 2rem); }
+  :global(.info-content p), :global(.info-content li) { color: var(--muted); }
+  :global(.info-content a) { color: var(--ocean); text-decoration: underline; overflow-wrap: anywhere; }
+  :global(.info-content ul) { padding-left: 25px; }
+  :global(.info-content button) { border: 1px solid var(--ocean); background: var(--ocean); color: white; font: inherit; font-weight: 700; padding: 12px 20px; margin: 8px 12px 8px 0; cursor: pointer; }
+  :global(.info-content button:focus-visible) { outline: 3px solid var(--ocean-deep); outline-offset: 3px; }
+</style>

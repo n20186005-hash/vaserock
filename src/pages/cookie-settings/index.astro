@@ -1,0 +1,38 @@
+---
+import InfoLayout from "@/layouts/InfoLayout.astro";
+---
+<InfoLayout title="Cookie 設定" description="管理本站選用的網站流量分析功能；無論是否同意，旅遊資訊均可正常瀏覽。" path="/cookie-settings/">
+  <h2>必要功能</h2>
+  <p>為提供網站顯示、網路安全及基本功能，託管服務與瀏覽器可能使用必要儲存。這些功能不依賴 Google Analytics 的同意選擇。</p>
+  <h2>選用分析</h2>
+  <p>Google Analytics 4 可協助我們了解頁面整體使用狀況。我們預設不載入分析程式，只有在您選擇「同意分析」時才會載入。您可以隨時選擇拒絕；拒絕後的後續瀏覽不會載入 Google Analytics。先前已傳送給第三方的資料不會因撤回而自動刪除。</p>
+  <p id="cookie-status" role="status" aria-live="polite">正在讀取您的設定…</p>
+  <button type="button" data-consent="accepted">同意分析</button>
+  <button type="button" data-consent="declined">拒絕分析</button>
+  <p>選擇會保存在此瀏覽器的本機儲存空間，您可以日後回到此頁修改。若瀏覽器禁止儲存，選用分析會維持停用。</p>
+  <h2>第三方內容與管理方式</h2>
+  <p>Google 地圖等第三方嵌入服務可能有各自的資料處理方式；您也可透過瀏覽器設定刪除既有 Cookie。更多資訊請閱讀<a href="/privacy-policy/">隱私政策</a>，或透過 <a href="mailto:laupetter72@gmail.com">laupetter72@gmail.com</a> 聯繫。</p>
+</InfoLayout>
+<script>
+  const status = document.getElementById("cookie-status");
+  const labels: Record<string, string> = {
+    accepted: "目前狀態：已同意分析",
+    declined: "目前狀態：已拒絕分析"
+  };
+  const refreshStatus = () => {
+    try {
+      const choice = localStorage.getItem("vaserock-analytics-consent") ?? "";
+      if (status) status.textContent = labels[choice] ?? "目前狀態：尚未選擇（分析已停用）";
+    } catch {
+      if (status) status.textContent = "瀏覽器儲存不可用（分析已停用）";
+    }
+  };
+  document.querySelectorAll<HTMLButtonElement>("[data-consent]").forEach((button) => {
+    button.addEventListener("click", () => {
+      try { localStorage.setItem("vaserock-analytics-consent", button.dataset.consent ?? "declined"); }
+      catch { /* 儲存失敗時保持預設停用 */ }
+      window.location.reload();
+    });
+  });
+  refreshStatus();
+</script>

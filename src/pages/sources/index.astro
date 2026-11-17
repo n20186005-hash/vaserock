@@ -1,0 +1,20 @@
+---
+import InfoLayout from "@/layouts/InfoLayout.astro";
+import { authoritativeSources, vaseRock } from "@/data/site";
+---
+<InfoLayout title="資料來源與查核" description="彙整花瓶岩的官方景點資訊、地圖、潮汐、天氣及生態保育來源，方便出發前交叉查證。" path="/sources/">
+  <h2>主要參考資料</h2>
+  <ul>
+    {authoritativeSources.map((source) => (
+      <li><a href={source.url} target="_blank" rel="noopener noreferrer">{source.label}</a> — {source.publisher}</li>
+    ))}
+  </ul>
+  <h2>景點與交通</h2>
+  <p>花瓶岩位於屏東縣琉球鄉，位置與導航請參閱<a href={vaseRock.placeUrl} target="_blank" rel="noopener noreferrer">花瓶岩 Google 地圖地點頁</a>；景點背景與官方旅遊消息以<a href={vaseRock.govtTourismUrl} target="_blank" rel="noopener noreferrer">大鵬灣國家風景區管理處</a>資料為參考。</p>
+  <h2>天氣、潮汐與海況</h2>
+  <p>本站天氣功能使用 <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> 預報資料。沿岸潮汐、波浪與警報另請參閱<a href="https://www.cwa.gov.tw/V8/C/M/tide.html" target="_blank" rel="noopener noreferrer">中央氣象署潮汐預報</a>。天氣預報不能替代現場海況判斷。</p>
+  <h2>生態與安全</h2>
+  <p>海龜及海洋保育規範請參考<a href="https://www.oca.gov.tw/" target="_blank" rel="noopener noreferrer">海洋委員會海洋保育署</a>及現場主管機關公告。</p>
+  <h2>評價與圖片</h2>
+  <p>Google 地圖評價來源、數量與同步時間詳見<a href="/reviews/">遊客評價</a>；影像作者與授權資料詳見<a href="/image-credits/">圖片來源與版權</a>。資料如有異動，請透過 <a href="mailto:laupetter72@gmail.com">laupetter72@gmail.com</a> 提醒我們。</p>
+</InfoLayout>

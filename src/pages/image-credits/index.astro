@@ -1,0 +1,20 @@
+---
+import InfoLayout from "@/layouts/InfoLayout.astro";
+import { imageCredits } from "@/data/site";
+---
+<InfoLayout title="圖片來源與版權" description="整理本站影像的作品名稱、原作者、來源及授權資訊。" path="/image-credits/">
+  <h2>影像使用與原作者</h2>
+  <p>本網站所展示的所有圖片產權及版權均歸原攝影者所有。本站保留原有圖片與來源記錄；以下列出已整理的影像出處，若發現作者、來源或標示錯誤，請與我們聯繫。</p>
+  <ul>
+    {imageCredits.map((credit) => (
+      <li>
+        <strong>{credit.title}</strong>（{credit.file}）— {credit.author} · {credit.license} ·
+        <a href={credit.source} target="_blank" rel="noopener noreferrer">原始來源</a>
+      </li>
+    ))}
+  </ul>
+  <h2>授權與調整</h2>
+  <p>圖片可能因網站版位而調整尺寸或裁切。各圖片是否可再利用，應以原始來源頁面所載授權為準；本站的出處整理不代表所有圖片均可自由轉載。</p>
+  <h2>更正與聯絡</h2>
+  <p>如您為圖片權利人，需補充署名或提出更正，請寄信至 <a href="mailto:laupetter72@gmail.com">laupetter72@gmail.com</a> 並附上圖片或來源連結。</p>
+</InfoLayout>

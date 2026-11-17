@@ -191,14 +191,21 @@ const schemas = [
     <meta name="twitter:image:alt" content={imageAlt} />
 
     <!-- GA4 衡量（任务：新增 GA4：G-HXM22WWPKP） -->
-    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`}></script>
     <script is:inline define:vars={{ ga4Id }}>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        window.dataLayer.push(arguments);
+      try {
+        if (localStorage.getItem("vaserock-analytics-consent") === "accepted") {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { window.dataLayer.push(arguments); }
+          gtag("js", new Date());
+          gtag("config", ga4Id);
+          const tag = document.createElement("script");
+          tag.async = true;
+          tag.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(ga4Id)}`;
+          document.head.appendChild(tag);
+        }
+      } catch {
+        // 本機儲存不可用時，不載入選用的分析工具。
       }
-      gtag("js", new Date());
-      gtag("config", ga4Id);
     </script>
 
     <!-- JSON-LD 结构化数据 -->

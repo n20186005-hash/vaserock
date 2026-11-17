@@ -1,0 +1,13 @@
+---
+import InfoLayout from "@/layouts/InfoLayout.astro";
+import { vaseRock } from "@/data/site";
+---
+<InfoLayout title="遊客評價與來源" description="花瓶岩 Google 地圖公開評分的展示方式、同步日期及原始連結。" path="/reviews/">
+  <h2>Google 地圖評分快照</h2>
+  <p>花瓶岩評分：<strong>{vaseRock.googleRating.score}／5</strong>，共 <strong>{vaseRock.googleRating.count.toLocaleString("en-US")}</strong> 則公開評價。記錄同步時間：<strong>{vaseRock.googleRating.syncedAt}</strong>。</p>
+  <p>這些數字是公開列表的時間點快照，不是本站持續更新的即時資料。若要閱讀原始評論或確認最新數字，請<a href={vaseRock.reviewsUrl} target="_blank" rel="noopener noreferrer">前往 Google 地圖花瓶岩地點頁</a>。</p>
+  <h2>引用與版權</h2>
+  <p>評分與評論資訊來源為 Google 地圖使用者評價；原始文字與評價版權歸作者及 Google 地圖所有。本站僅展示摘要數據，不複製單條使用者評論，也不將該評分加入本站的 JSON-LD 結構化資料。</p>
+  <h2>如何解讀評價</h2>
+  <p>評論可用於了解景點觀感，但無法替代實際潮位、海象、交通與管制資訊。出發前請同時參考<a href="/sources/">官方資料來源</a>及現場公告。</p>
+</InfoLayout>
